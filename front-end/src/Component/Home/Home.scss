@@ -1,0 +1,65 @@
+.Home {
+  overflow-x: hidden;
+  .ant-carousel .slick-slide {
+    @include clark-flex-center;
+    background: #364d79;
+    height: 500px;
+    overflow: hidden;
+    h1, h3 {
+      color: #fff;
+      text-align: center;
+    }
+  }
+  .block {
+    height: 500px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .block-1 {
+    @extend .block;
+    background: linear-gradient(90deg, #0042ff, #00a2ff);
+    background-size: 400% 400%;
+    animation: Home-Animated-Background 30s ease;
+    align-items: center;
+    color: #fff;
+    & > div {
+      height: calc(100% / 3);
+      display: flex;
+      align-items: center;
+    }
+    & > div > div {
+      width: 100%;
+    }
+    & > div > div > div {
+      @include clark-flex-center;
+      font-size: 30px;
+      height: 50px;
+      width: 33.33333%;
+      float: left;
+    }
+    & i {
+      font-size: 50px;
+      color: #fff;
+    }
+  }
+
+  .block-2 {
+    @extend .block-1;
+    background: linear-gradient(90deg, #ff4724, #ff0070);
+    animation: Home-Animated-Background 30s ease;
+
+  }
+
+  @keyframes Home-Animated-Background {
+    0% {
+      background-position: 0% 50%
+    }
+    50% {
+      background-position: 100% 50%
+    }
+    100% {
+      background-position: 0% 50%
+    }
+  }
+}
