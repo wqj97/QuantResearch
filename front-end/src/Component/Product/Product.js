@@ -60,6 +60,11 @@ const LeftMenu = () => (
         <Menu.Item>螺纹/PVC</Menu.Item>
       </Menu.SubMenu>
     </Menu.SubMenu>
+    <Menu.SubMenu title={<span><Icon type="folder" /><span>自选</span></span>}>
+      <Menu.SubMenu key="sub1" title={<span><Icon type="folder" /><span>建材能源系</span></span>}>
+        <Menu.Item>热卷/螺纹</Menu.Item>
+      </Menu.SubMenu>
+    </Menu.SubMenu>
   </Menu>
 )
 
