@@ -17,3 +17,7 @@ Route::group(['prefix' => 'user'], function () {
    Route::get('', 'UserController@getUser');
    Route::post('', 'UserController@login');
 });
+
+Route::group(['prefix' => 'data'], function () {
+    Route::get('', 'DataController@getDayData');
+});

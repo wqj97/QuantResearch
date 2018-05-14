@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.6.19 on 2018-05-02 09:57:17.
+ * Generated for Laravel 5.6.19 on 2018-05-12 16:24:40.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *

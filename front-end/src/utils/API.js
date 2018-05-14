@@ -6,3 +6,8 @@ export const Login = async (data) => {
   store.set('user', resp.data)
   return resp.data
 }
+
+export const getProductData = async () => {
+  const resp = await axios.get('/api/data')
+  return resp.data
+}
