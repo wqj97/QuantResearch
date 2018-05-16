@@ -9,17 +9,18 @@ class DataController extends Controller
 {
     public function getDayData (Request $request)
     {
-        return \Cache::remember("data_$request->minute", 1440, function () use ($request) {
+        $this->validate($request, [
+            'code' => 'required|json'
+        ]);
+        return \Cache::remember("data_$request->code", 1440, function () use ($request) {
+            $output = new \stdClass();
+            $codes = json_decode($request->code);
             $db = DB::connection('mongodb');
-            $day_data = [];
-            $collections = $db->listCollections();
-            foreach ($collections as $collection) {
-                $result = $db->collection($collection->getName())->first();
-                if (!$result) continue;
-                $result['avg'] = $db->collection($collection->getName())->avg('high');
-                $day_data[] = $result;
+            foreach ($codes as $code) {
+                $result = $db->collection($code)->where('time', '235900')->get();
+                $output->$code = $result;
             }
-            return $day_data;
+            return response()->json($output);
         });
     }
 }
