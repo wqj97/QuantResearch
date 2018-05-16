@@ -17,7 +17,8 @@ class DataController extends Controller
             $codes = json_decode($request->code);
             $db = DB::connection('mongodb');
             foreach ($codes as $code) {
-                $result = $db->collection($code)->where('time', '235900')->get();
+                $max_time = $db->collection($code)->max('time');
+                $result = $db->collection($code)->where('time', $max_time)->get();
                 $output->$code = $result;
             }
             return response()->json($output);

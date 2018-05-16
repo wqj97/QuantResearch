@@ -4,10 +4,12 @@ import { getProductData } from '../../utils/API'
 
 const generateX = data => {
   let x = []
-  for (let symbolArray of data) {
-    const symbol = symbolArray.symbol.slice(2)
-    if (x.indexOf(symbol) === -1) {
-      x.push(symbol)
+  for (const code in data) {
+    for (const dayData of data[code]) {
+      const date = dayData.date
+      if (x.indexOf(date) === -1) {
+        x.push(date)
+      }
     }
   }
   x = x.sort()
@@ -15,33 +17,47 @@ const generateX = data => {
 }
 
 const generateData = data => {
-  const product = {}
-  for (let symbolArray of data) {
-    // 判断键是否存在
-    let symbol = symbolArray.symbol.slice(0, 2)
-    if (symbol in product) {
-      product[symbol] = product[symbol].concat(symbolArray)
-    } else {
-      product[symbol] = [].concat(symbolArray)
-    }
-  }
   // 返回两个数组
   const output = []
-  for (let key in product) {
-    let keyArray = []
-    const productDataArray = product[key]
+  for (let key in data) {
+    let keyArray = {}
+    const productDataArray = data[key]
     for (let data of productDataArray) {
-      keyArray.push([data.symbol.slice(2), data.avg])
+      keyArray[data.date] = (data.high + data.low) / 2
     }
     output.push(keyArray)
   }
   return output
 }
 
-const generateSeries = (data, names) => {
-  const dataHasGenerated = generateData(data)
-  console.log(dataHasGenerated)
-  return dataHasGenerated.map((data, key) => {
+const generateSeries = (data, names, xAxis, func) => {
+  let dataProceeded = generateData(data)
+
+  // 缺项前充
+  for (let product in dataProceeded) {
+    product = dataProceeded[product]
+    xAxis.forEach((val, key) => {
+      if (!product[val]) {
+        product[val] = product[Object.keys(product)[key - 1]]
+      }
+    })
+  }
+
+  // 求 相关关系
+  const tempArray = {}
+
+  for (let index = 0; index < xAxis.length; index++) {
+    tempArray[xAxis[index]] = func(dataProceeded[0][xAxis[index]], dataProceeded[1][xAxis[index]])
+  }
+  dataProceeded.push(tempArray)
+
+  dataProceeded = dataProceeded.map(data => {
+    return xAxis.map(date => {
+      return data[date]
+    })
+  })
+
+  return dataProceeded.map((data, key) => {
     return {
       name: names[key],
       type: 'line',
@@ -57,68 +73,79 @@ const generateSeries = (data, names) => {
   })
 }
 
-const option = (data, names) => ({
-  backgroundColor: '#21202D',
-  legend: {
-    data: names,
-    inactiveColor: '#777',
-    textStyle: {
-      color: '#fff'
-    }
-  },
-  tooltip: {
-    trigger: 'axis',
-    axisPointer: {
-      animation: false,
-      type: 'cross',
-      lineStyle: {
-        color: '#376df4',
-        width: 2,
-        opacity: 1
+const option = (data, names, func) => {
+  if (data.length === 0) {
+    return {}
+  }
+  const xAxis = generateX(data)
+  return {
+    backgroundColor: '#21202D',
+    legend: {
+      data: names,
+      inactiveColor: '#777',
+      textStyle: {
+        color: '#fff'
+      },
+      selected: {
+        [names[0]]: false,
+        [names[1]]: false,
+        [names[2]]: true,
       }
-    }
-  },
-  xAxis: {
-    type: 'category',
-    data: generateX(data),
-    axisLine: { lineStyle: { color: '#8392A5' } }
-  },
-  yAxis: {
-    scale: true,
-    axisLine: { lineStyle: { color: '#8392A5' } },
-    splitLine: { show: false }
-  },
-  grid: {
-    bottom: 80
-  },
-  dataZoom: [{
-    textStyle: {
-      color: '#8392A5'
     },
-    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-    handleSize: '80%',
-    dataBackground: {
-      areaStyle: {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        animation: false,
+        type: 'cross',
+        lineStyle: {
+          color: '#376df4',
+          width: 2,
+          opacity: 1
+        }
+      }
+    },
+    xAxis: {
+      type: 'category',
+      data: xAxis,
+      axisLine: { lineStyle: { color: '#8392A5' } }
+    },
+    yAxis: {
+      scale: true,
+      axisLine: { lineStyle: { color: '#8392A5' } },
+      splitLine: { show: false }
+    },
+    grid: {
+      bottom: 80
+    },
+    dataZoom: [{
+      textStyle: {
         color: '#8392A5'
       },
-      lineStyle: {
-        opacity: 0.8,
-        color: '#8392A5'
+      handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+      handleSize: '80%',
+      dataBackground: {
+        areaStyle: {
+          color: '#8392A5'
+        },
+        lineStyle: {
+          opacity: 0.8,
+          color: '#8392A5'
+        }
+      },
+      handleStyle: {
+        color: '#fff',
+        shadowBlur: 3,
+        shadowColor: 'rgba(0, 0, 0, 0.6)',
+        shadowOffsetX: 2,
+        shadowOffsetY: 2
       }
-    },
-    handleStyle: {
-      color: '#fff',
-      shadowBlur: 3,
-      shadowColor: 'rgba(0, 0, 0, 0.6)',
-      shadowOffsetX: 2,
-      shadowOffsetY: 2
-    }
-  }, {
-    type: 'inside'
-  }],
-  animation: false,
-  series: generateSeries(data, names)
-})
+    }, {
+      type: 'inside'
+    }],
+    animation: false,
+    series: generateSeries(data, names, xAxis, func)
+  }
+}
 
 class ChartsMain extends React.Component {
   constructor (props) {
@@ -129,13 +156,11 @@ class ChartsMain extends React.Component {
   }
 
   componentDidMount () {
-    getProductData().then(data => {
-      data = data.sort((data1, data2) => {
-        return data1.symbol > data2.symbol ? 1 : -1
-      })
-      console.log(data)
+    getProductData(['rb1805', 'hc1805']).then(data => {
       this.setState({
-        option: option(data, ['hc', 'rb'])
+        option: option(data, ['螺纹', '热卷', '螺纹 / 热卷'], (val1, val2) => {
+          return val1 / val2
+        })
       })
     })
   }

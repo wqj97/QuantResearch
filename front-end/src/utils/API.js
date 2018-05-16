@@ -7,7 +7,11 @@ export const Login = async (data) => {
   return resp.data
 }
 
-export const getProductData = async () => {
-  const resp = await axios.get('/api/data')
+export const getProductData = async (code) => {
+  const resp = await axios.get('/api/data', {
+    params: {
+      code: JSON.stringify(code)
+    }
+  })
   return resp.data
 }
