@@ -1,3 +1,4 @@
+import { Card, Col, Radio, Row } from "antd"
 import React from 'react'
 import ReactEcharts from 'echarts-for-react'
 import { getProductData } from '../../utils/API'
@@ -23,7 +24,7 @@ const generateData = data => {
     let keyArray = {}
     const productDataArray = data[key]
     for (let data of productDataArray) {
-      keyArray[data.date] = (data.high + data.low) / 2
+      keyArray[data.date] = data.close
     }
     output.push(keyArray)
   }
@@ -57,28 +58,84 @@ const generateSeries = (data, names, xAxis, func) => {
     })
   })
 
-  return dataProceeded.map((data, key) => {
+  let series = dataProceeded.slice(0, 2).map((data, key) => {
     return {
       name: names[key],
       type: 'line',
       data: data,
       smooth: true,
-      showSymbol: false,
-      lineStyle: {
-        normal: {
-          width: 1
-        }
-      }
+      showSymbol: false
     }
   })
+
+  series.push({
+    name: names[2],
+    type: 'line',
+    data: dataProceeded[2],
+    smooth: true,
+    showSymbol: false,
+    markArea: {
+      itemStyle: {
+        color: 'rgba(0, 0, 0, 0.3)'
+      },
+      data: [[
+        {
+          name: '开仓区域',
+          yAxis: 0.9,
+          xAxis: 'min',
+        },
+        {
+          yAxis: 1,
+          xAxis: 'max',
+        }
+      ],
+        [
+          {
+            name: '开仓区域',
+            yAxis: 1.1,
+            xAxis: 'min',
+          },
+          {
+            yAxis: 1.2,
+            xAxis: 'max',
+          }
+        ]]
+    },
+    lineStyle: {
+      normal: {
+        width: 2,
+        color: {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [{
+            offset: 0, color: 'red' // 0% 处的颜色
+          }, {
+            offset: 1, color: 'blue' // 100% 处的颜色
+          }],
+          globalCoord: false // 缺省为 false
+        },
+      },
+
+    }
+  })
+  console.log(series)
+  return series
+
 }
 
-const option = (data, names, func) => {
-  if (data.length === 0) {
-    return {}
-  }
+const option = (title, data, names, func) => {
   const xAxis = generateX(data)
   return {
+    title: {
+      text: title,
+      textStyle: {
+        color: '#fff',
+        fontSize: 24
+      }
+    },
     backgroundColor: '#21202D',
     legend: {
       data: names,
@@ -138,7 +195,9 @@ const option = (data, names, func) => {
         shadowColor: 'rgba(0, 0, 0, 0.6)',
         shadowOffsetX: 2,
         shadowOffsetY: 2
-      }
+      },
+      start: 50,
+      end: 100
     }, {
       type: 'inside'
     }],
@@ -151,24 +210,59 @@ class ChartsMain extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      option: option([])
+      option: {},
+      names: []
     }
   }
 
-  componentDidMount () {
-    getProductData(['rb1805', 'hc1805']).then(data => {
+  getProductData = (title, code, names, func) => {
+    getProductData(code.map(symbol => symbol + title)).then(data => {
       this.setState({
-        option: option(data, ['螺纹', '热卷', '螺纹 / 热卷'], (val1, val2) => {
-          return val1 / val2
-        })
+        option: option(code.map(symbol => symbol + title).join(' / '), data, names, func),
+        names: names
       })
     })
   }
 
+  componentDidMount () {
+    const { chartsData } = this.props
+    this.getProductData(chartsData.month[0], chartsData.code, chartsData.names, chartsData.func)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const { chartsData } = nextProps
+    this.getProductData(chartsData.month[0], chartsData.code, chartsData.names, chartsData.func)
+  }
+
+
+  handleMonthChange = event => {
+    this.getProductData(event.target.value, ['rb', 'hc'], ['螺纹', '热卷', '螺纹 / 热卷'], (val1, val2) => {
+      return val1 / val2
+    })
+  }
 
   render () {
     return (
-      <ReactEcharts className="ChartsMain" option={this.state.option} style={{ width: '100%', height: '50%' }} />
+      <div style={{ width: '100%', height: '100%' }}>
+        <ReactEcharts className="ChartsMain" option={this.state.option} style={{ width: '100%', height: '50%' }} />
+        <Row>
+          <Col span={18}>
+            <Card title={this.state.names[2] ? this.state.names[2] : '读取中...'}>
+              <p>选择主力月: </p>
+              <Radio.Group onChange={this.handleMonthChange} defaultValue="1801">
+                <Radio.Button value="1801">一月</Radio.Button>
+                <Radio.Button value="1805">五月</Radio.Button>
+                <Radio.Button value="1810">十月</Radio.Button>
+              </Radio.Group>
+            </Card>
+          </Col>
+          <Col span={6}>
+            <Card title="计算公式">
+              <p>螺纹实时价格 / 热卷实时价格</p>
+            </Card>
+          </Col>
+        </Row>
+      </div>
     )
   }
 }

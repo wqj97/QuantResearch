@@ -4,17 +4,18 @@ import ChartsMain from './ChartsMain'
 
 import './Product.scss'
 
-const LeftMenu = () => (
+const LeftMenu = props => (
   <Menu
-    defaultSelectedKeys={['1']}
-    defaultOpenKeys={['sub1']}
+    defaultSelectedKeys={['螺纹/热卷']}
+    defaultOpenKeys={['跨产品对冲', '建材能源系']}
     mode="inline"
     className={'charts-menu'}
+    onClick={props.handleClick}
   >
-    <Menu.SubMenu title={<span><Icon type="folder" /><span>跨产品对冲</span></span>}>
-      <Menu.SubMenu key="sub1" title={<span><Icon type="folder" /><span>建材能源系</span></span>}>
-        <Menu.Item>热卷/螺纹</Menu.Item>
-        <Menu.Item>螺纹/焦炭</Menu.Item>
+    <Menu.SubMenu key={'跨产品对冲'} title={<span><Icon type="folder" /><span>跨产品对冲</span></span>}>
+      <Menu.SubMenu key={'建材能源系'} title={<span><Icon type="folder" /><span>建材能源系</span></span>}>
+        <Menu.Item key={'螺纹/热卷'}>螺纹/热卷</Menu.Item>
+        <Menu.Item key={'螺纹/焦炭'}>螺纹/焦炭</Menu.Item>
         <Menu.Item>热卷/焦炭</Menu.Item>
         <Menu.Item>螺纹/铁矿石</Menu.Item>
         <Menu.Item>焦煤/焦炭</Menu.Item>
@@ -71,14 +72,52 @@ const LeftMenu = () => (
 class Product extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      chartsData: {
+        code: ['rb', 'hc'],
+        names: ['螺纹', '热卷', '螺纹 / 热卷'],
+        month: ['1801', '1805', '1810'],
+        func: (val1, val2) => {
+          return val1 / val2
+        }
+      }
+    }
+  }
+
+  handleMenuChange = item => {
+    switch (item.key) {
+      case '螺纹/热卷':
+        this.setState({
+          chartsData: {
+            code: ['rb', 'hc'],
+            names: ['螺纹', '热卷', '螺纹 / 热卷'],
+            month: ['1801', '1805', '1810'],
+            func: (val1, val2) => {
+              return val1 / val2
+            }
+          }
+        })
+        break
+      case '螺纹/焦炭':
+        this.setState({
+          chartsData: {
+            code: ['rb', 'j'],
+            names: ['螺纹', '焦炭', '螺纹 / 焦炭'],
+            month: ['1801', '1805', '1809'],
+            func: (val1, val2) => {
+              return val1 / val2
+            }
+          }
+        })
+        break
+    }
   }
 
   render () {
     return (
       <div className="Product">
-        <LeftMenu />
-        <ChartsMain className={'charts-main'} />
+        <LeftMenu handleClick={this.handleMenuChange} />
+        <ChartsMain chartsData={this.state.chartsData} className={'charts-main'} />
       </div>
     )
   }
