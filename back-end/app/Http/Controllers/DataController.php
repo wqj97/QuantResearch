@@ -17,7 +17,15 @@ class DataController extends Controller
             $codes = json_decode($request->code);
             $db = DB::connection('mongodb');
             foreach ($codes as $code) {
-                $result = $db->collection($code)->groupBy('date')->get(['date', 'symbol', 'close']);
+                $type = substr($code, 0, strlen($code) - 4);
+                $year = substr($code, -4, 2);
+                $month = substr($code, -2, 2);
+                $result = [];
+                for ($i = 14; $i < (int)$year; $i++) {
+                    foreach ($db->collection("{$type}{$i}{$month}")->groupBy('date')->get(['date', 'symbol', 'close']) as $data) {
+                        $result[] = $data;
+                    }
+                }
                 $output->$code = $result;
             }
             return response()->json($output);

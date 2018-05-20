@@ -121,7 +121,6 @@ const generateSeries = (data, names, xAxis, func) => {
 
     }
   })
-  console.log(series)
   return series
 
 }
@@ -211,6 +210,7 @@ class ChartsMain extends React.Component {
     super(props)
     this.state = {
       option: {},
+      code: props.chartsData.code,
       names: []
     }
   }
@@ -231,7 +231,12 @@ class ChartsMain extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     const { chartsData } = nextProps
-    this.getProductData(chartsData.month[0], chartsData.code, chartsData.names, chartsData.func)
+    if (chartsData.code !== this.state.code) {
+      this.getProductData(chartsData.month[0], chartsData.code, chartsData.names, chartsData.func)
+      this.setState({
+        code: chartsData.code
+      })
+    }
   }
 
 
@@ -249,10 +254,10 @@ class ChartsMain extends React.Component {
           <Col span={18}>
             <Card title={this.state.names[2] ? this.state.names[2] : '读取中...'}>
               <p>选择主力月: </p>
-              <Radio.Group onChange={this.handleMonthChange} defaultValue="1801">
-                <Radio.Button value="1801">一月</Radio.Button>
-                <Radio.Button value="1805">五月</Radio.Button>
-                <Radio.Button value="1810">十月</Radio.Button>
+              <Radio.Group onChange={this.handleMonthChange} defaultValue={this.props.chartsData.month[0]}>
+                <Radio.Button value={this.props.chartsData.month[0]}>一月</Radio.Button>
+                <Radio.Button value={this.props.chartsData.month[1]}>五月</Radio.Button>
+                <Radio.Button value={this.props.chartsData.month[2]}>十月</Radio.Button>
               </Radio.Group>
             </Card>
           </Col>

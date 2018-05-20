@@ -1,4 +1,4 @@
-import { Icon, Menu } from 'antd'
+import { Badge, Icon, Menu } from 'antd'
 import React from 'react'
 import ChartsMain from './ChartsMain'
 
@@ -12,10 +12,12 @@ const LeftMenu = props => (
     className={'charts-menu'}
     onClick={props.handleClick}
   >
-    <Menu.SubMenu key={'跨产品对冲'} title={<span><Icon type="folder" /><span>跨产品对冲</span></span>}>
-      <Menu.SubMenu key={'建材能源系'} title={<span><Icon type="folder" /><span>建材能源系</span></span>}>
-        <Menu.Item key={'螺纹/热卷'}>螺纹/热卷</Menu.Item>
-        <Menu.Item key={'螺纹/焦炭'}>螺纹/焦炭</Menu.Item>
+    <Menu.SubMenu key={'跨产品对冲'}
+      title={<Badge count={props.count} title={'可做产品数'} offset={[0, 15]}><span><Icon type="folder" /><span>跨产品对冲</span></span></Badge>}>
+      <Menu.SubMenu key={'建材能源系'}
+        title={<Badge count={props.count} title={'可做产品数'} offset={[0, 15]}><span><Icon type="folder" /><span>建材能源系</span></span></Badge>}>
+        <Menu.Item key={'螺纹/热卷'}><Badge dot={true} offset={[0, 5]}>螺纹/热卷</Badge></Menu.Item>
+        <Menu.Item key={'螺纹/焦炭'}><Badge dot={true} offset={[0, 5]}>螺纹/焦炭</Badge></Menu.Item>
         <Menu.Item>热卷/焦炭</Menu.Item>
         <Menu.Item>螺纹/铁矿石</Menu.Item>
         <Menu.Item>焦煤/焦炭</Menu.Item>
@@ -80,7 +82,8 @@ class Product extends React.Component {
         func: (val1, val2) => {
           return val1 / val2
         }
-      }
+      },
+      randomNumber: 0
     }
   }
 
@@ -91,7 +94,7 @@ class Product extends React.Component {
           chartsData: {
             code: ['rb', 'hc'],
             names: ['螺纹', '热卷', '螺纹 / 热卷'],
-            month: ['1801', '1805', '1810'],
+            month: ['1901', '1905', '1810'],
             func: (val1, val2) => {
               return val1 / val2
             }
@@ -103,7 +106,7 @@ class Product extends React.Component {
           chartsData: {
             code: ['rb', 'j'],
             names: ['螺纹', '焦炭', '螺纹 / 焦炭'],
-            month: ['1801', '1805', '1809'],
+            month: ['1901', '1905', '1809'],
             func: (val1, val2) => {
               return val1 / val2
             }
@@ -113,10 +116,23 @@ class Product extends React.Component {
     }
   }
 
+  componentDidMount () {
+    this.randomNumber = setInterval(() => {
+      // this.setState({
+      //   randomNumber: Math.round(Math.random() * 5)
+      // })
+    }, 1000)
+  }
+
+  componentWillUnmount () {
+    clearInterval(this.randomNumber)
+  }
+
+
   render () {
     return (
       <div className="Product">
-        <LeftMenu handleClick={this.handleMenuChange} />
+        <LeftMenu handleClick={this.handleMenuChange} count={this.state.randomNumber} />
         <ChartsMain chartsData={this.state.chartsData} className={'charts-main'} />
       </div>
     )
