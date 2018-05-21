@@ -1,12 +1,23 @@
 import axios from './axios'
 import store from 'store'
 
+/**
+ * 登录
+ * @param {Object} data 登录表单
+ * @return {Promise<*>}
+ * @constructor
+ */
 export const Login = async (data) => {
   const resp = await axios.post('/api/user', data)
   store.set('user', resp.data)
   return resp.data
 }
 
+/**
+ * 获取产品数据
+ * @param {Array<string>} code JSON序列号后的产品代码数组
+ * @return {Promise<*>}
+ */
 export const getProductData = async (code) => {
   const resp = await axios.get('/api/data', {
     params: {

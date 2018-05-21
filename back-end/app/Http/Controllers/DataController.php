@@ -21,7 +21,7 @@ class DataController extends Controller
                 $year = substr($code, -4, 2);
                 $month = substr($code, -2, 2);
                 $result = [];
-                for ($i = 14; $i < (int)$year; $i++) {
+                for ($i = 14; $i <= (int)$year; $i++) {
                     foreach ($db->collection("{$type}{$i}{$month}")->groupBy('date')->get(['date', 'symbol', 'close']) as $data) {
                         $result[] = $data;
                     }

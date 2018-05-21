@@ -78,7 +78,7 @@ class Product extends React.Component {
       chartsData: {
         code: ['rb', 'hc'],
         names: ['螺纹', '热卷', '螺纹 / 热卷'],
-        month: ['1801', '1805', '1810'],
+        month: ['1901', '1905', '1810'],
         func: (val1, val2) => {
           return val1 / val2
         }
@@ -106,7 +106,8 @@ class Product extends React.Component {
           chartsData: {
             code: ['rb', 'j'],
             names: ['螺纹', '焦炭', '螺纹 / 焦炭'],
-            month: ['1901', '1905', '1809'],
+            month: ['1901', '1905', '1810'],
+            custom: ['1901', '1905', '1809'],
             func: (val1, val2) => {
               return val1 / val2
             }

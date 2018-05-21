@@ -33,6 +33,8 @@ const generateData = data => {
 
 const generateSeries = (data, names, xAxis, func) => {
   let dataProceeded = generateData(data)
+  const month = Object.keys(data)[0].slice(-2)
+  const contrastMonth = Object.keys(data)[1].slice(-2)
 
   // 缺项前充
   for (let product in dataProceeded) {
@@ -54,6 +56,18 @@ const generateSeries = (data, names, xAxis, func) => {
 
   dataProceeded = dataProceeded.map(data => {
     return xAxis.map(date => {
+      const dataMonth = Number(date.slice(-4, -2))
+      const dataDate = Number(date.slice(-2))
+      if (month !== contrastMonth) {
+        if (dataMonth >= Number(contrastMonth) && dataMonth <= Number(month)) {
+          return NaN
+        }
+      } else {
+        if (dataMonth === Number(month) && dataDate <= 15 && dataDate >= 1) {
+          return NaN
+        }
+      }
+
       return data[date]
     })
   })
@@ -215,10 +229,17 @@ class ChartsMain extends React.Component {
     }
   }
 
-  getProductData = (title, code, names, func) => {
-    getProductData(code.map(symbol => symbol + title)).then(data => {
+  /**
+   * 获取产品数据
+   * @param {Array<string>} month 月份
+   * @param {Array<string>} code 产品代码
+   * @param {Array<string>} names 产品名字
+   * @param {Function} func 相关关系函数
+   */
+  getProductData = (month, code, names, func) => {
+    getProductData(code.map((symbol, key) => symbol + month[key])).then(data => {
       this.setState({
-        option: option(code.map(symbol => symbol + title).join(' / '), data, names, func),
+        option: option(code.map((symbol, key) => symbol + month[key]).join(' / '), data, names, func),
         names: names
       })
     })
@@ -226,13 +247,19 @@ class ChartsMain extends React.Component {
 
   componentDidMount () {
     const { chartsData } = this.props
-    this.getProductData(chartsData.month[0], chartsData.code, chartsData.names, chartsData.func)
+    const month = chartsData.month
+    const contrastMonth = chartsData.custom || month
+
+    this.getProductData([month[0], contrastMonth[0]], chartsData.code, chartsData.names, chartsData.func)
   }
 
   componentWillReceiveProps (nextProps) {
     const { chartsData } = nextProps
+    const month = chartsData.month
+    const contrastMonth = chartsData.custom || month
+
     if (chartsData.code !== this.state.code) {
-      this.getProductData(chartsData.month[0], chartsData.code, chartsData.names, chartsData.func)
+      this.getProductData([month[0], contrastMonth[0]], chartsData.code, chartsData.names, chartsData.func)
       this.setState({
         code: chartsData.code
       })
@@ -240,13 +267,29 @@ class ChartsMain extends React.Component {
   }
 
 
+  /**
+   * 月份切换时操作
+   * @param event
+   */
   handleMonthChange = event => {
-    this.getProductData(event.target.value, ['rb', 'hc'], ['螺纹', '热卷', '螺纹 / 热卷'], (val1, val2) => {
-      return val1 / val2
-    })
+    const { chartsData } = this.props
+    const month = chartsData.month
+    const contrastMonth = chartsData.custom || month
+    const eventValue = event.target.value
+
+    // 当需要获取综合数据的时候的操作
+    if (eventValue === 'merge') {
+
+    } else {
+      this.getProductData([month[eventValue], contrastMonth[eventValue]], chartsData.code, chartsData.names, (val1, val2) => {
+        return val1 / val2
+      })
+    }
   }
 
   render () {
+    const month = this.props.chartsData.month
+    const contrastMonth = this.props.chartsData.custom || month
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <ReactEcharts className="ChartsMain" option={this.state.option} style={{ width: '100%', height: '50%' }} />
@@ -254,10 +297,11 @@ class ChartsMain extends React.Component {
           <Col span={18}>
             <Card title={this.state.names[2] ? this.state.names[2] : '读取中...'}>
               <p>选择主力月: </p>
-              <Radio.Group onChange={this.handleMonthChange} defaultValue={this.props.chartsData.month[0]}>
-                <Radio.Button value={this.props.chartsData.month[0]}>一月</Radio.Button>
-                <Radio.Button value={this.props.chartsData.month[1]}>五月</Radio.Button>
-                <Radio.Button value={this.props.chartsData.month[2]}>十月</Radio.Button>
+              <Radio.Group onChange={this.handleMonthChange} defaultValue={0}>
+                <Radio.Button value={0}>{month[0]} / {contrastMonth[0]}</Radio.Button>
+                <Radio.Button value={1}>{month[1]} / {contrastMonth[1]}</Radio.Button>
+                <Radio.Button value={2}>{month[2]} / {contrastMonth[2]}</Radio.Button>
+                <Radio.Button value={'merge'}>三线合一</Radio.Button>
               </Radio.Group>
             </Card>
           </Col>
