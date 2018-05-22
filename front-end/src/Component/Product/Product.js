@@ -134,7 +134,7 @@ class Product extends React.Component {
     return (
       <div className="Product">
         <LeftMenu handleClick={this.handleMenuChange} count={this.state.randomNumber} />
-        <ChartsMain chartsData={this.state.chartsData} className={'charts-main'} />
+        <ChartsMain user={this.props.user} chartsData={this.state.chartsData} className={'charts-main'} />
       </div>
     )
   }

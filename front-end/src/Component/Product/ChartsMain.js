@@ -1,8 +1,22 @@
-import { Card, Col, Radio, Row } from "antd"
+import { Card, Col, InputNumber, Radio, Row } from "antd"
 import React from 'react'
 import ReactEcharts from 'echarts-for-react'
 import { getProductData } from '../../utils/API'
 import { option, optionMerge } from './Chart/ChartUtils'
+
+const CardTitle = props => (
+  <div>开仓指导窗口 ( 右侧设置保证金 )
+    <InputNumber
+      style={{ float: 'right', width: 100 }}
+      defaultValue={props.defaultDeposit}
+      step={10000}
+      min={100000}
+      formatter={value => `¥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+      parser={value => value.replace(/\$\s?|(,*)/g, '')}
+      onChange={props.onChange}
+    />
+  </div>
+)
 
 class ChartsMain extends React.Component {
   constructor (props) {
@@ -10,6 +24,7 @@ class ChartsMain extends React.Component {
     this.state = {
       option: {},
       code: props.chartsData.code,
+      deposit: props.user.deposit,
       names: []
     }
   }
@@ -61,7 +76,6 @@ class ChartsMain extends React.Component {
       monthQuery = code.map((symbol, key) => symbol + month[key])
     }
 
-    console.log(monthQuery)
 
     getProductData(monthQuery).then(data => {
       if (monthQuery.length === 2) {
@@ -104,6 +118,12 @@ class ChartsMain extends React.Component {
     })
   }
 
+  depositChange = value => {
+    this.setState({
+      deposit: value
+    })
+  }
+
   render () {
     const month = this.props.chartsData.month
     const contrastMonth = this.props.chartsData.custom || month
@@ -128,6 +148,11 @@ class ChartsMain extends React.Component {
             </Card>
           </Col>
         </Row>
+        <Card title={<CardTitle defaultDeposit={this.state.deposit} onChange={this.depositChange} />} style={{ marginTop: 15 }}>
+          <p>方向: 做空</p>
+          <p>数量: {this.state.deposit}</p>
+          <p>风险系数: 1.5</p>
+        </Card>
       </div>
     )
   }
