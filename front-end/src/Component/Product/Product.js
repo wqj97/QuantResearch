@@ -18,11 +18,10 @@ const LeftMenu = props => (
         title={<Badge count={props.count} title={'可做产品数'} offset={[0, 15]}><span><Icon type="folder" /><span>建材能源系</span></span></Badge>}>
         <Menu.Item key={'螺纹/热卷'}><Badge dot={true} offset={[0, 5]}>螺纹/热卷</Badge></Menu.Item>
         <Menu.Item key={'螺纹/焦炭'}><Badge dot={true} offset={[0, 5]}>螺纹/焦炭</Badge></Menu.Item>
-        <Menu.Item>热卷/焦炭</Menu.Item>
-        <Menu.Item>螺纹/铁矿石</Menu.Item>
-        <Menu.Item>焦煤/焦炭</Menu.Item>
-        <Menu.Item>螺纹/铁矿石</Menu.Item>
-        <Menu.Item>玻璃/螺纹</Menu.Item>
+        <Menu.Item key={'热卷/焦炭'}><Badge dot={true} offset={[0, 5]}>热卷/焦炭</Badge></Menu.Item>
+        <Menu.Item key={'螺纹/铁矿石'}><Badge dot={true} offset={[0, 5]}>螺纹/铁矿石</Badge></Menu.Item>
+        <Menu.Item key={'焦煤/焦炭'}><Badge dot={true} offset={[0, 5]}>焦煤/焦炭</Badge></Menu.Item>
+        <Menu.Item key={'玻璃/螺纹'}><Badge dot={true} offset={[0, 5]}>螺纹/焦炭</Badge></Menu.Item>
         <Menu.Item>玻璃/热卷</Menu.Item>
         <Menu.Item>焦炭/动力煤</Menu.Item>
         <Menu.Item>焦炭/动力煤</Menu.Item>
@@ -88,6 +87,7 @@ class Product extends React.Component {
   }
 
   handleMenuChange = item => {
+    console.log(item.key)
     switch (item.key) {
       case '螺纹/热卷':
         this.setState({
@@ -106,6 +106,19 @@ class Product extends React.Component {
           chartsData: {
             code: ['rb', 'j'],
             names: ['螺纹', '焦炭', '螺纹 / 焦炭'],
+            month: ['1901', '1905', '1810'],
+            custom: ['1901', '1905', '1809'],
+            func: (val1, val2) => {
+              return val1 / val2
+            }
+          }
+        })
+        break
+      case '热卷/焦炭':
+        this.setState({
+          chartsData: {
+            code: ['hc', 'j'],
+            names: ['热卷', '焦炭', '热卷 / 焦炭'],
             month: ['1901', '1905', '1810'],
             custom: ['1901', '1905', '1809'],
             func: (val1, val2) => {
