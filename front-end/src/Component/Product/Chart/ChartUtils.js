@@ -299,7 +299,61 @@ const optionMerge = (title, data, names, func) => {
   }
 }
 
+const liveOption = (title, data) => {
+  return {
+    title: {
+      text: title,
+      textStyle: {
+        color: '#fff',
+        fontSize: 24
+      }
+    },
+    backgroundColor: '#21202D',
+    legend: {
+      inactiveColor: '#777',
+      textStyle: {
+        color: '#fff'
+      },
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        animation: false,
+        type: 'cross',
+        lineStyle: {
+          color: '#376df4',
+          width: 2,
+          opacity: 1
+        }
+      }
+    },
+    xAxis: {
+      type: 'category',
+      axisLine: { lineStyle: { color: '#8392A5' } }
+    },
+    yAxis: {
+      scale: true,
+      axisLine: { lineStyle: { color: '#8392A5' } },
+      splitLine: { show: false }
+    },
+    animation: false,
+    series: {
+      name: '实时数据',
+      type: 'line',
+      data: data,
+      smooth: true,
+      showSymbol: false,
+      lineStyle: {
+        normal: {
+          width: 2,
+        },
+      }
+    }
+  }
+}
+
 export {
   option,
-  optionMerge
+  optionMerge,
+  liveOption
 }

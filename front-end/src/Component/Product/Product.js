@@ -21,7 +21,7 @@ const LeftMenu = props => (
         <Menu.Item key={'热卷/焦炭'}><Badge dot={true} offset={[0, 5]}>热卷/焦炭</Badge></Menu.Item>
         <Menu.Item key={'螺纹/铁矿石'}><Badge dot={true} offset={[0, 5]}>螺纹/铁矿石</Badge></Menu.Item>
         <Menu.Item key={'焦煤/焦炭'}><Badge dot={true} offset={[0, 5]}>焦煤/焦炭</Badge></Menu.Item>
-        <Menu.Item key={'玻璃/螺纹'}><Badge dot={true} offset={[0, 5]}>螺纹/焦炭</Badge></Menu.Item>
+        <Menu.Item key={'玻璃/螺纹'}><Badge dot={true} offset={[0, 5]}>玻璃/螺纹</Badge></Menu.Item>
         <Menu.Item>玻璃/热卷</Menu.Item>
         <Menu.Item>焦炭/动力煤</Menu.Item>
         <Menu.Item>焦炭/动力煤</Menu.Item>
@@ -78,20 +78,22 @@ class Product extends React.Component {
         code: ['rb', 'hc'],
         names: ['螺纹', '热卷', '螺纹 / 热卷'],
         month: ['1901', '1905', '1810'],
+        positionCoefficient: 14,
+        stableCoefficient: 64,
         func: (val1, val2) => {
           return val1 / val2
         }
       },
-      randomNumber: 0
+      randomNumber: 5
     }
   }
 
   handleMenuChange = item => {
-    console.log(item.key)
     switch (item.key) {
       case '螺纹/热卷':
         this.setState({
           chartsData: {
+            stableCoefficient: 64,
             code: ['rb', 'hc'],
             names: ['螺纹', '热卷', '螺纹 / 热卷'],
             month: ['1901', '1905', '1810'],
@@ -104,6 +106,7 @@ class Product extends React.Component {
       case '螺纹/焦炭':
         this.setState({
           chartsData: {
+            stableCoefficient: 14,
             code: ['rb', 'j'],
             names: ['螺纹', '焦炭', '螺纹 / 焦炭'],
             month: ['1901', '1905', '1810'],
@@ -117,10 +120,52 @@ class Product extends React.Component {
       case '热卷/焦炭':
         this.setState({
           chartsData: {
+            stableCoefficient: 14,
             code: ['hc', 'j'],
             names: ['热卷', '焦炭', '热卷 / 焦炭'],
             month: ['1901', '1905', '1810'],
             custom: ['1901', '1905', '1809'],
+            func: (val1, val2) => {
+              return val1 / val2
+            }
+          }
+        })
+        break
+      case '螺纹/铁矿石':
+        this.setState({
+          chartsData: {
+            stableCoefficient: 6,
+            code: ['rb', 'i'],
+            names: ['螺纹', '铁矿石', '螺纹 / 铁矿石'],
+            month: ['1901', '1905', '1810'],
+            custom: ['1901', '1905', '1809'],
+            func: (val1, val2) => {
+              return val1 / val2
+            }
+          }
+        })
+        break
+      case '焦煤/焦炭':
+        this.setState({
+          chartsData: {
+            stableCoefficient: 50,
+            code: ['jm', 'j'],
+            names: ['焦煤', '焦炭', '焦煤 / 焦炭'],
+            month: ['1901', '1905', '1809'],
+            func: (val1, val2) => {
+              return val1 / val2
+            }
+          }
+        })
+        break
+      case '玻璃/螺纹':
+        this.setState({
+          chartsData: {
+            stableCoefficient: 59,
+            code: ['jm', 'rb'],
+            names: ['玻璃', '螺纹', '玻璃 / 螺纹'],
+            month: ['1901', '1905', '1809'],
+            custom: ['1901', '1905', '1810'],
             func: (val1, val2) => {
               return val1 / val2
             }
