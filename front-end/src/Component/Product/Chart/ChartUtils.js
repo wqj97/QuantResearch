@@ -1,10 +1,21 @@
 const generateX = data => {
   let x = []
-  for (const code in data) {
-    for (const dayData of data[code]) {
-      const date = dayData.date
-      if (x.indexOf(date) === -1) {
-        x.push(date)
+  if(data[Object.keys(data)[0]][0].time) {
+    for (const code in data) {
+      for (const dayData of data[code]) {
+        const datetime = dayData.date + dayData.time
+        if (x.indexOf(datetime) === -1) {
+          x.push(datetime)
+        }
+      }
+    }
+  } else  {
+    for (const code in data) {
+      for (const dayData of data[code]) {
+        const date = dayData.date
+        if (x.indexOf(date) === -1) {
+          x.push(date)
+        }
       }
     }
   }

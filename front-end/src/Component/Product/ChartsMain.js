@@ -1,18 +1,27 @@
-import { Button, Card, Col, Icon, InputNumber, Radio, Row } from "antd"
+import { Button, Card, Col, InputNumber, Radio, Row } from "antd"
 import React from 'react'
 import ReactEcharts from 'echarts-for-react'
-import { getProductData } from '../../utils/API'
+import { getProductDayData, getProductMinuteData } from '../../utils/API'
 import { option, optionMerge, liveOption } from './Chart/ChartUtils'
 
 const CardTitle = props => (
   <div>开仓指导窗口 ( 右侧设置保证金 )
     <InputNumber
-      style={{ float: 'right', width: 100 }}
-      defaultValue={props.defaultDeposit}
-      step={10000}
+      style={{ float: 'right', width: 200 }}
+      value={props.defaultDeposit}
+      step={5000}
       min={100000}
-      formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-      parser={value => value.replace(/\$\s?|(,*)/g, '')}
+      formatter={value => `想做金额 ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+      parser={value => value.replace(/想做金额\s?|(,*)/g, '')}
+      onChange={props.onChange}
+    />
+    <InputNumber
+      style={{ float: 'right', width: 200 }}
+      value={props.defaultDeposit}
+      step={5000}
+      min={100000}
+      formatter={value => `保证金 ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+      parser={value => value.replace(/保证金\s?|(,*)/g, '')}
       onChange={props.onChange}
     />
   </div>
@@ -89,7 +98,8 @@ class ChartsMain extends React.Component {
     }
 
 
-    getProductData(monthQuery).then(data => {
+    getProductDayData(monthQuery).then(data => {
+    // getProductMinuteData(monthQuery).then(data => {
       if (monthQuery.length === 2) {
         this.setState({
           option: option(chartsTitle, data, names, func),
@@ -162,10 +172,10 @@ class ChartsMain extends React.Component {
   }
 
   changeCharts = event => {
-    const value = event.target.value
-    if (value === 1) {
-      this.liveData()
-    }
+    // const value = event.target.value
+    // if (value === 2) {
+    //   this.liveData()
+    // }
   }
 
   render () {
@@ -189,8 +199,9 @@ class ChartsMain extends React.Component {
               <div>
                 选择数据类型:
                 <Radio.Group onChange={this.changeCharts} defaultValue={0}>
-                  <Radio.Button value={0}>每日</Radio.Button>
-                  <Radio.Button value={1}>实时</Radio.Button>
+                  <Radio.Button value={0}>日线</Radio.Button>
+                  <Radio.Button value={1}>分钟线</Radio.Button>
+                  <Radio.Button value={2}>实时</Radio.Button>
                 </Radio.Group>
               </div>
             </Card>

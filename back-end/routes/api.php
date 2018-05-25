@@ -20,4 +20,5 @@ Route::group(['prefix' => 'user'], function () {
 
 Route::group(['prefix' => 'data'], function () {
     Route::get('', 'DataController@getDayData');
+    Route::get('minute', 'DataController@getMinuteData');
 });

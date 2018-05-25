@@ -14,12 +14,26 @@ export const Login = async (data) => {
 }
 
 /**
- * 获取产品数据
+ * 获取产品日数据
  * @param {Array<string>} code JSON序列号后的产品代码数组
  * @return {Promise<*>}
  */
-export const getProductData = async (code) => {
+export const getProductDayData = async (code) => {
   const resp = await axios.get('/api/data', {
+    params: {
+      code: JSON.stringify(code)
+    }
+  })
+  return resp.data
+}
+
+/**
+ * 获取产品分钟数据
+ * @param {Array<string>} code JSON序列号后的产品代码数组
+ * @return {Promise<*>}
+ */
+export const getProductMinuteData = async (code) => {
+  const resp = await axios.get('/api/data/minute', {
     params: {
       code: JSON.stringify(code)
     }
