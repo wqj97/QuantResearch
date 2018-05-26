@@ -1,28 +1,28 @@
 import { Button, Card, Col, InputNumber, Radio, Row } from "antd"
 import React from 'react'
 import ReactEcharts from 'echarts-for-react'
-import { getProductDayData, getProductMinuteData } from '../../utils/API'
-import { option, optionMerge, liveOption } from './Chart/ChartUtils'
+import { getProductDayData, liveData } from '../../utils/API'
+import { option, optionMerge } from './Chart/ChartUtils'
 
 const CardTitle = props => (
   <div>开仓指导窗口 ( 右侧设置保证金 )
     <InputNumber
       style={{ float: 'right', width: 200 }}
-      value={props.defaultDeposit}
+      value={props.expectedAmount}
       step={5000}
       min={100000}
       formatter={value => `想做金额 ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
       parser={value => value.replace(/想做金额\s?|(,*)/g, '')}
-      onChange={props.onChange}
+      onChange={props.onAmountChange}
     />
     <InputNumber
       style={{ float: 'right', width: 200 }}
-      value={props.defaultDeposit}
-      step={5000}
-      min={100000}
-      formatter={value => `保证金 ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-      parser={value => value.replace(/保证金\s?|(,*)/g, '')}
-      onChange={props.onChange}
+      value={props.deposit}
+      step={1}
+      min={0}
+      formatter={value => `保证金 ${value} %`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+      parser={value => value.replace(/保证金\s?|(,*)%/g, '')}
+      onChange={props.onDepositChange}
     />
   </div>
 )
@@ -30,11 +30,14 @@ const CardTitle = props => (
 class ChartsMain extends React.Component {
   constructor (props) {
     super(props)
+    this.symbol = ['', '']
     this.state = {
       option: {},
       code: props.chartsData.code,
       deposit: props.user.deposit,
+      expectedAmount: 100000,
       names: [],
+      latestData: {},
       loading: true
     }
   }
@@ -78,7 +81,7 @@ class ChartsMain extends React.Component {
   getAndParseProductData = (month, code, names, func) => {
     // 当需要三线合一的时候, 月份不为2个
     this.setState({
-      loading: true
+      loading: true,
     })
 
     let monthQuery
@@ -93,13 +96,14 @@ class ChartsMain extends React.Component {
         })
       })
     } else {
-      chartsTitle = code.map((symbol, key) => symbol + month[key]).join(' / ')
-      monthQuery = code.map((symbol, key) => symbol + month[key])
+      this.symbol = code.map((symbol, key) => symbol + month[key])
+      chartsTitle = this.symbol.join(' / ')
+      monthQuery = this.symbol
     }
 
 
     getProductDayData(monthQuery).then(data => {
-    // getProductMinuteData(monthQuery).then(data => {
+      // getProductMinuteData(monthQuery).then(data => {
       if (monthQuery.length === 2) {
         this.setState({
           option: option(chartsTitle, data, names, func),
@@ -113,6 +117,10 @@ class ChartsMain extends React.Component {
           loading: false
         })
       }
+    }).catch(() => {
+      this.setState({
+        loading: false
+      })
     })
   }
 
@@ -147,6 +155,11 @@ class ChartsMain extends React.Component {
       deposit: value
     })
   }
+  amountChange = value => {
+    this.setState({
+      expectedAmount: value
+    })
+  }
 
   refreshData = () => {
     const { chartsData } = this.props
@@ -159,31 +172,75 @@ class ChartsMain extends React.Component {
     })
   }
 
-  liveData = () => {
-    const ws = new WebSocket('ws://127.0.0.1:5000')
-    const liveData = []
-    ws.onmessage = data => {
-      const recvData = JSON.parse(data.data)
-      liveData.push([recvData.time, recvData.high])
+  connectLiveData = () => {
+    const latestData = {}
+    let flag = false
+    let latestDataKeys = Object.keys(latestData)
+    this.closews = liveData(data => {
+      const option = this.state.option
+      if (!option.series) return
+
+      latestData[data.symbol] = data
+      if (!flag) {
+        latestDataKeys = Object.keys(latestData)
+        if (latestDataKeys.length === 2) {
+          flag = true
+        } else {
+          return
+        }
+      }
+      const calculateResult = latestData[latestDataKeys[0]].close / latestData[latestDataKeys[1]].close
+      option.series[2].markLine = {
+        symbol: 'circle',
+        precision: 5,
+        data: [
+          {
+            name: '最新数据',
+            yAxis: calculateResult
+          },
+          {
+            name: '中间线',
+            yAxis: 1.005
+          }
+        ]
+      }
       this.setState({
-        option: liveOption('实时', liveData)
+        option: option,
+        latestData: latestData
       })
-    }
+    })
   }
 
+  componentWillUnmount () {
+    this.closews()
+  }
+
+
   changeCharts = event => {
-    // const value = event.target.value
-    // if (value === 2) {
-    //   this.liveData()
-    // }
+  }
+
+  calculateboardLot = () => {
+    if (this.symbol[0] === '' || this.state.latestData[this.symbol[0]] === undefined) return {}
+    const product1 = this.state.latestData[this.symbol[0]].close
+    const product2 = this.state.latestData[this.symbol[1]].close
+
+    return {
+      [this.symbol[0]]: this.state.expectedAmount / (product1 * this.state.deposit * 0.2),
+      [this.symbol[1]]: this.state.expectedAmount / (product2 * this.state.deposit * 0.2)
+    }
   }
 
   render () {
     const month = this.props.chartsData.month
     const contrastMonth = this.props.chartsData.custom || month
+    const calculateResult = this.calculateboardLot()
     return (
       <div style={{ width: '100%', height: '100%' }}>
-        <ReactEcharts className="ChartsMain" notMerge={true} option={this.state.option} style={{ width: '100%', height: '50%' }} />
+        <ReactEcharts className="ChartsMain"
+          onChartReady={this.connectLiveData}
+          notMerge={false}
+          option={this.state.option}
+          style={{ width: '100%', height: '50%' }} />
         <Row>
           <Col span={14}>
             <Card title={this.state.names[2] ? this.state.names[2] : '读取中...'}>
@@ -201,7 +258,6 @@ class ChartsMain extends React.Component {
                 <Radio.Group onChange={this.changeCharts} defaultValue={0}>
                   <Radio.Button value={0}>日线</Radio.Button>
                   <Radio.Button value={1}>分钟线</Radio.Button>
-                  <Radio.Button value={2}>实时</Radio.Button>
                 </Radio.Group>
               </div>
             </Card>
@@ -210,12 +266,15 @@ class ChartsMain extends React.Component {
             <Card title="操作面板">
               <Button.Group>
                 <Button type="primary" icon="heart">添加到自选</Button>
-                <Button type="primary" icon="download" loading={this.state.loading} onClick={this.refreshData}>立即更新数据</Button>
+                <Button type="primary" icon="sync" loading={this.state.loading} onClick={this.refreshData}>立即更新数据</Button>
               </Button.Group>
             </Card>
           </Col>
         </Row>
-        <Card title={<CardTitle defaultDeposit={this.state.deposit} onChange={this.depositChange} />} style={{ marginTop: 15 }}>
+        <Card title={<CardTitle expectedAmount={this.state.expectedAmount}
+          deposit={this.state.deposit}
+          onDepositChange={this.depositChange}
+          onAmountChange={this.amountChange} />} style={{ marginTop: 15 }}>
           <p>稳定系数: {this.props.chartsData.stableCoefficient}</p>
           <div>
           </div>
@@ -223,13 +282,15 @@ class ChartsMain extends React.Component {
             <Col span={12}>
               <Card title={this.props.chartsData.names[0]}>
                 <p>方向: 做多</p>
-                <p>数量: {this.state.deposit} 手</p>
+                <p>实时: {(this.state.latestData[this.symbol[0]] || {}).close}</p>
+                <p>数量: {calculateResult[this.symbol[0]]} 手</p>
               </Card>
             </Col>
             <Col span={12}>
               <Card title={this.props.chartsData.names[1]}>
                 <p>方向: 做空</p>
-                <p>数量: {this.state.deposit} 手</p>
+                <p>实时: {(this.state.latestData[this.symbol[1]] || {}).close}</p>
+                <p>数量: {calculateResult[this.symbol[1]]} 手</p>
               </Card>
             </Col>
           </Row>

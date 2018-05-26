@@ -1,6 +1,6 @@
 const generateX = data => {
   let x = []
-  if(data[Object.keys(data)[0]][0].time) {
+  if (data[Object.keys(data)[0]][0].time) {
     for (const code in data) {
       for (const dayData of data[code]) {
         const datetime = dayData.date + dayData.time
@@ -9,7 +9,7 @@ const generateX = data => {
         }
       }
     }
-  } else  {
+  } else {
     for (const code in data) {
       for (const dayData of data[code]) {
         const date = dayData.date
@@ -88,11 +88,12 @@ const generateSeries = (data, names, xAxis, func) => {
     }
   })
 
+  const newestData = dataProceeded[2][dataProceeded[2].length - 1]
   series.push({
     name: names[2],
     type: 'line',
     data: dataProceeded[2],
-    smooth: true,
+    smooth: false,
     showSymbol: false,
     markArea: {
       itemStyle: {
@@ -101,25 +102,27 @@ const generateSeries = (data, names, xAxis, func) => {
       data: [[
         {
           name: '开仓区域',
-          yAxis: 0.9,
+          yAxis: 0.91,
           xAxis: 'min',
         },
         {
-          yAxis: 1,
+          yAxis: 1.1,
           xAxis: 'max',
         }
-      ],
-        [
-          {
-            name: '开仓区域',
-            yAxis: 1.1,
-            xAxis: 'min',
-          },
-          {
-            yAxis: 1.2,
-            xAxis: 'max',
-          }
-        ]]
+      ]]
+    },
+    markLine: {
+      symbol: 'circle',
+      precision: 5,
+      data: [
+        {
+          name: '最新数据',
+          yAxis: newestData
+        }, {
+          name: '中间线',
+          yAxis: 1.005
+        }
+      ]
     },
     lineStyle: {
       normal: {
@@ -158,7 +161,7 @@ const option = (title, data, names, func) => {
     tooltip: {
       trigger: 'axis',
       axisPointer: {
-        animation: false,
+        animation: true,
         type: 'cross',
         lineStyle: {
           color: '#376df4',

@@ -1,3 +1,4 @@
+import { liveOption } from "../Component/Product/Chart/ChartUtils";
 import axios from './axios'
 import store from 'store'
 
@@ -39,4 +40,16 @@ export const getProductMinuteData = async (code) => {
     }
   })
   return resp.data
+}
+
+/**
+ * 连接实时数据
+ * @param cb
+ */
+export const liveData = cb => {
+  const ws = new WebSocket('ws://127.0.0.1:5000')
+  ws.onmessage = data => {
+    cb(JSON.parse(data.data))
+  }
+  return ws.close.bind(ws)
 }

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Store from 'store'
 import NProgress from 'nprogress'
+import {message} from 'antd'
 
 axios.default.timeout = 3000
 
@@ -38,6 +39,8 @@ axios.interceptors.response.use(data => {
 }, error => {
   clearInterval(window.NProgressInc)
   NProgress.done()
+  console.dir(error)
+  message.error(`网络请求出现错误 (${error.response.status} ${error.response.statusText}), 请稍后再试`)
   return Promise.reject(error)
 })
 
