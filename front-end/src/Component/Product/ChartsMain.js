@@ -37,7 +37,7 @@ class ChartsMain extends React.Component {
       deposit: props.user.deposit,
       expectedAmount: 100000,
       names: [],
-      latestData: {},
+      latestData: {},     // TODO: 优化latestData
       loading: true
     }
   }
@@ -101,9 +101,8 @@ class ChartsMain extends React.Component {
       monthQuery = this.symbol
     }
 
-
+    // TODO: option传markArea
     getProductDayData(monthQuery).then(data => {
-      // getProductMinuteData(monthQuery).then(data => {
       if (monthQuery.length === 2) {
         this.setState({
           option: option(chartsTitle, data, names, func),
@@ -189,21 +188,7 @@ class ChartsMain extends React.Component {
           return
         }
       }
-      const calculateResult = latestData[latestDataKeys[0]].close / latestData[latestDataKeys[1]].close
-      option.series[2].markLine = {
-        symbol: 'circle',
-        precision: 5,
-        data: [
-          {
-            name: '最新数据',
-            yAxis: calculateResult
-          },
-          {
-            name: '中间线',
-            yAxis: 1.005
-          }
-        ]
-      }
+      option.series[2].markLine.data[0].yAxis = latestData[latestDataKeys[0]].close / latestData[latestDataKeys[1]].close
       this.setState({
         option: option,
         latestData: latestData

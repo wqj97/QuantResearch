@@ -4,6 +4,15 @@ const products = {
     code: ['rb', 'hc'],
     names: ['螺纹', '热卷', '螺纹 / 热卷'],
     month: ['1901', '1905', '1810'],
+    openPosition: [0.91, 1.1],
+    calculateFunc: {
+      product1: (value, deposit, amount) => {
+        return amount / (value * deposit * 0.2)
+      },
+      product2: (value, deposit, amount) => {
+        return amount / (value * deposit * 0.2)
+      }
+    },
     func: (val1, val2) => {
       return val1 / val2
     }
