@@ -1,9 +1,9 @@
-import { Badge, Icon, Menu, message } from 'antd'
+import { Menu, message } from 'antd'
 import React from 'react'
-import ChartsMain from './ChartsMain'
 import { getConfig } from './Chart/ChartsConfig'
-import './Product.scss'
+import ChartsMain from './ChartsMain'
 import menuConfig from './MenuConfig'
+import './Product.scss'
 
 const generateMenu = config => {
   if (config.child) {
@@ -36,7 +36,7 @@ class Product extends React.Component {
 
   handleMenuChange = item => {
     try {
-      this.setState(getConfig(item.key))
+      this.setState({ chartsData: getConfig(item.key) })
     } catch (e) {
       message.error(e.message)
     }

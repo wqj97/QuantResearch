@@ -7,10 +7,10 @@ const products = {
     openPosition: [0.91, 1.1],
     calculateFunc: {
       product1: (value, deposit, amount) => {
-        return amount / (value * deposit * 0.2)
+        return (amount / (value * deposit * 0.2)).toFixed(2)
       },
       product2: (value, deposit, amount) => {
-        return amount / (value * deposit * 0.2)
+        return (amount / (value * deposit * 0.2)).toFixed(2)
       }
     },
     func: (val1, val2) => {
@@ -23,6 +23,15 @@ const products = {
     names: ['螺纹', '焦炭', '螺纹 / 焦炭'],
     month: ['1901', '1905', '1810'],
     custom: ['1901', '1905', '1809'],
+    openPosition: [1.7, 2.1],
+    calculateFunc: {
+      product1: (value, deposit, amount) => {
+        return (amount / (value * deposit * 0.2)).toFixed(2)
+      },
+      product2: (value, deposit, amount) => {
+        return (amount / (value * deposit * 0.2)).toFixed(2)
+      }
+    },
     func: (val1, val2) => {
       return val1 / val2
     }
@@ -33,6 +42,15 @@ const products = {
     names: ['热卷', '焦炭', '热卷 / 焦炭'],
     month: ['1901', '1905', '1810'],
     custom: ['1901', '1905', '1809'],
+    openPosition: [1.78, 2.25],
+    calculateFunc: {
+      product1: (value, deposit, amount) => {
+        return (amount / (value * deposit * 0.2)).toFixed(2)
+      },
+      product2: (value, deposit, amount) => {
+        return (amount / (value * deposit * 0.2)).toFixed(2)
+      }
+    },
     func: (val1, val2) => {
       return val1 / val2
     }
@@ -43,6 +61,15 @@ const products = {
     names: ['螺纹', '铁矿石', '螺纹 / 铁矿石'],
     month: ['1901', '1905', '1810'],
     custom: ['1901', '1905', '1809'],
+    openPosition: [6.67, 8.33],
+    calculateFunc: {
+      product1: (value, deposit, amount) => {
+        return (amount / (value * deposit * 0.2)).toFixed(2)
+      },
+      product2: (value, deposit, amount) => {
+        return (amount / (value * deposit * 0.2)).toFixed(2)
+      }
+    },
     func: (val1, val2) => {
       return val1 / val2
     }
@@ -52,6 +79,15 @@ const products = {
     code: ['jm', 'j'],
     names: ['焦煤', '焦炭', '焦煤 / 焦炭'],
     month: ['1901', '1905', '1809'],
+    openPosition: [0.6, 0.7],
+    calculateFunc: {
+      product1: (value, deposit, amount) => {
+        return (amount / (value * deposit * 0.2)).toFixed(2)
+      },
+      product2: (value, deposit, amount) => {
+        return (amount / (value * deposit * 0.2)).toFixed(2)
+      }
+    },
     func: (val1, val2) => {
       return val1 / val2
     }
@@ -62,6 +98,15 @@ const products = {
     names: ['玻璃', '螺纹', '玻璃 / 螺纹'],
     month: ['1901', '1905', '1809'],
     custom: ['1901', '1905', '1810'],
+    openPosition: [0.65, 0.95],
+    calculateFunc: {
+      product1: (value, deposit, amount) => {
+        return (amount / (value * deposit * 0.2)).toFixed(2)
+      },
+      product2: (value, deposit, amount) => {
+        return (amount / (value * deposit * 0.2)).toFixed(2)
+      }
+    },
     func: (val1, val2) => {
       return val1 / val2
     }

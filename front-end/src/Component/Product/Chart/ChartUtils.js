@@ -37,7 +37,7 @@ const generateData = data => {
   return output
 }
 
-const generateSeries = (data, names, xAxis, func) => {
+const generateSeries = (data, names, xAxis, func, openPosition) => {
   let dataProceeded = generateData(data)
   const month = Object.keys(data)[0].slice(-2)
   const contrastMonth = Object.keys(data)[1].slice(-2)
@@ -99,17 +99,17 @@ const generateSeries = (data, names, xAxis, func) => {
       itemStyle: {
         color: 'rgba(0, 0, 0, 0.3)'
       },
-      data: [[
+      data: openPosition ? [[
         {
           name: '开仓区域',
-          yAxis: 0.91,
+          yAxis: openPosition[0],
           xAxis: 'min',
         },
         {
-          yAxis: 1.1,
+          yAxis: openPosition[1],
           xAxis: 'max',
         }
-      ]]
+      ]] : null
     },
     markLine: {
       symbol: 'circle',
@@ -135,87 +135,18 @@ const generateSeries = (data, names, xAxis, func) => {
 
 }
 
-const option = (title, data, names, func) => {
+const option = (title, data, names, func, openPosition) => {
   const xAxis = generateX(data)
-  return {
-    title: {
-      text: title,
-      textStyle: {
-        color: '#fff',
-        fontSize: 24
-      }
-    },
-    backgroundColor: '#21202D',
-    legend: {
-      data: names,
-      inactiveColor: '#777',
-      textStyle: {
-        color: '#fff'
-      },
-      selected: {
-        [names[0]]: false,
-        [names[1]]: false,
-        [names[2]]: true,
-      }
-    },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        animation: true,
-        type: 'cross',
-        lineStyle: {
-          color: '#376df4',
-          width: 2,
-          opacity: 1
-        }
-      }
-    },
-    xAxis: {
-      type: 'category',
-      data: xAxis,
-      axisLine: { lineStyle: { color: '#8392A5' } }
-    },
-    yAxis: {
-      scale: true,
-      axisLine: { lineStyle: { color: '#8392A5' } },
-      splitLine: { show: false }
-    },
-    grid: {
-      bottom: 80
-    },
-    dataZoom: [{
-      textStyle: {
-        color: '#8392A5'
-      },
-      handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-      handleSize: '80%',
-      dataBackground: {
-        areaStyle: {
-          color: '#8392A5'
-        },
-        lineStyle: {
-          opacity: 0.8,
-          color: '#8392A5'
-        }
-      },
-      handleStyle: {
-        color: '#fff',
-        shadowBlur: 3,
-        shadowColor: 'rgba(0, 0, 0, 0.6)',
-        shadowOffsetX: 2,
-        shadowOffsetY: 2
-      },
-      start: 50,
-      end: 100
-    }, {
-      type: 'inside'
-    }],
-    animation: false,
-    series: generateSeries(data, names, xAxis, func)
-  }
+  const option = new OptionFactory(title)
+  return option.series(generateSeries(data, names, xAxis, func))
+    .xAxis(xAxis)
+    .markLine()
+    .markArea(openPosition)
+    .legend(names)
+    .get()
 }
 
-const optionMerge = (title, data, names, func) => {
+const optionMerge = (title, data, names, func, openPosition) => {
   const xAxis = generateX(data)
   let series = []
   const dataKeys = Object.keys(data)
@@ -240,77 +171,13 @@ const optionMerge = (title, data, names, func) => {
   })
   series = temp
 
-  return {
-    title: {
-      text: title,
-      textStyle: {
-        color: '#fff',
-        fontSize: 24
-      }
-    },
-    backgroundColor: '#21202D',
-    legend: {
-      inactiveColor: '#777',
-      textStyle: {
-        color: '#fff'
-      },
-      selected: nameDisplay
-    },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        animation: false,
-        type: 'cross',
-        lineStyle: {
-          color: '#376df4',
-          width: 2,
-          opacity: 1
-        }
-      }
-    },
-    xAxis: {
-      type: 'category',
-      data: xAxis,
-      axisLine: { lineStyle: { color: '#8392A5' } }
-    },
-    yAxis: {
-      scale: true,
-      axisLine: { lineStyle: { color: '#8392A5' } },
-      splitLine: { show: false }
-    },
-    grid: {
-      bottom: 80
-    },
-    dataZoom: [{
-      textStyle: {
-        color: '#8392A5'
-      },
-      handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-      handleSize: '80%',
-      dataBackground: {
-        areaStyle: {
-          color: '#8392A5'
-        },
-        lineStyle: {
-          opacity: 0.8,
-          color: '#8392A5'
-        }
-      },
-      handleStyle: {
-        color: '#fff',
-        shadowBlur: 3,
-        shadowColor: 'rgba(0, 0, 0, 0.6)',
-        shadowOffsetX: 2,
-        shadowOffsetY: 2
-      },
-      start: 50,
-      end: 100
-    }, {
-      type: 'inside'
-    }],
-    animation: false,
-    series: series
-  }
+  const option = new OptionFactory(title)
+  return option.series(series)
+    .xAxis(xAxis)
+    .markLine()
+    .markArea(openPosition)
+    .legend(names)
+    .get()
 }
 
 const liveOption = (title, data) => {
@@ -366,8 +233,195 @@ const liveOption = (title, data) => {
   }
 }
 
+class OptionFactory {
+  constructor (type = 'default', title) {
+    this.type = type
+    this.option = {
+      title: {
+        text: title,
+        textStyle: {
+          color: '#fff',
+          fontSize: 24
+        }
+      },
+      backgroundColor: '#21202D',
+      legend: {
+        data: [],
+        inactiveColor: '#777',
+        textStyle: {
+          color: '#fff'
+        },
+        selected: {}
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          animation: true,
+          type: 'cross',
+          lineStyle: {
+            color: '#376df4',
+            width: 2,
+            opacity: 1
+          }
+        }
+      },
+      xAxis: {
+        type: 'category',
+        data: [],
+        axisLine: { lineStyle: { color: '#8392A5' } }
+      },
+      yAxis: {
+        scale: true,
+        axisLine: { lineStyle: { color: '#8392A5' } },
+        splitLine: { show: false }
+      },
+      grid: {
+        bottom: 80
+      },
+      dataZoom: [{
+        textStyle: {
+          color: '#8392A5'
+        },
+        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+        handleSize: '80%',
+        dataBackground: {
+          areaStyle: {
+            color: '#8392A5'
+          },
+          lineStyle: {
+            opacity: 0.8,
+            color: '#8392A5'
+          }
+        },
+        handleStyle: {
+          color: '#fff',
+          shadowBlur: 3,
+          shadowColor: 'rgba(0, 0, 0, 0.6)',
+          shadowOffsetX: 2,
+          shadowOffsetY: 2
+        },
+        start: 50,
+        end: 100
+      }, {
+        type: 'inside'
+      }],
+      animation: false,
+      series: []
+    }
+  }
+
+  get () {
+    return this.option
+  }
+
+  /**
+   * 设置series
+   * @param series
+   * @return {OptionFactory}
+   */
+  series = series => {
+    if (series.constructor === Array) {
+      series.forEach(item => this.option.series.push(item))
+    } else {
+      this.option.series.push(series)
+    }
+    return this
+  }
+
+  /**
+   * 设置x轴
+   * @param data
+   * @return {OptionFactory}
+   */
+  xAxis = data => {
+    this.option.xAxis.data = data
+    return this
+  }
+
+  /**
+   * 设置选择
+   * @param names
+   * @return {OptionFactory}
+   */
+  legend = (names) => {
+    this.option.legend.data = names
+    this.option.legend.selected = {
+      [names[0]]: false,
+      [names[1]]: false,
+      [names[2]]: true,
+    }
+
+    return this
+  }
+
+  /**
+   * 设置实时数据
+   * @param yAxis
+   * @return {OptionFactory}
+   */
+  markLine = (yAxis = null) => {
+    if (this.option.series.length !== 3) {
+      throw RangeError('先调用series')
+    }
+    if (yAxis === null && this.option.series.length === 3) {
+      yAxis = this.option.series[2].data[this.option.series[2].data.length - 1]
+    }
+    this.option.series[2].markLine = {
+      symbol: 'circle',
+      precision: 5,
+      data: [
+        {
+          name: '最新数据',
+          yAxis: yAxis
+        }
+      ]
+    }
+    return this
+  }
+
+  /**
+   * 设置开仓区域
+   * @param yAxis
+   * @return {OptionFactory}
+   */
+  markArea = yAxis => {
+    if (yAxis.constructor !== Array || yAxis.length !== 2) {
+      throw TypeError('必须传入Array且有2个元素')
+    }
+
+    if (this.option.series.length !== 3 || typeof this.option.series[2].markLine.data[0] === 'undefined') {
+      throw RangeError('先调用series和markLine')
+    }
+
+    this.option.series[2].markLine.data[1] = {
+      name: '中间线',
+      yAxis: (yAxis[0] + yAxis[1]) / 2
+    }
+
+    this.option.series[2].markArea = {
+      itemStyle: {
+        color: 'rgba(0, 0, 0, 0.3)'
+      },
+      data: [[
+        {
+          name: '开仓区域',
+          yAxis: yAxis[0],
+          xAxis: 'min',
+        },
+        {
+          yAxis: yAxis[1],
+          xAxis: 'max',
+        }
+      ]]
+    }
+
+    return this
+  }
+}
+
 export {
   option,
   optionMerge,
+  OptionFactory,
   liveOption
 }

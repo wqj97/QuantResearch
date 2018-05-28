@@ -47,9 +47,18 @@ export const getProductMinuteData = async (code) => {
  * @param cb
  */
 export const liveData = cb => {
-  const ws = new WebSocket('ws://127.0.0.1:5000')
-  ws.onmessage = data => {
-    cb(JSON.parse(data.data))
-  }
-  return ws.close.bind(ws)
+  return new Promise((res, rej) => {
+    {
+      const ws = new WebSocket('ws://127.0.0.1:5000')
+      ws.onmessage = data => {
+        cb(JSON.parse(data.data))
+      }
+      ws.onerror = () => {
+        rej('连接失败')
+      }
+      ws.onopen = () => {
+        res(ws)
+      }
+    }
+  })
 }
