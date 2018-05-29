@@ -234,7 +234,7 @@ const liveOption = (title, data) => {
 }
 
 class OptionFactory {
-  constructor (type = 'default', title) {
+  constructor (title, type='default') {
     this.type = type
     this.option = {
       title: {

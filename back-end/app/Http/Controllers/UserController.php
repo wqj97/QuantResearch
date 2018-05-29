@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -32,9 +33,48 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ])) {
-            return \Auth::user();
+            return \Auth::user()->makeVisible('api_token');
         } else {
             return response()->json('账号或密码错误', 403);
         }
+    }
+
+    /**
+     * 获取产品配置信息
+     * @param Request $request
+     * @return mixed
+     */
+    public function getProductConfig (Request $request)
+    {
+        $this->validate($request, [
+            'code' => 'required'
+        ]);
+        $config = $request->user()->product_config()->where('code', $request->code);
+        if ($config->exists()) {
+            return $config->first();
+        } else {
+            return $config->create([
+                'code' =>$request->code,
+                'config' => [
+                    'deposit' => 8,
+                    'amount' => 100000,
+                    'selfSelected' => true
+                ]
+            ]);
+        }
+    }
+
+    public function setProductConfig (Request $request)
+    {
+        $this->validate($request, [
+            'code' => 'required',
+            'config' => 'required'
+        ]);
+        $config = $request->user()->product_config()->where('code', $request->code);
+        $config->update([
+            'config' => json_encode($request->config)
+        ]);
+        return $config->first();
+
     }
 }

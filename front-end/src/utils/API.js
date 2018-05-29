@@ -1,4 +1,3 @@
-import { liveOption } from "../Component/Product/Chart/ChartUtils";
 import axios from './axios'
 import store from 'store'
 
@@ -29,22 +28,9 @@ export const getProductDayData = async (code) => {
 }
 
 /**
- * 获取产品分钟数据
- * @param {Array<string>} code JSON序列号后的产品代码数组
- * @return {Promise<*>}
- */
-export const getProductMinuteData = async (code) => {
-  const resp = await axios.get('/api/data/minute', {
-    params: {
-      code: JSON.stringify(code)
-    }
-  })
-  return resp.data
-}
-
-/**
- * 连接实时数据
+ * 连接试试数据
  * @param cb
+ * @return {Promise}
  */
 export const liveData = cb => {
   return new Promise((res, rej) => {
@@ -57,8 +43,33 @@ export const liveData = cb => {
         rej('连接失败')
       }
       ws.onopen = () => {
-        res(ws)
+        res(ws.close.bind(ws))
       }
     }
   })
+}
+
+/**
+ * 获取用户当前产品的配置
+ * @param {Array<string>} code
+ * @param {Object} newConfig
+ * @return {Promise<*>}
+ */
+export const syncUserProductConfig = async (code, newConfig = null) => {
+  let resp
+  if (newConfig) {
+    // TODO: 测试
+    resp = await axios.patch('/api/user/productConfig', {
+      config: newConfig,
+      code: JSON.stringify(code)
+    })
+  } else {
+    resp = await axios.get('/api/user/productConfig', {
+      params: {
+        code: JSON.stringify(code)
+      }
+    })
+  }
+
+  return resp.data
 }

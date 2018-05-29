@@ -14,11 +14,16 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['prefix' => 'user'], function () {
-   Route::get('', 'UserController@getUser');
-   Route::post('', 'UserController@login');
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('', 'UserController@getUser'); // 获取用户基础信息
+        Route::get('productConfig', 'UserController@getProductConfig'); // 获取产品配置
+        Route::patch('productConfig', 'UserController@setProductConfig'); // 更新产品配置
+    });
+    Route::post('', 'UserController@login'); // 登录
 });
 
 Route::group(['prefix' => 'data'], function () {
     Route::get('', 'DataController@getDayData');
     Route::get('minute', 'DataController@getMinuteData');
 });
+

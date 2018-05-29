@@ -20,7 +20,6 @@ class CreateUsersTable extends Migration
             $table->string('api_token', 40)->unique();
             $table->string('phone')->nullable()->unique();
             $table->string('head')->default('/default_head.jpg');
-            $table->integer('deposit')->default(100000);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

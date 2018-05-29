@@ -2,9 +2,14 @@ export default [
   {
     name: '自选', child: [
       {
-        name: '建材能源系',
+        name: '跨产品对冲',
         child: [
-          '螺纹/热卷', '螺纹/焦炭'
+          {
+            name: '建材能源系',
+            child: [
+              '螺纹/热卷', '螺纹/焦炭'
+            ]
+          }
         ]
       }
     ]

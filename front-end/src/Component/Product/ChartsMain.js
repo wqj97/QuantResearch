@@ -1,14 +1,14 @@
-import { Badge, Button, Card, Col, InputNumber, Radio, Row } from "antd"
+import { Badge, Button, Card, Col, InputNumber, Radio, Row, Checkbox } from "antd"
 import ReactEcharts from 'echarts-for-react'
 import React from 'react'
-import { getProductDayData, liveData } from '../../utils/API'
+import { getProductDayData, liveData, syncUserProductConfig } from '../../utils/API'
 import { option, optionMerge } from './Chart/ChartUtils'
 
 const CardTitle = props => (
   <div>开仓指导窗口 ( 右侧设置保证金 )
     <InputNumber
       style={{ float: 'right', width: 200 }}
-      value={props.expectedAmount}
+      value={props.amount}
       step={5000}
       min={100000}
       formatter={value => `想做金额 ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -19,9 +19,9 @@ const CardTitle = props => (
       style={{ float: 'right', width: 200 }}
       value={props.deposit}
       step={1}
-      min={0}
-      formatter={value => `保证金 ${value} %`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-      parser={value => value.replace(/保证金\s?|(,*) %/g, '')}
+      min={8}
+      formatter={value => `${props.productName}保证金 ${value} %`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+      parser={value => value.replace(new RegExp(props.productName + '保证金\\s?|(,*).?%', 'g'), '')}
       onChange={props.onDepositChange}
     />
   </div>
@@ -29,9 +29,11 @@ const CardTitle = props => (
 
 const LivingStatus = props => {
   if (props.live) {
-    return (<Badge status="success"  text={'实时数据连接成功'}/>)
+    return (<Badge status="success" text={'实时数据连接成功'} />)
+  } else if (props.live === null) {
+    return (<Badge status="processing" text={'实时数据连接中...'} />)
   } else {
-    return (<Badge status="default"  text={'实时数据连接失败'}/>)
+    return (<Badge status="default" text={'实时数据连接失败'} />)
   }
 }
 
@@ -43,11 +45,15 @@ class ChartsMain extends React.Component {
       option: {},
       live: false,
       code: props.chartsData.code,
-      deposit: props.user.deposit,
-      expectedAmount: 100000,
+      config: {
+        amount: 100000,
+        deposit: 8,
+        selfSelected: false
+      },
       names: [],
       short: false,
-      latestData: {},     // TODO: 优化latestData
+      monthQuery: false,
+      latestData: {},
       loading: true
     }
   }
@@ -62,6 +68,9 @@ class ChartsMain extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    if (this.closews) {
+      this.closews()
+    }
     const { chartsData } = nextProps
     const month = chartsData.month
     const contrastMonth = chartsData.custom || month
@@ -71,7 +80,9 @@ class ChartsMain extends React.Component {
       this.setState({
         code: chartsData.code
       })
+      this.middleLine = (this.props.chartsData.openPosition[0] + this.props.chartsData.openPosition[1]) / 2
     }
+    this.connectLiveData()
   }
 
   // shouldComponentUpdate (nextProps, nextState, nextContext) {
@@ -111,8 +122,9 @@ class ChartsMain extends React.Component {
       chartsTitle = this.symbol.join(' / ')
       monthQuery = this.symbol
     }
-
-    // TODO: option传markArea
+    this.setState({
+      monthQuery: monthQuery
+    })
     getProductDayData(monthQuery).then(data => {
       let option_generated
       if (monthQuery.length === 2) {
@@ -130,6 +142,7 @@ class ChartsMain extends React.Component {
         latestData: latestData,
         loading: false
       })
+      this.syncConfig()
     }).catch(err => {
       console.dir(err)
       this.setState({
@@ -143,6 +156,9 @@ class ChartsMain extends React.Component {
    * @param event
    */
   handleMonthChange = event => {
+    if (this.closews) {
+      this.closews()
+    }
     const { chartsData } = this.props
     const month = chartsData.month
     const contrastMonth = chartsData.custom || month
@@ -158,8 +174,11 @@ class ChartsMain extends React.Component {
     } else {
       queryMonth = [month[eventValue], contrastMonth[eventValue]]
     }
-
+    this.setState({
+      queryMonth: queryMonth
+    })
     this.getAndParseProductData(queryMonth, chartsData)
+    this.connectLiveData()
   }
 
   depositChange = value => {
@@ -169,7 +188,7 @@ class ChartsMain extends React.Component {
   }
   amountChange = value => {
     this.setState({
-      expectedAmount: value
+      amount: value
     })
   }
 
@@ -185,6 +204,9 @@ class ChartsMain extends React.Component {
   }
 
   connectLiveData = () => {
+    this.setState({
+      live: null
+    })
     const latestData = {}
     let flag = false
     let latestDataKeys = Object.keys(latestData)
@@ -201,7 +223,7 @@ class ChartsMain extends React.Component {
           return
         }
       }
-      const contract = latestData[latestDataKeys[0]].close / latestData[latestDataKeys[1]].close
+      const contract = latestData[latestDataKeys[0]] / latestData[latestDataKeys[1]]
       option.series[2].markLine.data[0].yAxis = contract
       this.setState({
         option: option,
@@ -210,7 +232,6 @@ class ChartsMain extends React.Component {
       })
     }).then(ws => {
       this.closews = ws
-      console.log(ws)
       this.setState({
         live: true
       })
@@ -222,7 +243,9 @@ class ChartsMain extends React.Component {
   }
 
   componentWillUnmount () {
-    this.closews()
+    if (this.closews) {
+      this.closews()
+    }
   }
 
 
@@ -236,13 +259,31 @@ class ChartsMain extends React.Component {
     const product2 = this.state.latestData[this.symbol[1]]
 
     return {
-      [this.symbol[0]]: calculateFunc.product1(product1, this.state.deposit, this.state.expectedAmount),
-      [this.symbol[1]]: calculateFunc.product2(product2, this.state.deposit, this.state.expectedAmount)
+      [this.symbol[0]]: calculateFunc.product1(product1, this.state.config.deposit, this.state.config.amount),
+      [this.symbol[1]]: calculateFunc.product2(product2, this.state.config.deposit, this.state.config.amount)
     }
   }
 
+  syncConfig = (data = null) => {
+    if (!this.state.monthQuery) {
+      return
+    }
+    syncUserProductConfig(this.state.monthQuery, data).then(resp => {
+      this.setState({
+        config: resp.config
+      })
+    })
+  }
+
+  toggleSelect = event => {
+    const config = this.state.config
+    config.selfSelected = Boolean(event.target.checked)
+    this.syncConfig(config)
+    this.props.onToggleSelected(event.target.checked)
+  }
+
   render () {
-    const month = this.props.chartsData.month
+    const { month, names } = this.props.chartsData
     const contrastMonth = this.props.chartsData.custom || month
     const calculateResult = this.calculateboardLot()
     return (
@@ -254,8 +295,8 @@ class ChartsMain extends React.Component {
           style={{ width: '100%', height: '50%' }} />
         <Row>
           <Col span={14}>
-            <Card title={this.state.names[2] ? (<span>{this.state.names[2]} <LivingStatus live={this.state.live}/></span>) :
-              (<span>读取中... <LivingStatus live={this.state.live}/></span>)}>
+            <Card title={this.state.names[2] ? (<span>{this.state.names[2]} <LivingStatus live={this.state.live} /></span>) :
+              (<span>读取中... <LivingStatus live={this.state.live} /></span>)}>
               <p>计算公式: 螺纹实时价格 / 热卷实时价格</p>
               <div style={{ margin: '15px 0' }}>
                 选择主力月: <Radio.Group onChange={this.handleMonthChange} defaultValue={0}>
@@ -276,15 +317,20 @@ class ChartsMain extends React.Component {
           </Col>
           <Col span={10}>
             <Card title="操作面板">
-              <Button.Group>
-                <Button type="primary" icon="heart">添加到自选</Button>
-                <Button type="primary" icon="sync" loading={this.state.loading} onClick={this.refreshData}>立即更新数据</Button>
-              </Button.Group>
+              <Row type={'flex'} align={'middle'} justify={'space-around'}>
+                <Checkbox checkedChildren="自选"
+                  unCheckedChildren="非自选"
+                  checked={this.state.config.selfSelected}
+                  onChange={this.toggleSelect}>自选</Checkbox>
+                <Button type="primary" shape="circle" icon="sync" loading={this.state.loading} onClick={this.refreshData} />
+              </Row>
             </Card>
           </Col>
         </Row>
-        <Card title={<CardTitle expectedAmount={this.state.expectedAmount}
-          deposit={this.state.deposit}
+        <Card title={<CardTitle
+          productName={names[0]}
+          amount={this.state.config.amount}
+          deposit={this.state.config.deposit}
           onDepositChange={this.depositChange}
           onAmountChange={this.amountChange} />} style={{ marginTop: 15 }}>
           <p>稳定系数: {this.props.chartsData.stableCoefficient}</p>
