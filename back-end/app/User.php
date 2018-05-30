@@ -28,8 +28,17 @@ class User extends Authenticatable
         'password', 'remember_token', 'api_token'
     ];
 
+    /**
+     * 用户的产品配置
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function product_config ()
     {
         return $this->hasOne('App\ProductConfig');
+    }
+
+    public function self_selected ()
+    {
+        return $this->hasOne('App\ProductConfig')->where('selfSelected', 1);
     }
 }

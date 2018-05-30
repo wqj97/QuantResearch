@@ -47,27 +47,35 @@ class UserController extends Controller
     public function getProductConfig (Request $request)
     {
         $this->validate($request, [
-            'code' => 'required'
+            'code' => 'required',
+            'name' => 'required'
         ]);
         $config = $request->user()->product_config()->where('code', $request->code);
         if ($config->exists()) {
             return $config->first();
         } else {
             return $config->create([
-                'code' =>$request->code,
+                'code' => json_decode($request->code),
+                'name' => $request->name,
                 'config' => [
                     'deposit' => 8,
                     'amount' => 100000,
-                    'selfSelected' => true
+                    'selfSelected' => false
                 ]
             ]);
         }
     }
 
+    /**
+     * 设置配置信息
+     * @param Request $request
+     * @return mixed
+     */
     public function setProductConfig (Request $request)
     {
         $this->validate($request, [
             'code' => 'required',
+            'name' => 'required',
             'config' => 'required'
         ]);
         $config = $request->user()->product_config()->where('code', $request->code);
@@ -75,6 +83,15 @@ class UserController extends Controller
             'config' => json_encode($request->config)
         ]);
         return $config->first();
+    }
 
+    /**
+     * 获取用户的自选
+     * @param Request $request
+     * @return mixed
+     */
+    public function getSelfSelected (Request $request)
+    {
+        return $request->user()->self_selected()->get();
     }
 }

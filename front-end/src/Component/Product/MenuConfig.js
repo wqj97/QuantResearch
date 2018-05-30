@@ -1,17 +1,8 @@
-export default [
+import { remove } from 'lodash'
+
+export const menuList = [
   {
     name: '自选', child: [
-      {
-        name: '跨产品对冲',
-        child: [
-          {
-            name: '建材能源系',
-            child: [
-              '螺纹/热卷', '螺纹/焦炭'
-            ]
-          }
-        ]
-      }
     ]
   },
   {
@@ -39,3 +30,61 @@ export default [
     ]
   }
 ]
+
+export class LinkNode {
+  constructor (parent, child, name) {
+    this.parent = parent
+    this.child = child
+    this.name = name
+  }
+
+  appendChild = child => {
+    this.child.push(child)
+  }
+
+  removeChild = child => {
+    remove(this.child, child)
+  }
+}
+
+export const generateMenuLinkList = menuList => {
+  const rootNode = new LinkNode(null, [], '根菜单')
+
+  const DF = (item, parentNode) => {
+    item.forEach(child => {
+      if (child.child) {
+        const currentNode = new LinkNode(parentNode, [], child.name)
+        parentNode.appendChild(currentNode)
+        DF(child.child, currentNode)
+      } else {
+        parentNode.appendChild(new LinkNode(parentNode, null, child))
+      }
+    })
+  }
+
+  DF(menuList, rootNode)
+
+  return rootNode
+}
+
+/**
+ * 搜索并返回
+ * @param {String} name
+ * @param {LinkNode} linkList
+ */
+export const linkSearch = (name, linkList) => {
+  if (linkList.name === name) {
+    return linkList
+  } else if (linkList.child) {
+    let result = null
+    linkList.child.forEach(child => {
+      let callback = linkSearch(name, child)
+      if (callback) {
+        result = callback
+      }
+    })
+    return result
+  } else {
+    return null
+  }
+}

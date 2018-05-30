@@ -22,6 +22,7 @@ axios.interceptors.request.use(config => {
   config.headers.common['X-Requested-With'] = 'XMLHttpRequest'
   config.headers.common['Authorization'] = 'Bearer ' + user.api_token
   NProgress.start()
+  clearInterval(window.NProgressInc)
   window.NProgressInc = setInterval(() => {
     NProgress.inc()
   }, 500)

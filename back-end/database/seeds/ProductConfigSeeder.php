@@ -13,7 +13,8 @@ class ProductConfigSeeder extends Seeder
     {
         \App\ProductConfig::create([
             'user_id' => 1,
-            'code' => ['rb1901', 'hc1902'],
+            'name' => '螺纹/热卷',
+            'code' => ['rb1901', 'hc1901'],
             'config' => [
                 'selfSelected' => true,
                 'deposit' => 8,

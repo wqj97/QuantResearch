@@ -2,26 +2,30 @@ import { Menu, message } from 'antd'
 import React from 'react'
 import { getConfig } from './Chart/ChartsConfig'
 import ChartsMain from './ChartsMain'
-import menuConfig from './MenuConfig'
+import { menuList, generateMenuLinkList, linkSearch, LinkNode } from './MenuConfig'
+import { getSelfSelectedList } from '../../utils/API'
 import './Product.scss'
 
-const generateMenu = config => {
+const generateMenu = (config, path = []) => {
+  // console.log(config)
   if (config.child) {
-    return (<Menu.SubMenu title={config.name} key={config.name}>{config.child.map(val => generateMenu(val))}</Menu.SubMenu>)
+    return (<Menu.SubMenu title={config.name}
+      key={path.join('/') + config.name}>{config.child.map(val => generateMenu(val, path.concat([config.name])))}</Menu.SubMenu>)
   } else {
-    return (<Menu.Item key={config.name ? config.name : config}>{config.name ? config.name : config}</Menu.Item>)
+    const key = path.join('/') + '/' + (config.name ? config.name : config)
+    return (<Menu.Item key={key}>{config.name ? config.name : config}</Menu.Item>)
   }
 }
 
 const LeftMenu = props => (
   <Menu
-    defaultSelectedKeys={['螺纹/热卷']}
-    defaultOpenKeys={['跨产品对冲', '建材能源系']}
+    defaultSelectedKeys={['跨产品对冲/建材能源系/螺纹/热卷']}
+    defaultOpenKeys={["跨产品对冲", "建材能源系", "跨产品对冲建材能源系"]}
     mode="inline"
     className={'charts-menu'}
     onClick={props.handleClick}
   >
-    {props.menuList.map(val => generateMenu(val))}
+    {props.menuList.child.map(val => generateMenu(val))}
   </Menu>
 )
 
@@ -30,76 +34,46 @@ class Product extends React.Component {
     super(props)
     this.state = {
       chartsData: getConfig('螺纹/热卷'),
-      menuList: menuConfig,
-      keyPath: ["螺纹/热卷", "建材能源系", "跨产品对冲"],
+      menuList: generateMenuLinkList(menuList),
+      keyPath: ["跨产品对冲/建材能源系/螺纹/热卷", "跨产品对冲建材能源系", "跨产品对冲"],
       randomNumber: 5
     }
   }
 
   handleMenuChange = item => {
     try {
-      this.setState({ chartsData: getConfig(item.key), keyPath: item.keyPath })
+      this.setState({ chartsData: getConfig(item.key.split('/').splice(-2).join('/')), keyPath: item.keyPath })
     } catch (e) {
       message.error(e.message)
     }
   }
 
-  handleToggleSelected = (add) => {
+  handleToggleSelected = add => {
     // TODO: 每一个产品应该有一个独立的id, 根据ID进行搜索
-    const DFS = (name, arr, path = []) => {
-      arr.some((item, key) => {
-        if (item.child) {
-          path = DFS(name, item.child, path.concat([key]))
-        } else {
-          if (item === name) {
-            path = path.concat([key])
-            return false
-          }
-        }
-        return true
-      })
-      return path
+    const getProductName = () => {
+      return this.state.keyPath[0].split('/').splice(-2).join('/')
     }
-
-    const [selfSelected, menuList] = this.state.menuList
     if (add) {
-      let selfPath = DFS(this.state.keyPath[0], selfSelected.child)
-      let selfItem
-      selfPath.forEach(path => {
-        if (selfItem) {
-          selfItem = selfItem.child[path]
-        } else {
-          selfItem = selfSelected.child[path]
-        }
-      })
-
-      let path = DFS(this.state.keyPath[0], menuList.child)
-      const copyIndex = path.pop()
-      let item
-      path.forEach(path => {
-        if (item) {
-          item = item.child[path]
-        } else {
-          item = menuList.child[path]
-        }
-      })
-      selfItem.child.push(item.child[copyIndex])
-      this.forceUpdate()
+      const linkNode = linkSearch(getProductName(), this.state.menuList.child[1])
+      const linkCopy = new LinkNode(this.state.menuList.child[0], null, linkNode.name)
+      this.state.menuList.child[0].appendChild(linkCopy)
     } else {
-      let path = DFS(this.state.keyPath[0], selfSelected.child)
-      if (!path) return
-      const removeIndex = path.pop()
-      let item
-      path.forEach(path => {
-        if (item) {
-          item = item.child[path]
-        } else {
-          item = selfSelected.child[path]
-        }
-      })
-      item.child.splice(removeIndex, removeIndex + 1)
-      this.forceUpdate()
+      const linkNode = linkSearch(getProductName(), this.state.menuList.child[0])
+      if (linkNode) {
+        linkNode.parent.removeChild(linkNode)
+      }
     }
+    this.forceUpdate()
+  }
+
+  componentDidMount () {
+    getSelfSelectedList().then(list => {
+      list.forEach(node => {
+        const linkNode = new LinkNode(this.state.menuList.child[0], null, node.name)
+        this.state.menuList.child[0].appendChild(linkNode)
+      })
+      this.forceUpdate()
+    })
   }
 
 

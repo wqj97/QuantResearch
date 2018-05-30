@@ -9,7 +9,7 @@ class ProductConfig extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'user_id', 'code', 'config'
+        'user_id', 'code', 'config', 'name'
     ];
     protected $casts = [
         'code' => 'json', 'config' => 'json'

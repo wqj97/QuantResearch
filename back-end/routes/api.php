@@ -18,6 +18,7 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('', 'UserController@getUser'); // 获取用户基础信息
         Route::get('productConfig', 'UserController@getProductConfig'); // 获取产品配置
         Route::patch('productConfig', 'UserController@setProductConfig'); // 更新产品配置
+        Route::get('selfSelected', 'UserController@getSelfSelected'); // 获取自选列表
     });
     Route::post('', 'UserController@login'); // 登录
 });

@@ -17,9 +17,12 @@ class CreateProductConfigsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('code');
-            $table->index('code');
-            $table->string('config', 1000);
+            $table->string('name')->index();
+            $table->string('code')->index();
+            $table->json('config');
+            $table->boolean('selfSelected')->virtualAs('config->"$.selfSelected"');
+            $table->unsignedInteger('deposit')->virtualAs('config->"$.deposit"');
+            $table->unsignedInteger('amount')->virtualAs('config->"$.amount"');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -50,6 +50,7 @@ class ChartsMain extends React.Component {
         deposit: 8,
         selfSelected: false
       },
+      name: `${props.chartsData.names[0]}/${props.chartsData.names[1]}`,
       names: [],
       short: false,
       monthQuery: false,
@@ -78,19 +79,17 @@ class ChartsMain extends React.Component {
     if (chartsData.code !== this.state.code) {
       this.getAndParseProductData([month[0], contrastMonth[0]], chartsData)
       this.setState({
-        code: chartsData.code
+        code: chartsData.code,
+        name: `${chartsData.names[0]}/${chartsData.names[1]}`,
       })
       this.middleLine = (this.props.chartsData.openPosition[0] + this.props.chartsData.openPosition[1]) / 2
     }
     this.connectLiveData()
   }
 
-  // shouldComponentUpdate (nextProps, nextState, nextContext) {
-  //   if (nextProps.chartsData.code === this.state.code){
-  //     return false
-  //   }
-  //   return true
-  // }
+  shouldComponentUpdate (nextProps, nextState, nextContext) {
+    return Boolean(nextState.config)
+  }
 
 
   /**
@@ -181,17 +180,30 @@ class ChartsMain extends React.Component {
     this.connectLiveData()
   }
 
+  /**
+   * 保证金设置
+   * @param value
+   */
   depositChange = value => {
     this.setState({
       deposit: value
     })
   }
+
+  /**
+   * 想做金额设置
+   * @param value
+   */
   amountChange = value => {
     this.setState({
       amount: value
     })
   }
 
+  /**
+   * 手动刷新数据
+   * TODO: 还需要完善后端
+   */
   refreshData = () => {
     const { chartsData } = this.props
     const month = chartsData.month
@@ -203,6 +215,9 @@ class ChartsMain extends React.Component {
     })
   }
 
+  /**
+   * 连接实时数据
+   */
   connectLiveData = () => {
     this.setState({
       live: null
@@ -252,12 +267,16 @@ class ChartsMain extends React.Component {
   changeCharts = event => {
   }
 
+  /**
+   * 计算交易手
+   * @return {*}
+   */
   calculateboardLot = () => {
     const { calculateFunc } = this.props.chartsData
     if (this.symbol[0] === '' || this.state.latestData[this.symbol[0]] === undefined) return {}
     const product1 = this.state.latestData[this.symbol[0]]
     const product2 = this.state.latestData[this.symbol[1]]
-
+    if (!this.state.config) return
     return {
       [this.symbol[0]]: calculateFunc.product1(product1, this.state.config.deposit, this.state.config.amount),
       [this.symbol[1]]: calculateFunc.product2(product2, this.state.config.deposit, this.state.config.amount)
@@ -268,7 +287,7 @@ class ChartsMain extends React.Component {
     if (!this.state.monthQuery) {
       return
     }
-    syncUserProductConfig(this.state.monthQuery, data).then(resp => {
+    syncUserProductConfig(this.state.monthQuery, this.state.name, data).then(resp => {
       this.setState({
         config: resp.config
       })

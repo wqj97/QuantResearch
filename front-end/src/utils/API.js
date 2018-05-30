@@ -52,24 +52,36 @@ export const liveData = cb => {
 /**
  * 获取用户当前产品的配置
  * @param {Array<string>} code
+ * @param name
  * @param {Object} newConfig
  * @return {Promise<*>}
  */
-export const syncUserProductConfig = async (code, newConfig = null) => {
+export const syncUserProductConfig = async (code, name, newConfig = null) => {
   let resp
   if (newConfig) {
     // TODO: 测试
     resp = await axios.patch('/api/user/productConfig', {
       config: newConfig,
+      name: name,
       code: JSON.stringify(code)
     })
   } else {
     resp = await axios.get('/api/user/productConfig', {
       params: {
-        code: JSON.stringify(code)
+        code: JSON.stringify(code),
+        name: name
       }
     })
   }
 
+  return resp.data
+}
+
+/**
+ * 获取用户自选列表
+ * @return {Promise<*>}
+ */
+export const getSelfSelectedList = async () => {
+  const resp = await axios.get('/api/user/selfSelected')
   return resp.data
 }
