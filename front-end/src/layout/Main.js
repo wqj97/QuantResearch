@@ -7,6 +7,7 @@ import Home from '../Component/Home/Home'
 import Login from '../Component/Login/Login'
 import Product from '../Component/Product/Product'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import User from "../Component/User/User"
 
 const Routes = props => {
   return (
@@ -24,6 +25,8 @@ const Routes = props => {
               render={() => <Login {...props} />} />
             <Route path={'/product'}
               render={() => <Product {...props} />} />
+            <Route path={'/user'}
+              render={() => <User {...props} />} />
           </Switch>
         </CSSTransition>
       </TransitionGroup>
@@ -46,7 +49,7 @@ class Main extends React.Component {
   render () {
     return (
       <div className={'Main'} style={{
-        paddingTop: 48,
+        paddingTop: 47,
         position: 'relative',
         height: '100vh',
       }}>

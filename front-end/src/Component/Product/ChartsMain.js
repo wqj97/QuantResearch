@@ -83,8 +83,8 @@ class ChartsMain extends React.Component {
         name: `${chartsData.names[0]}/${chartsData.names[1]}`,
       })
       this.middleLine = (this.props.chartsData.openPosition[0] + this.props.chartsData.openPosition[1]) / 2
+      this.connectLiveData()
     }
-    this.connectLiveData()
   }
 
   shouldComponentUpdate (nextProps, nextState, nextContext) {
@@ -129,7 +129,7 @@ class ChartsMain extends React.Component {
       if (monthQuery.length === 2) {
         option_generated = option(chartsTitle, data, names, func, openPosition)
       } else {
-        option_generated = optionMerge(chartsTitle, data, names, func, openPosition)
+        option_generated = optionMerge(chartsTitle, data, names, func)
       }
       const latestData = {
         [monthQuery[0]]: option_generated.series[0].data[option_generated.series[0].data.length - 1].toFixed(2),
@@ -284,7 +284,7 @@ class ChartsMain extends React.Component {
   }
 
   syncConfig = (data = null) => {
-    if (!this.state.monthQuery) {
+    if (!this.state.monthQuery || this.state.monthQuery.length !== 2) {
       return
     }
     syncUserProductConfig(this.state.monthQuery, this.state.name, data).then(resp => {
@@ -309,9 +309,9 @@ class ChartsMain extends React.Component {
       <div style={{ width: '100%', height: '100%' }}>
         <ReactEcharts className="ChartsMain"
           onChartReady={this.connectLiveData}
-          notMerge={false}
+          notMerge={true}
           option={this.state.option}
-          style={{ width: '100%', height: '50%' }} />
+          style={{ width: '100%', height: '75%' }} />
         <Row>
           <Col span={14}>
             <Card title={this.state.names[2] ? (<span>{this.state.names[2]} <LivingStatus live={this.state.live} /></span>) :
@@ -346,32 +346,34 @@ class ChartsMain extends React.Component {
             </Card>
           </Col>
         </Row>
-        <Card title={<CardTitle
-          productName={names[0]}
-          amount={this.state.config.amount}
-          deposit={this.state.config.deposit}
-          onDepositChange={this.depositChange}
-          onAmountChange={this.amountChange} />} style={{ marginTop: 15 }}>
-          <p>稳定系数: {this.props.chartsData.stableCoefficient}</p>
-          <div>
-          </div>
-          <Row style={{ marginTop: 15 }}>
-            <Col span={12}>
-              <Card title={this.props.chartsData.names[0]}>
-                <p>方向: {!this.state.short ? '做多' : '做空'}</p>
-                <p>实时: {this.state.latestData[this.symbol[0]]}</p>
-                <p>数量: {calculateResult[this.symbol[0]]} 手</p>
-              </Card>
-            </Col>
-            <Col span={12}>
-              <Card title={this.props.chartsData.names[1]}>
-                <p>方向: {this.state.short ? '做多' : '做空'}</p>
-                <p>实时: {this.state.latestData[this.symbol[1]]}</p>
-                <p>数量: {calculateResult[this.symbol[1]]} 手</p>
-              </Card>
-            </Col>
-          </Row>
-        </Card>
+        {this.state.monthQuery.length === 2 ? (
+          <Card title={<CardTitle
+            productName={names[0]}
+            amount={this.state.config.amount}
+            deposit={this.state.config.deposit}
+            onDepositChange={this.depositChange}
+            onAmountChange={this.amountChange} />} style={{ marginTop: 15 }}>
+            <p>稳定系数: {this.props.chartsData.stableCoefficient}</p>
+            <div>
+            </div>
+            <Row style={{ marginTop: 15 }}>
+              <Col span={12}>
+                <Card title={this.props.chartsData.names[0]}>
+                  <p>方向: {!this.state.short ? '做多' : '做空'}</p>
+                  <p>实时: {this.state.latestData[this.symbol[0]]}</p>
+                  <p>数量: {calculateResult[this.symbol[0]]} 手</p>
+                </Card>
+              </Col>
+              <Col span={12}>
+                <Card title={this.props.chartsData.names[1]}>
+                  <p>方向: {this.state.short ? '做多' : '做空'}</p>
+                  <p>实时: {this.state.latestData[this.symbol[1]]}</p>
+                  <p>数量: {calculateResult[this.symbol[1]]} 手</p>
+                </Card>
+              </Col>
+            </Row>
+          </Card>
+        ) : ''}
       </div>
     )
   }

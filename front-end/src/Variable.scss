@@ -5,3 +5,9 @@
   justify-content: center;
   align-items: center;
 }
+
+@mixin clark-box-shadow {
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.10);
+}
+
+$primary-color: #39628D;

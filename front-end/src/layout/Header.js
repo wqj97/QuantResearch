@@ -1,7 +1,9 @@
 import { Col, Dropdown, Icon, Menu, Row } from "antd"
+import PropTypes from 'prop-types'
 import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import './Header.scss'
+
 
 class UserDropDown extends React.Component {
   static propTypes = {
@@ -12,6 +14,9 @@ class UserDropDown extends React.Component {
   handleClick = e => {
     if (e.key === 'logout') {
       this.props.logout()
+    } else if (e.key === 'user') {
+      this.props.changeKey({ current: 'skip' })
+      this.props.history.push('/user')
     }
   }
 
@@ -20,7 +25,7 @@ class UserDropDown extends React.Component {
     if (user && user.name) {
       const menu = (
         <Menu style={{ width: 250 }} onClick={this.handleClick}>
-          <Menu.Item>
+          <Menu.Item key={'user'}>
             <Row type={'flex'} align={'middle'}>
               <Col span={10}>
                 <img src={user.head} style={{ width: '100%', borderRadius: '100%' }} alt={'头像'} />
@@ -103,7 +108,7 @@ class Header extends React.Component {
             <Icon type="area-chart" />量化产品
           </Menu.Item>
           <Menu.Item key="/suggest">
-            <Icon type="hdd" />咨询
+            <Icon type="hdd" />资讯
           </Menu.Item>
           <Menu.Item key="/school">
             <Icon type="hdd" />学院
@@ -112,7 +117,7 @@ class Header extends React.Component {
             <Icon type="hdd" />社区
           </Menu.Item>
           <Menu.Item key={user ? 'skip' : '/login'} style={{ float: 'right', width: 120, textAlign: 'center' }}>
-            <UserDropDown logout={this.handleLogout} user={user} />
+            <UserDropDown history={this.props.history} changeKey={this.setState.bind(this)} logout={this.handleLogout} user={user} />
           </Menu.Item>
         </Menu>
       </div>

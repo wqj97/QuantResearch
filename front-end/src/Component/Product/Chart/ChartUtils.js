@@ -146,13 +146,12 @@ const option = (title, data, names, func, openPosition) => {
     .get()
 }
 
-const optionMerge = (title, data, names, func, openPosition) => {
+const optionMerge = (title, data, names, func) => {
   const xAxis = generateX(data)
   let series = []
   const dataKeys = Object.keys(data)
 
   const nameDisplay = {}
-
   for (let i = 0; i < dataKeys.length; i += 2) {
     let dataObj = {
       [dataKeys[i]]: data[dataKeys[i]],
@@ -170,13 +169,10 @@ const optionMerge = (title, data, names, func, openPosition) => {
     val.forEach(data => temp.push(data))
   })
   series = temp
-
   const option = new OptionFactory(title)
   return option.series(series)
     .xAxis(xAxis)
-    .markLine()
-    .markArea(openPosition)
-    .legend(names)
+    .legend(nameDisplay)
     .get()
 }
 
@@ -234,7 +230,7 @@ const liveOption = (title, data) => {
 }
 
 class OptionFactory {
-  constructor (title, type='default') {
+  constructor (title, type = 'default') {
     this.type = type
     this.option = {
       title: {
@@ -344,11 +340,16 @@ class OptionFactory {
    * @return {OptionFactory}
    */
   legend = (names) => {
-    this.option.legend.data = names
-    this.option.legend.selected = {
-      [names[0]]: false,
-      [names[1]]: false,
-      [names[2]]: true,
+    if (names.length) {
+      this.option.legend.data = names
+      this.option.legend.selected = {
+        [names[0]]: false,
+        [names[1]]: false,
+        [names[2]]: true,
+      }
+    } else {
+      this.option.legend.data = Object.keys(names)
+      this.option.legend.selected = names
     }
 
     return this
@@ -360,7 +361,7 @@ class OptionFactory {
    * @return {OptionFactory}
    */
   markLine = (yAxis = null) => {
-    if (this.option.series.length !== 3) {
+    if (this.option.series.length < 3) {
       throw RangeError('先调用series')
     }
     if (yAxis === null && this.option.series.length === 3) {
@@ -389,7 +390,7 @@ class OptionFactory {
       throw TypeError('必须传入Array且有2个元素')
     }
 
-    if (this.option.series.length !== 3 || typeof this.option.series[2].markLine.data[0] === 'undefined') {
+    if (this.option.series.length < 3 || typeof this.option.series[2].markLine.data[0] === 'undefined') {
       throw RangeError('先调用series和markLine')
     }
 

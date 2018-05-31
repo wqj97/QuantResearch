@@ -1,0 +1,13 @@
+.Header{
+  .ant-menu{
+    background: #354069;
+    border-bottom: none;
+  }
+  .ant-menu-item-selected, .ant-menu-item:hover{
+    border-bottom:2px solid  #E71A3F;
+    color: #fff!important;
+  }
+  .ant-menu-item{
+    color: #ADC2D9;
+  }
+}

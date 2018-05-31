@@ -18,5 +18,13 @@ class UsersTableSeeder extends Seeder
             'phone' => '13347320707',
             'name' => '万千钧'
         ]);
+
+        \App\User::create([
+            'email' => '1@1.com',
+            'password' => bcrypt('1'),
+            'api_token' => str_random(40),
+            'phone' => '1',
+            'name' => '1'
+        ]);
     }
 }

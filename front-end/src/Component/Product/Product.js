@@ -5,6 +5,7 @@ import ChartsMain from './ChartsMain'
 import { menuList, generateMenuLinkList, linkSearch, LinkNode } from './MenuConfig'
 import { getSelfSelectedList } from '../../utils/API'
 import './Product.scss'
+import { withRouter } from 'react-router-dom'
 
 const generateMenu = (config, path = []) => {
   // console.log(config)
@@ -69,7 +70,7 @@ class Product extends React.Component {
   componentDidMount () {
     getSelfSelectedList().then(list => {
       list.forEach(node => {
-        const linkNode = new LinkNode(this.state.menuList.child[0], null, node.name)
+        const linkNode = new LinkNode(this.state.menuList.child[0], null, `${node.name} ( ${node.code.join('/')} )`)
         this.state.menuList.child[0].appendChild(linkNode)
       })
       this.forceUpdate()
@@ -91,4 +92,4 @@ class Product extends React.Component {
   }
 }
 
-export default Product
+export default withRouter(Product)

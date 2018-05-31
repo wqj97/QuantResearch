@@ -2,6 +2,7 @@ html, body {
   width: 100%;
   height: 100%;
 }
+
 .fade-enter {
   opacity: 0;
   position: absolute;
@@ -28,4 +29,14 @@ html, body {
 .fade-exit.fade-exit-active {
   opacity: 0 !important;
   transition: opacity .5s ease;
+}
+
+.ant-btn-primary {
+  background: $primary-color !important;
+  border-color: $primary-color !important;
+}
+
+::selection {
+  background: $primary-color !important;
+  color: #fff;
 }

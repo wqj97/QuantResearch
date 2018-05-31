@@ -12,11 +12,18 @@
       border-radius: 3px;
     }
     &::-webkit-scrollbar-thumb {
-      background: #2E95F8;
+      background: $primary-color;
     }
   }
   .charts-main {
     width: 100%;
     flex: 1;
+  }
+  .ant-menu-item-selected{
+    color: $primary-color;
+    background: #f8f8f8 !important;
+    &:after{
+      border-right:  none;
+    }
   }
 }

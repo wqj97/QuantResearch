@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Store from 'store'
 import NProgress from 'nprogress'
-import {message} from 'antd'
+import { message } from 'antd'
 
 axios.default.timeout = 3000
 
@@ -40,9 +40,14 @@ axios.interceptors.response.use(data => {
 }, error => {
   clearInterval(window.NProgressInc)
   NProgress.done()
-  console.dir(error)
-  message.error(`网络请求出现错误 (${error.response.status} ${error.response.statusText}), 请稍后再试`)
+  message.error(`网络请求出现错误 (${error.response.status} ${errors[error.response.status] || error.response.statusText}), 请稍后再试`)
   return Promise.reject(error)
 })
+
+const errors = {
+  401: '权限不足, 你没有使用该功能的权限, 或请登录后重试',
+  404: '你请求的功能不存在',
+  500: '服务器内部错误, 请联系客服'
+}
 
 export default axios
