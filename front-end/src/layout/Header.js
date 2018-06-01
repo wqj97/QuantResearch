@@ -74,7 +74,7 @@ class Header extends React.Component {
   }
 
   handleClick = e => {
-    if (e.key === 'skip') return
+    if (e.key === 'skip' || e.key === 'logo') return
     this.setState({
       current: e.key,
     })
@@ -102,7 +102,7 @@ class Header extends React.Component {
           mode="horizontal"
         >
           <Menu.Item key="/home">
-            <Icon type="home" />首页
+            <img src={require('../assets/logo-reverse.svg')} width={30} style={{ marginRight: 15 }} alt={'量研云'}/>量研云
           </Menu.Item>
           <Menu.Item key="/product">
             <Icon type="area-chart" />量化产品

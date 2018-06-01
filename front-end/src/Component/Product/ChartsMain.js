@@ -3,6 +3,7 @@ import ReactEcharts from 'echarts-for-react'
 import React from 'react'
 import { getProductDayData, liveData, syncUserProductConfig } from '../../utils/API'
 import { option, optionMerge } from './Chart/ChartUtils'
+import { debounce } from 'lodash'
 
 const CardTitle = props => (
   <div>开仓指导窗口 ( 右侧设置保证金 )
@@ -57,6 +58,7 @@ class ChartsMain extends React.Component {
       latestData: {},
       loading: true
     }
+    this.syncConfigDebonced = debounce(this.syncConfig, 1000)
   }
 
   componentDidMount () {
@@ -185,9 +187,12 @@ class ChartsMain extends React.Component {
    * @param value
    */
   depositChange = value => {
+    const config = this.state.config
+    config.deposit = value
     this.setState({
-      deposit: value
+      config: config
     })
+    this.syncConfigDebonced(config)
   }
 
   /**
@@ -195,9 +200,12 @@ class ChartsMain extends React.Component {
    * @param value
    */
   amountChange = value => {
+    const config = this.state.config
+    config.amount = value
     this.setState({
-      amount: value
+      config: config
     })
+    this.syncConfigDebonced(config)
   }
 
   /**
@@ -329,7 +337,6 @@ class ChartsMain extends React.Component {
                 选择数据类型:
                 <Radio.Group onChange={this.changeCharts} defaultValue={0}>
                   <Radio.Button value={0}>日线</Radio.Button>
-                  <Radio.Button value={1}>分钟线</Radio.Button>
                 </Radio.Group>
               </div>
             </Card>

@@ -1,0 +1,15 @@
+.Building {
+  height: calc(100vh - 47px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  font-size: 24px;
+  font-weight: bold;
+  color: $primary-color;
+  img{
+    width: 60%;
+    margin-top: 50px;
+  }
+}

@@ -2,12 +2,15 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
 import PropTypes from 'prop-types'
+import Building from "../Component/Building/Building";
 
 import Home from '../Component/Home/Home'
 import Login from '../Component/Login/Login'
 import Product from '../Component/Product/Product'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import User from "../Component/User/User"
+
+import './Main.scss'
 
 const Routes = props => {
   return (
@@ -27,6 +30,7 @@ const Routes = props => {
               render={() => <Product {...props} />} />
             <Route path={'/user'}
               render={() => <User {...props} />} />
+            <Route component={Building} />
           </Switch>
         </CSSTransition>
       </TransitionGroup>
@@ -51,7 +55,7 @@ class Main extends React.Component {
       <div className={'Main'} style={{
         paddingTop: 47,
         position: 'relative',
-        height: '100vh',
+        height: '100vh'
       }}>
         <Routes {...this.props} />
       </div>

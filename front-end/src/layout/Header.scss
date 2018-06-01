@@ -1,13 +1,16 @@
-.Header{
-  .ant-menu{
+.Header {
+  .ant-menu {
     background: #354069;
-    border-bottom: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
   }
-  .ant-menu-item-selected, .ant-menu-item:hover{
-    border-bottom:2px solid  #E71A3F;
-    color: #fff!important;
+  .ant-menu-item-selected, .ant-menu-item:hover {
+    border-bottom: 2px solid #E71A3F;
+    color: #fff !important;
   }
-  .ant-menu-item{
+  .ant-menu-item {
     color: #ADC2D9;
+    a{
+      color: #fff
+    }
   }
 }

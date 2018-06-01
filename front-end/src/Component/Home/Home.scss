@@ -2,54 +2,54 @@
   overflow-x: hidden;
   .ant-carousel .slick-slide {
     @include clark-flex-center;
-    background: #364d79;
-    height: 500px;
+    background: linear-gradient(to bottom, #354069, $primary-color, $primary-color *1.05);
+    height: 60vh;
     overflow: hidden;
     h1, h3 {
       color: #fff;
       text-align: center;
     }
   }
-  .block {
-    height: 500px;
-    width: 100%;
-    overflow: hidden;
-  }
+  //.block {
+  //  height: 500px;
+  //  width: 100%;
+  //  overflow: hidden;
+  //}
 
-  .block-1 {
-    @extend .block;
-    background: linear-gradient(90deg, #0042ff, #00a2ff);
-    background-size: 400% 400%;
-    animation: Home-Animated-Background 30s ease;
-    align-items: center;
-    color: #fff;
-    & > div {
-      height: calc(100% / 3);
-      display: flex;
-      align-items: center;
-    }
-    & > div > div {
-      width: 100%;
-    }
-    & > div > div > div {
-      @include clark-flex-center;
-      font-size: 30px;
-      height: 50px;
-      width: 33.33333%;
-      float: left;
-    }
-    & i {
-      font-size: 50px;
-      color: #fff;
-    }
-  }
-
-  .block-2 {
-    @extend .block-1;
-    background: linear-gradient(90deg, #ff4724, #ff0070);
-    animation: Home-Animated-Background 30s ease;
-
-  }
+  //.block-1 {
+  //  @extend .block;
+  //  background: linear-gradient(90deg, #0042ff, #00a2ff);
+  //  background-size: 400% 400%;
+  //  animation: Home-Animated-Background 30s ease;
+  //  align-items: center;
+  //  color: #fff;
+  //  & > div {
+  //    height: calc(100% / 3);
+  //    display: flex;
+  //    align-items: center;
+  //  }
+  //  & > div > div {
+  //    width: 100%;
+  //  }
+  //  & > div > div > div {
+  //    @include clark-flex-center;
+  //    font-size: 30px;
+  //    height: 50px;
+  //    width: 33.33333%;
+  //    float: left;
+  //  }
+  //  & i {
+  //    font-size: 50px;
+  //    color: #fff;
+  //  }
+  //}
+  //
+  //.block-2 {
+  //  @extend .block-1;
+  //  background: linear-gradient(90deg, #ff4724, #ff0070);
+  //  animation: Home-Animated-Background 30s ease;
+  //
+  //}
 
   @keyframes Home-Animated-Background {
     0% {
@@ -60,6 +60,163 @@
     }
     100% {
       background-position: 0% 50%
+    }
+  }
+  .slick-slide {
+    & > div {
+      width: 100%;
+    }
+  }
+  .home-banner {
+    text-align: center;
+    width: 100%;
+    p {
+      text-align: left;
+      &:first-child {
+        font-size: 36px;
+        font-weight: bold;
+      }
+      font-size: 24px;
+      color: #fff;
+    }
+    img {
+      margin: 0 auto;
+      width: 50%;
+    }
+  }
+  .banner-menu {
+    text-align: center;
+    background: $primary-color *1.05;
+    border-top: 1px solid rgba(255, 255, 255, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+    transition: .3s ease;
+    &:hover {
+      background: $primary-color / 1.1;
+    }
+    //margin-top: -1px;
+    .banner-menu-item {
+      padding: 20px 0;
+      cursor: pointer;
+      box-sizing: content-box;
+      border-left: 1px solid rgba(255, 255, 255, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      transition: all .3s ease;
+      &:hover {
+        background: $primary-color / 1.5;
+      }
+      .banner-menu-title {
+        color: #fff;
+        font-size: 18px;
+        flex: 1;
+      }
+      .banner-menu-icon {
+        flex: 1;
+        img {
+          width: 70px;
+        }
+      }
+    }
+    .ant-col-6:first-child {
+      .banner-menu-item {
+        border-left: none;
+      }
+    }
+  }
+  .pricing-block {
+    height: 600px;
+    background: url("../../assets/price_back.jpg") center no-repeat;
+    background-size: cover;
+    .ant-col-6 {
+      height: 70%;
+      .price-title {
+        background: #EEEFF3;
+      }
+      .price-pay {
+        background: #4FC685;
+      }
+    }
+    .ant-col-8 {
+      position: relative;
+      z-index: 9;
+      height: 80%;
+      .price-box {
+        background: #222327;
+        color: #fff;
+      }
+      .price-title {
+        border-bottom: 1px solid #535356;
+        margin: 0 40px;
+      }
+      .price-pay {
+        background: #2A65E2;
+      }
+    }
+    .price-box {
+      @include clark-box-shadow;
+      background: #fff;
+      height: 100%;
+      text-align: center;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      margin: 0 -10px;
+    }
+    .price-title {
+      line-height: 80px;
+      font-weight: bold;
+      font-size: 24px;
+    }
+    .price-content {
+      margin: 20px 0;
+      font-size: 18px;
+    }
+    .price-pay {
+      @include clark-box-shadow;
+      position: absolute;
+      color: #fff;
+      font-weight: bold;
+      bottom: 30px;
+      width: 50%;
+      left: 25%;
+      line-height: 50px;
+      text-align: center;
+      font-size: 24px;
+      cursor: pointer;
+      border-radius: 30px;
+      .del-price {
+        display: inline-block;
+        white-space: nowrap;
+        font-size: 14px;
+        width: 40px;
+        margin-right: 20px;
+        color: #8f8f8f;
+        text-decoration-line: line-through;
+      }
+    }
+  }
+  .description {
+    height: 70vh;
+    background: url("../../assets/lyquant-back.jpg") no-repeat center;
+    background-size: cover;
+    .description-left {
+      overflow: hidden;
+      padding: 0 0 15px 15px;
+      height: 100%;
+      display: flex;
+      justify-content: flex-end;
+      flex-flow: wrap column;
+      color: #fff;
+      .description-title {
+        font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+        font-size: 40px;
+        font-weight: bold;
+        margin: 20px 0;
+      }
+      .description-subtitle {
+        font-size: 20px;
+      }
     }
   }
 }

@@ -1,5 +1,24 @@
+import GlobalFooter from 'ant-design-pro/lib/GlobalFooter'
+import { Icon } from 'antd'
 import React from 'react'
-import { Row, Col } from 'antd'
+
+const links = [{
+  key: '帮助',
+  title: '帮助',
+  href: '',
+}, {
+  key: '联系方式',
+  title: '联系方式',
+  href: '',
+  blankTarget: true,
+}, {
+  key: '条款',
+  title: '条款',
+  href: '',
+  blankTarget: true,
+}]
+
+const copyright = <div><p>打造国内专业的个人投资者群体</p><p>Copyright <Icon type="copyright" /> 2018 天津量研科技</p></div>
 
 class Footer extends React.Component {
   constructor (props) {
@@ -9,19 +28,7 @@ class Footer extends React.Component {
 
   render () {
     return (
-      <Row className="Footer" style={{
-        background: '#364d79',
-        height: 400,
-        color: '#fff',
-        fontSize: 40
-      }}>
-        <Col span={12} style={Styles.flexCenter}>
-          天津工大量研科技
-        </Col>
-        <Col span={12} style={Styles.flexCenter}>
-          联系方式XXXX
-        </Col>
-      </Row>
+      <GlobalFooter links={links} copyright={copyright} />
     )
   }
 }

@@ -1,4 +1,4 @@
-import { Col, Row, Tag, message } from 'antd'
+import { Col, message, Row, Tag } from 'antd'
 import React from 'react'
 import { getSelfSelectedList, syncUserProductConfig } from '../../utils/API'
 import './User.scss'
@@ -36,7 +36,7 @@ class User extends React.Component {
                   <div>{this.props.user.email}</div>
                 </div>
                 <div className="user-avata">
-                  <img src={this.props.user.head} />
+                  <img src={this.props.user.head} alt={'头像'}/>
                 </div>
                 <div className="head-background">
                   {/*<img src={this.props.user.head} />*/}

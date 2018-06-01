@@ -42,8 +42,9 @@ class Product extends React.Component {
   }
 
   handleMenuChange = item => {
+    let productKey = item.key.replace(/\s+\(.*\)/g, '')
     try {
-      this.setState({ chartsData: getConfig(item.key.split('/').splice(-2).join('/')), keyPath: item.keyPath })
+      this.setState({ chartsData: getConfig(productKey.split('/').splice(-2).join('/')), keyPath: item.keyPath })
     } catch (e) {
       message.error(e.message)
     }
@@ -70,7 +71,7 @@ class Product extends React.Component {
   componentDidMount () {
     getSelfSelectedList().then(list => {
       list.forEach(node => {
-        const linkNode = new LinkNode(this.state.menuList.child[0], null, `${node.name} ( ${node.code.join('/')} )`)
+        const linkNode = new LinkNode(this.state.menuList.child[0], null, `${node.name} ( ${node.code.join(' ')} )`)
         this.state.menuList.child[0].appendChild(linkNode)
       })
       this.forceUpdate()
