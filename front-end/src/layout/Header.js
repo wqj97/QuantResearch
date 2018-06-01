@@ -16,7 +16,7 @@ class UserDropDown extends React.Component {
       this.props.logout()
     } else if (e.key === 'user') {
       this.props.changeKey({ current: 'skip' })
-      this.props.history.push('/user')
+      this.props.history.push('/public/user')
     }
   }
 
@@ -53,7 +53,7 @@ class UserDropDown extends React.Component {
       )
     } else {
       return (
-        <Link to={'/login'}>登录</Link>
+        <Link to={'/public/login'}>登录</Link>
       )
     }
   }
@@ -69,7 +69,7 @@ class Header extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      current: '/home'
+      current: '/public'
     }
   }
 
@@ -83,7 +83,7 @@ class Header extends React.Component {
 
   handleLogout = () => {
     this.props.handleLogout()
-    this.props.history.push('/login')
+    this.props.history.push('/public/login')
   }
 
   render () {
@@ -101,22 +101,22 @@ class Header extends React.Component {
           selectedKeys={[this.state.current]}
           mode="horizontal"
         >
-          <Menu.Item key="/home">
+          <Menu.Item key="/public">
             <img src={require('../assets/logo-reverse.svg')} width={30} style={{ marginRight: 15 }} alt={'量研云'}/>量研云
           </Menu.Item>
-          <Menu.Item key="/product">
+          <Menu.Item key="/public/product">
             <Icon type="area-chart" />量化产品
           </Menu.Item>
-          <Menu.Item key="/suggest">
+          <Menu.Item key="/public/suggest">
             <Icon type="hdd" />资讯
           </Menu.Item>
-          <Menu.Item key="/school">
+          <Menu.Item key="/public/school">
             <Icon type="hdd" />学院
           </Menu.Item>
-          <Menu.Item key="/social">
+          <Menu.Item key="/public/social">
             <Icon type="hdd" />社区
           </Menu.Item>
-          <Menu.Item key={user ? 'skip' : '/login'} style={{ float: 'right', width: 120, textAlign: 'center' }}>
+          <Menu.Item key={user ? 'skip' : '/public/login'} style={{ float: 'right', width: 120, textAlign: 'center' }}>
             <UserDropDown history={this.props.history} changeKey={this.setState.bind(this)} logout={this.handleLogout} user={user} />
           </Menu.Item>
         </Menu>

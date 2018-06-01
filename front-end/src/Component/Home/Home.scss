@@ -197,15 +197,20 @@
     }
   }
   .description {
-    height: 70vh;
+    height: 60vh;
+    margin-top: -1px;
     background: url("../../assets/lyquant-back.jpg") no-repeat center;
     background-size: cover;
+    overflow: hidden;
+    .ant-row {
+      height: 100%;
+    }
     .description-left {
       overflow: hidden;
-      padding: 0 0 15px 15px;
+      padding-left: 5%;
       height: 100%;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       flex-flow: wrap column;
       color: #fff;
       .description-title {
@@ -216,6 +221,23 @@
       }
       .description-subtitle {
         font-size: 20px;
+      }
+    }
+    .description-right {
+      height: 100%;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.4);
+      .description-point {
+        cursor: pointer;
+        height: calc(100% / 7);
+        @include clark-flex-center;
+        font-size: 18px;
+        border-bottom: 1px solid #4c4c4c;
+        transition: .3s ease;
+        &:hover {
+          height: calc(100% / 5);
+        }
       }
     }
   }

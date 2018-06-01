@@ -17,6 +17,7 @@ class DataController extends Controller
         $this->validate($request, [
             'code' => 'required|json'
         ]);
+        define('FUCK_CZC', ["PM", "FG", "WH", "CF", "SR", "OI", "TA", "RI", "LR", "MA", "RS", "RM", "TC", "ZC", "JR", "SF", "SM"]);
         return \Cache::remember("data_$request->code", 1440, function () use ($request) {
             $output = new \stdClass();
             $codes = json_decode($request->code);
@@ -27,6 +28,13 @@ class DataController extends Controller
                 $month = substr($code, -2, 2);
                 $result = [];
                 for ($i = 14; $i <= (int)$year; $i++) {
+                    if (in_array($type, FUCK_CZC)) {
+                        $hack_i = $i % 10;
+                        foreach ($db->collection('day_data')->where('symbol', "{$type}{$hack_i}{$month}")->get(['date', 'symbol', 'close']) as $data) {
+                            $result[] = $data;
+                        }
+                        continue;
+                    }
                     foreach ($db->collection('day_data')->where('symbol', "{$type}{$i}{$month}")->get(['date', 'symbol', 'close']) as $data) {
                         $result[] = $data;
                     }

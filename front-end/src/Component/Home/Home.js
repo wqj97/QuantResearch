@@ -159,13 +159,35 @@ class Home extends React.Component {
           </Col>
         </Row>
         <div className="description">
-          <div className="description-left">
-            <div className={'description-title'}>打造国内专业的个人投资者群体</div>
-            <div className={'description-subtitle'}>一站式量化研究平台</div>
-          </div>
-          <div className="description-right">
-
-          </div>
+          <Row>
+            <Col span={17} className="description-left">
+              <div className={'description-title'}>打造国内专业的个人投资者群体</div>
+              <div className={'description-subtitle'}>一站式量化研究平台</div>
+            </Col>
+            <Col span={7} className={'description-right'}>
+              <div className="description-point">
+                支持四所期货品种
+              </div>
+              <div className="description-point">
+                一站式量化研究平台
+              </div>
+              <div className="description-point">
+                量化知识库
+              </div>
+              <div className="description-point">
+                基于云的投研平台
+              </div>
+              <div className="description-point">
+                交易模型私人订制
+              </div>
+              <div className="description-point">
+                组织投资者教育
+              </div>
+              <div className="description-point">
+                实盘心得
+              </div>
+            </Col>
+          </Row>
         </div>
         <Row type={'flex'} justify={'center'} align={'middle'} className={'pricing-block'}>
           <Col span={6}>
