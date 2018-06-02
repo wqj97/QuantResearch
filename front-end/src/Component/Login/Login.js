@@ -22,7 +22,7 @@ class Login extends React.Component {
       if (!err) {
         login(values).then(data => {
           this.props.handleLogin(data)
-          this.props.history.push('/home')
+          this.props.history.push('/public')
         })
       }
     })
@@ -64,7 +64,7 @@ class Login extends React.Component {
           </Form.Item>
           <Button type="primary" htmlType="submit">登录</Button>
           <div className="sign-in">
-            没有账号? <a href="/sign">注册</a>
+            没有账号? <a href="/public/sign">注册</a>
           </div>
         </Form>
       </div>

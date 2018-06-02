@@ -200,6 +200,15 @@ const products = {
     calculateFunc: commonCalculateAlgorithm,
     func: periodFunc
   },
+  '棕榈油/菜籽油': {
+    stableCoefficient: 56,
+    code: ['p', 'RM'],
+    names: ['棕榈油', '菜籽油', '棕榈油 / 菜籽油'],
+    month: ['1901', '1905', '1809'],
+    openPosition: [0.78, 0.9],
+    calculateFunc: commonCalculateAlgorithm,
+    func: periodFunc
+  },
   '鸡蛋/菜籽粕': {
     stableCoefficient: 25,
     code: ['jd', 'RM'],
@@ -236,6 +245,123 @@ const products = {
     calculateFunc: commonCalculateAlgorithm,
     func: periodFunc
   },
+  '甲醇/动力煤': {
+    stableCoefficient: 4,
+    code: ['MA', 'ZC'],
+    names: ['甲醇', '动力煤', '甲醇 / 动力煤'],
+    month: ['1901', '1905', '1809'],
+    openPosition: [4.05, 5.5],
+    calculateFunc: commonCalculateAlgorithm,
+    func: periodFunc
+  },
+  '塑料/PTA': {
+    stableCoefficient: 30,
+    code: ['I', 'TA'],
+    names: ['塑料', 'PTA', '塑料 / PTA'],
+    month: ['1901', '1905', '1809'],
+    openPosition: [4.05, 5.5],
+    calculateFunc: commonCalculateAlgorithm,
+    func: periodFunc
+  },
+  '甲醇/塑料': {
+    stableCoefficient: 111,
+    code: ['MA', 'I'],
+    names: ['甲醇', '塑料', '甲醇 / 塑料'],
+    month: ['1901', '1905', '1809'],
+    openPosition: [0.26, 0.3],
+    calculateFunc: commonCalculateAlgorithm,
+    func: periodFunc
+  },
+  '甲醇/聚丙烯': {
+    stableCoefficient: 143,
+    code: ['MA', 'PP'],
+    names: ['甲醇', '聚丙烯', '甲醇 / 聚丙烯'],
+    month: ['1901', '1905', '1809'],
+    openPosition: [0.28, 0.32],
+    calculateFunc: commonCalculateAlgorithm,
+    func: periodFunc
+  },
+  '甲醇/PTA': {
+    stableCoefficient: 30,
+    code: ['MA', 'TA'],
+    names: ['甲醇', 'PTA', '甲醇 / PTA'],
+    month: ['1901', '1905', '1809'],
+    openPosition: [0.43, 0.53],
+    calculateFunc: commonCalculateAlgorithm,
+    func: periodFunc
+  },
+  '甲醇/聚氯乙烯': {
+    stableCoefficient: 59,
+    code: ['MA', 'v'],
+    names: ['甲醇', '聚氯乙烯', '甲醇 / 聚氯乙烯'],
+    month: ['1901', '1905', '1809'],
+    openPosition: [0.35, 0.45],
+    calculateFunc: commonCalculateAlgorithm,
+    func: periodFunc
+  },
+  '甲醇/焦煤': {
+    stableCoefficient: 9,
+    code: ['MA', 'jm'],
+    names: ['甲醇', '焦煤', '甲醇 / 焦煤'],
+    month: ['1901', '1905', '1809'],
+    openPosition: [2, 2.5],
+    calculateFunc: commonCalculateAlgorithm,
+    func: periodFunc
+  },
+  '甲醇/焦碳': {
+    stableCoefficient: 9,
+    code: ['MA', 'j'],
+    names: ['甲醇', '焦煤', '甲醇 / 焦煤'],
+    month: ['1901', '1905', '1809'],
+    openPosition: [1.29, 2],
+    calculateFunc: commonCalculateAlgorithm,
+    func: periodFunc
+  },
+  '塑料/聚丙烯': {
+    stableCoefficient: 59,
+    code: ['I', 'pp'],
+    names: ['甲醇', '聚丙烯', '甲醇 / 聚丙烯'],
+    month: ['1901', '1905', '1809'],
+    openPosition: [1, 1.2],
+    calculateFunc: commonCalculateAlgorithm,
+    func: periodFunc
+  },
+  '塑料/聚氯乙烯': {
+    stableCoefficient: 0,
+    code: ['I', 'v'],
+    names: ['甲醇', '聚氯乙烯', '甲醇 / 聚氯乙烯'],
+    month: ['1901', '1905', '1809'],
+    openPosition: [1.4, 1.6],
+    calculateFunc: commonCalculateAlgorithm,
+    func: periodFunc
+  },
+  'PTA/聚丙烯': {
+    stableCoefficient: 53,
+    code: ['TA', 'pp'],
+    names: ['PTA', '聚丙烯', 'PTA / 聚丙烯'],
+    month: ['1901', '1905', '1809'],
+    openPosition: [0.55, 0.7],
+    calculateFunc: commonCalculateAlgorithm,
+    func: periodFunc
+  },
+  '聚氯乙烯/聚丙烯': {
+    stableCoefficient: 45,
+    code: ['v', 'pp'],
+    names: ['聚氯乙烯', '聚丙烯', '聚氯乙烯 / 聚丙烯'],
+    month: ['1901', '1905', '1809'],
+    openPosition: [0.7, 0.85],
+    calculateFunc: commonCalculateAlgorithm,
+    func: periodFunc
+  },
+  '聚氯乙烯/PTA': {
+    stableCoefficient: 30,
+    code: ['v', 'TA'],
+    names: ['聚氯乙烯', '聚丙烯', '聚氯乙烯 / 聚丙烯'],
+    month: ['1901', '1905', '1809'],
+    openPosition: [1.1, 1.3],
+    calculateFunc: commonCalculateAlgorithm,
+    func: periodFunc
+  }
 }
 
 
