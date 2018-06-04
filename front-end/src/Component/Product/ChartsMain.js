@@ -280,11 +280,11 @@ class ChartsMain extends React.Component {
    * @return {*}
    */
   calculateboardLot = () => {
+    if (!this.state.config) return
     const { calculateFunc } = this.props.chartsData
     if (this.symbol[0] === '' || this.state.latestData[this.symbol[0]] === undefined) return {}
     const product1 = this.state.latestData[this.symbol[0]]
     const product2 = this.state.latestData[this.symbol[1]]
-    if (!this.state.config) return
     return {
       [this.symbol[0]]: calculateFunc.product1(product1, this.state.config.deposit, this.state.config.amount),
       [this.symbol[1]]: calculateFunc.product2(product2, this.state.config.deposit, this.state.config.amount)
