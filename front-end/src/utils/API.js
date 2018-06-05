@@ -36,7 +36,7 @@ export const getProductDayData = async (code) => {
 export const liveData = (cb, code) => {
   return new Promise((res, rej) => {
     {
-      const ws = new WebSocket('ws://180.76.53.63:5000?code=' + JSON.stringify(code))
+      const ws = new WebSocket('wss://data.lyquant.com:8888?code=' + JSON.stringify(code))
       ws.onmessage = data => {
         cb(JSON.parse(data.data))
       }
