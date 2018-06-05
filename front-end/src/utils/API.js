@@ -30,19 +30,23 @@ export const getProductDayData = async (code) => {
 /**
  * 连接试试数据
  * @param cb
+ * @param code
  * @return {Promise}
  */
-export const liveData = cb => {
+export const liveData = (cb, code) => {
   return new Promise((res, rej) => {
     {
-      const ws = new WebSocket('ws://127.0.0.1:5000')
+      const ws = new WebSocket('ws://180.76.53.63:5000?code=' + JSON.stringify(code))
       ws.onmessage = data => {
         cb(JSON.parse(data.data))
       }
-      ws.onerror = () => {
+      ws.onerror = event => {
+        console.log(event)
         rej('连接失败')
       }
-      ws.onopen = () => {
+      ws.onclose = console.log
+      ws.onopen = event => {
+        console.log(event)
         res(ws.close.bind(ws))
       }
     }

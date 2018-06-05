@@ -71,9 +71,6 @@ class ChartsMain extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.closews) {
-      this.closews()
-    }
     const { chartsData } = nextProps
     const month = chartsData.month
     const contrastMonth = chartsData.custom || month
@@ -85,6 +82,9 @@ class ChartsMain extends React.Component {
         name: `${chartsData.names[0]}/${chartsData.names[1]}`,
       })
       this.middleLine = (this.props.chartsData.openPosition[0] + this.props.chartsData.openPosition[1]) / 2
+      if (this.closews) {
+        this.closews()
+      }
       this.connectLiveData()
     }
   }
@@ -179,7 +179,7 @@ class ChartsMain extends React.Component {
       queryMonth: queryMonth
     })
     this.getAndParseProductData(queryMonth, chartsData)
-    this.connectLiveData()
+    this.connectLiveData(queryMonth)
   }
 
   /**
@@ -230,6 +230,9 @@ class ChartsMain extends React.Component {
     this.setState({
       live: null
     })
+    const { chartsData } = this.props
+    const month = chartsData.month
+
     const latestData = {}
     let flag = false
     let latestDataKeys = Object.keys(latestData)
@@ -237,7 +240,7 @@ class ChartsMain extends React.Component {
       const option = this.state.option
       if (!option.series) return
 
-      latestData[data.symbol] = data.close.toFixed(2)
+      latestData[data.symbol] = ((data.high + data.low) / 2).toFixed(2)
       if (!flag) {
         latestDataKeys = Object.keys(latestData)
         if (latestDataKeys.length === 2) {
@@ -253,7 +256,7 @@ class ChartsMain extends React.Component {
         short: contract > this.middleLine,
         latestData: latestData
       })
-    }).then(ws => {
+    }, chartsData.code.map((symbol, key) => symbol + month[key])).then(ws => {
       this.closews = ws
       this.setState({
         live: true
@@ -324,7 +327,7 @@ class ChartsMain extends React.Component {
           <Col span={14}>
             <Card title={this.state.names[2] ? (<span>{this.state.names[2]} <LivingStatus live={this.state.live} /></span>) :
               (<span>读取中... <LivingStatus live={this.state.live} /></span>)}>
-              <p>计算公式: 螺纹实时价格 / 热卷实时价格</p>
+              <p>计算公式: {this.state.names[0]}实时价格 / {this.state.names[1]}实时价格</p>
               <div style={{ margin: '15px 0' }}>
                 选择主力月: <Radio.Group onChange={this.handleMonthChange} defaultValue={0}>
                 <Radio.Button value={0}>{month[0]} / {contrastMonth[0]}</Radio.Button>

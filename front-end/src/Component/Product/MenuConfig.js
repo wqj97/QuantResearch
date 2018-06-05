@@ -2,8 +2,7 @@ import { remove } from 'lodash'
 
 export const menuList = [
   {
-    name: '自选', child: [
-    ]
+    name: '自选', child: []
   },
   {
     name: '跨产品对冲',
