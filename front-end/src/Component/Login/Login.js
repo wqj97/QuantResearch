@@ -2,7 +2,7 @@ import { Button, Form, Icon, Input } from "antd"
 import React from 'react'
 import { Login as login } from '../../utils/API'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 import './Login.scss'
 
@@ -22,7 +22,7 @@ class Login extends React.Component {
       if (!err) {
         login(values).then(data => {
           this.props.handleLogin(data)
-          this.props.history.push('/public')
+          this.props.history.push('/')
         })
       }
     })
@@ -64,7 +64,7 @@ class Login extends React.Component {
           </Form.Item>
           <Button type="primary" htmlType="submit">登录</Button>
           <div className="sign-in">
-            没有账号? <a href="/public/sign">注册</a>
+            没有账号? <Link to="/sign">注册</Link>
           </div>
         </Form>
       </div>

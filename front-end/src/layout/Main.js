@@ -22,13 +22,13 @@ const Routes = props => {
           timeout={500}
         >
           <Switch className="Main" location={location}>
-            <Route path={'/public'} exact
+            <Route path={'/'} exact
               component={Home} />
-            <Route path={'/public/login'}
+            <Route path={'/login'} exact
               render={() => <Login {...props} />} />
-            <Route path={'/public/product'}
+            <Route path={'/product'} exact
               render={() => <Product {...props} />} />
-            <Route path={'/public/user'}
+            <Route path={'/user'} exact
               render={() => <User {...props} />} />
             <Route component={Building} />
           </Switch>

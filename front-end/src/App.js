@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { hot } from 'react-hot-loader'
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 
 import Store from 'store'
 
@@ -31,12 +31,12 @@ class App extends Component {
 
   render () {
     return (
-      <BrowserRouter>
+      <HashRouter>
         <div className='App'>
           <Header handleLogout={this.handleLogout} user={this.state.user} />
           <Main user={this.state.user} handleLogin={this.handleLogin} />
         </div>
-      </BrowserRouter>
+      </HashRouter>
     )
   }
 }

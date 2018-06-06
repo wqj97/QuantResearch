@@ -144,6 +144,7 @@ class ChartsMain extends React.Component {
         loading: false
       })
       this.syncConfig()
+      this.connectLiveData()
     }).catch(err => {
       console.dir(err)
       this.setState({
@@ -157,9 +158,6 @@ class ChartsMain extends React.Component {
    * @param event
    */
   handleMonthChange = event => {
-    if (this.closews) {
-      this.closews()
-    }
     const { chartsData } = this.props
     const month = chartsData.month
     const contrastMonth = chartsData.custom || month
@@ -179,7 +177,6 @@ class ChartsMain extends React.Component {
       queryMonth: queryMonth
     })
     this.getAndParseProductData(queryMonth, chartsData)
-    this.connectLiveData()
   }
 
   /**
@@ -227,10 +224,12 @@ class ChartsMain extends React.Component {
    * 连接实时数据
    */
   connectLiveData = () => {
+    if (this.closews) {
+      this.closews()
+    }
     this.setState({
       live: null
     })
-    this.forceUpdate()
     const latestData = {}
     let flag = false
     let latestDataKeys = Object.keys(latestData)
@@ -238,13 +237,11 @@ class ChartsMain extends React.Component {
       const option = this.state.option
       if (!option.series) return
 
-      latestData[data.symbol] = ((data.high + data.low) / 2).toFixed(2)
+      latestData[data.symbol] = data.open.toFixed(2)
       if (!flag) {
         latestDataKeys = Object.keys(latestData)
         if (latestDataKeys.length === 2) {
           flag = true
-        } else {
-          return
         }
       }
       const contract = latestData[latestDataKeys[0]] / latestData[latestDataKeys[1]]
@@ -254,7 +251,7 @@ class ChartsMain extends React.Component {
         short: contract > this.middleLine,
         latestData: latestData
       })
-    }, this.state.queryMonth).then(ws => {
+    }, this.state.monthQuery).then(ws => {
       this.closews = ws
       this.setState({
         live: true
@@ -317,7 +314,6 @@ class ChartsMain extends React.Component {
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <ReactEcharts className="ChartsMain"
-          onChartReady={this.connectLiveData}
           notMerge={true}
           option={this.state.option}
           style={{ width: '100%', height: '75%' }} />

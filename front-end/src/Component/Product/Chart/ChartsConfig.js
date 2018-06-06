@@ -1,3 +1,5 @@
+import { getProductConfig } from '../../../utils/API'
+
 /**
  * 计算公式工厂函数
  * @param {Number} unit1 产品1单位
@@ -20,15 +22,15 @@ const periodFunc = (val1, val2) => {
 }
 
 const products = {
-  '螺纹/热卷': {
-    stableCoefficient: 64,
-    code: ['rb', 'hc'],
-    names: ['螺纹', '热卷', '螺纹 / 热卷'],
-    month: ['1901', '1905', '1810'],
-    openPosition: [0.91, 1.1],
-    calculateFunc: commonCalculateAlgorithm(10, 10),
-    func: periodFunc
-  },
+  // '螺纹/热卷': {
+  //   stableCoefficient: 64,
+  //   code: ['rb', 'hc'],
+  //   names: ['螺纹', '热卷', '螺纹 / 热卷'],
+  //   month: ['1901', '1905', '1810'],
+  //   openPosition: [0.91, 1.1],
+  //   calculateFunc: commonCalculateAlgorithm(10, 10),
+  //   func: periodFunc
+  // },
   '螺纹/焦炭': {
     stableCoefficient: 14,
     code: ['rb', 'j'],
@@ -372,11 +374,17 @@ const products = {
   }
 }
 
-
-export const getConfig = productName => {
+/**
+ * 获取产品数据
+ * @param productName
+ * @return {Promise<*>}
+ */
+export const getConfig = async productName => {
   if (products[productName]) {
     return products[productName]
   } else {
-    throw new RangeError('这个产品不存在')
+    return await getProductConfig(productName).then(data => {
+      return data
+    })
   }
 }

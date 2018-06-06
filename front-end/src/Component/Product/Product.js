@@ -34,11 +34,16 @@ class Product extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      chartsData: getConfig('螺纹/热卷'),
+      chartsData: null,
       menuList: generateMenuLinkList(menuList),
       keyPath: ["跨产品对冲/建材能源系/螺纹/热卷", "跨产品对冲建材能源系", "跨产品对冲"],
       randomNumber: 5
     }
+    getConfig('螺纹/热卷').then(data => {
+      this.setState({
+        chartsData: data
+      })
+    })
   }
 
   handleMenuChange = item => {

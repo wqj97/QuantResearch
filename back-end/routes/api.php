@@ -28,3 +28,6 @@ Route::group(['prefix' => 'data'], function () {
     Route::get('minute', 'DataController@getMinuteData');
 });
 
+Route::group(['prefix' => 'product'], function () {
+    Route::get('', 'ProductController@getProductConfig');
+});

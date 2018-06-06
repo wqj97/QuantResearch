@@ -89,3 +89,17 @@ export const getSelfSelectedList = async () => {
   const resp = await axios.get('/api/user/selfSelected')
   return resp.data
 }
+
+/**
+ * 获取产品的配置信息
+ * @param names
+ * @return {Promise<*>}
+ */
+export const getProductConfig = async names => {
+  const resp = await axios.get('/api/product', {
+    params: {
+      names: names
+    }
+  })
+  return resp.data
+}
