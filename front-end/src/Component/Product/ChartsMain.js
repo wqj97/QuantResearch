@@ -179,7 +179,7 @@ class ChartsMain extends React.Component {
       queryMonth: queryMonth
     })
     this.getAndParseProductData(queryMonth, chartsData)
-    this.connectLiveData(queryMonth)
+    this.connectLiveData()
   }
 
   /**
@@ -230,9 +230,7 @@ class ChartsMain extends React.Component {
     this.setState({
       live: null
     })
-    const { chartsData } = this.props
-    const month = chartsData.month
-
+    this.forceUpdate()
     const latestData = {}
     let flag = false
     let latestDataKeys = Object.keys(latestData)
@@ -256,7 +254,7 @@ class ChartsMain extends React.Component {
         short: contract > this.middleLine,
         latestData: latestData
       })
-    }, chartsData.code.map((symbol, key) => symbol + month[key])).then(ws => {
+    }, this.state.queryMonth).then(ws => {
       this.closews = ws
       this.setState({
         live: true

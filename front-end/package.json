@@ -123,5 +123,5 @@
     "extends": "react-app"
   },
   "homepage": "/public/",
-  "proxy": "http://localhost"
+  "proxy": "https://www.lyquant.com"
 }
