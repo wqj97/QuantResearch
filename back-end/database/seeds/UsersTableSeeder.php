@@ -20,11 +20,23 @@ class UsersTableSeeder extends Seeder
         ]);
 
         \App\User::create([
-            'email' => '1@1.com',
-            'password' => bcrypt('1'),
+            'email' => '634686592@qq.com',
+            'password' => bcrypt('‭13803067615'),
             'api_token' => str_random(40),
-            'phone' => '1',
-            'name' => '1'
+            'phone' => '‭13803067615',
+            'name' => '高万贤'
         ]);
+
+        \App\User::create([
+            'email' => '905361093@qq.com',
+            'password' => bcrypt('13116120620'),
+            'api_token' => str_random(40),
+            'phone' => '13116120620',
+            'name' => '孙光浩'
+        ]);
+
+        \App\User::find(1)->roles()->attach([1, 2]);
+        \App\User::find(2)->roles()->attach([1, 2]);
+        \App\User::find(3)->roles()->attach([1, 2]);
     }
 }

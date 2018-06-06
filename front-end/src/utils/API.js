@@ -16,12 +16,14 @@ export const Login = async (data) => {
 /**
  * 获取产品日数据
  * @param {Array<string>} code JSON序列号后的产品代码数组
+ * @param refresh 是否强制刷新数据
  * @return {Promise<*>}
  */
-export const getProductDayData = async (code) => {
+export const getProductDayData = async (code, refresh) => {
   const resp = await axios.get('/api/data', {
     params: {
-      code: JSON.stringify(code)
+      code: JSON.stringify(code),
+      refresh: refresh
     }
   })
   return resp.data
@@ -101,5 +103,14 @@ export const getProductConfig = async names => {
       names: names
     }
   })
+  return resp.data
+}
+
+/**
+ * 获取所有已经有的产品配置
+ * @return {Promise<*>}
+ */
+export const getProductConfigList = async () => {
+  const resp = await axios.get('/api/product/list')
   return resp.data
 }

@@ -1,16 +1,27 @@
+import PropTypes from 'prop-types'
 import React from 'react'
+import Loadable from 'react-loadable'
 import { Route, Switch } from 'react-router-dom'
 
-import PropTypes from 'prop-types'
-import Building from "../Component/Building/Building";
-
-import Home from '../Component/Home/Home'
-import Login from '../Component/Login/Login'
-import Product from '../Component/Product/Product'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import Building from "../Component/Building/Building";
+import Home from '../Component/Home/Home'
+import Laoding from '../Component/Loading'
+import Login from '../Component/Login/Login'
 import User from "../Component/User/User"
 
+
 import './Main.scss'
+
+const Product = Loadable({
+  loader: () => import('../Component/Product/Product'),
+  loading: Laoding,
+})
+
+const Setting = Loadable({
+  loader: () => import('../Component/Setting/Setting'),
+  loading: Laoding,
+})
 
 const Routes = props => {
   return (
@@ -30,6 +41,8 @@ const Routes = props => {
               render={() => <Product {...props} />} />
             <Route path={'/user'} exact
               render={() => <User {...props} />} />
+            <Route path={'/setting'} exact
+              render={() => <Setting {...props} />} />
             <Route component={Building} />
           </Switch>
         </CSSTransition>

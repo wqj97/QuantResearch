@@ -24,10 +24,10 @@ Route::group(['prefix' => 'user'], function () {
 });
 
 Route::group(['prefix' => 'data'], function () {
-    Route::get('', 'DataController@getDayData');
-    Route::get('minute', 'DataController@getMinuteData');
+    Route::get('', 'DataController@getDayData'); // 获取日线数据
 });
 
 Route::group(['prefix' => 'product'], function () {
-    Route::get('', 'ProductController@getProductConfig');
+    Route::get('', 'ProductController@getProductConfig'); // 获取产品配置
+    Route::get('list', 'ProductController@getProductConfigList'); // 获取产品配置列表
 });

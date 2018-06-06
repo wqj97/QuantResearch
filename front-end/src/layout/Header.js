@@ -69,7 +69,7 @@ class Header extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      current: '/'
+      current: props.history.location.pathname
     }
   }
 
@@ -118,6 +118,9 @@ class Header extends React.Component {
           </Menu.Item>
           <Menu.Item key={user ? 'skip' : '/login'} style={{ float: 'right', width: 120, textAlign: 'center' }}>
             <UserDropDown history={this.props.history} changeKey={this.setState.bind(this)} logout={this.handleLogout} user={user} />
+          </Menu.Item>
+          <Menu.Item key="/setting" style={{ float: 'right' }}>
+            <Icon type="setting" />管理
           </Menu.Item>
         </Menu>
       </div>

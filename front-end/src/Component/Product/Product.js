@@ -56,7 +56,6 @@ class Product extends React.Component {
   }
 
   handleToggleSelected = add => {
-    // TODO: 每一个产品应该有一个独立的id, 根据ID进行搜索
     const getProductName = () => {
       return this.state.keyPath[0].split('/').splice(-2).join('/')
     }
@@ -88,11 +87,13 @@ class Product extends React.Component {
     return (
       <div className="Product">
         <LeftMenu menuList={this.state.menuList} handleClick={this.handleMenuChange} count={this.state.randomNumber} />
-        <ChartsMain
-          onToggleSelected={this.handleToggleSelected}
-          user={this.props.user}
-          chartsData={this.state.chartsData}
-          className={'charts-main'} />
+        {this.state.chartsData ? (
+          <ChartsMain
+            onToggleSelected={this.handleToggleSelected}
+            user={this.props.user}
+            chartsData={this.state.chartsData}
+            className={'charts-main'} />
+        ) : null}
       </div>
     )
   }

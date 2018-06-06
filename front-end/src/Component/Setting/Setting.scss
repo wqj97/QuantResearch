@@ -1,0 +1,40 @@
+.Setting {
+  & > div {
+    width: 400px;
+    min-height: 200px;
+    margin: 15px;
+    border-radius: 3px;
+    float: left;
+  }
+  .new-button {
+    width: 100%;
+    height: 200px;
+  }
+  .product-wrap {
+    border: 1px solid #eee;
+    margin: 15px;
+    position: relative;
+    .product-content{
+      padding: 15px 10px 40px;
+    }
+    .product-head {
+      text-align: center;
+      line-height: 40px;
+      border-bottom: 1px solid #eee;
+    }
+    .product-button {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      .ant-btn-group {
+        width: 100%;
+        button {
+          width: 50%;
+        }
+      }
+    }
+    .product-update-time{
+      text-align: center;
+    }
+  }
+}

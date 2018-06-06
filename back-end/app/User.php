@@ -28,6 +28,10 @@ class User extends Authenticatable
         'password', 'remember_token', 'api_token'
     ];
 
+    protected $with = [
+        'roles'
+    ];
+
     /**
      * 用户的产品配置
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -40,5 +44,10 @@ class User extends Authenticatable
     public function self_selected ()
     {
         return $this->hasOne('App\ProductConfig')->where('selfSelected', 1);
+    }
+
+    public function roles ()
+    {
+        return $this->belongsToMany('App\Role');
     }
 }

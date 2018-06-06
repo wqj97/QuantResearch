@@ -63,8 +63,8 @@ class ChartsMain extends React.Component {
 
   componentDidMount () {
     const { chartsData } = this.props
-    const month = chartsData.month
-    const contrastMonth = chartsData.custom || month
+    const month = chartsData.product1_month
+    const contrastMonth = chartsData.product2_month
 
     this.getAndParseProductData([month[0], contrastMonth[0]], chartsData)
     this.middleLine = (this.props.chartsData.openPosition[0] + this.props.chartsData.openPosition[1]) / 2
@@ -72,8 +72,8 @@ class ChartsMain extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     const { chartsData } = nextProps
-    const month = chartsData.month
-    const contrastMonth = chartsData.custom || month
+    const month = chartsData.product1_month
+    const contrastMonth = chartsData.product2_month
 
     if (chartsData.code !== this.state.code) {
       this.getAndParseProductData([month[0], contrastMonth[0]], chartsData)
@@ -98,8 +98,9 @@ class ChartsMain extends React.Component {
    * 获取产品数据
    * @param {Array<string>} month 月份
    * @param {Object} chartsData 传入的产品参数
+   * @param {Boolean} refresh 刷新
    */
-  getAndParseProductData = (month, chartsData) => {
+  getAndParseProductData = (month, chartsData, refresh = null) => {
     // 当需要三线合一的时候, 月份不为2个
     this.setState({
       loading: true,
@@ -126,7 +127,7 @@ class ChartsMain extends React.Component {
     this.setState({
       monthQuery: monthQuery
     })
-    getProductDayData(monthQuery).then(data => {
+    getProductDayData(monthQuery, refresh).then(data => {
       let option_generated
       if (monthQuery.length === 2) {
         option_generated = option(chartsTitle, data, names, func, openPosition)
@@ -159,8 +160,8 @@ class ChartsMain extends React.Component {
    */
   handleMonthChange = event => {
     const { chartsData } = this.props
-    const month = chartsData.month
-    const contrastMonth = chartsData.custom || month
+    const month = chartsData.product1_month
+    const contrastMonth = chartsData.product2_month
     const eventValue = event.target.value
 
     // 当需要获取综合数据的时候的操作
@@ -211,13 +212,10 @@ class ChartsMain extends React.Component {
    */
   refreshData = () => {
     const { chartsData } = this.props
-    const month = chartsData.month
-    const contrastMonth = chartsData.custom || month
+    const month = chartsData.product1_month
+    const contrastMonth = chartsData.product2_month
 
-    this.getAndParseProductData([month[0], contrastMonth[0]], chartsData)
-    this.setState({
-      code: chartsData.code
-    })
+    this.getAndParseProductData([month[0], contrastMonth[0]], chartsData, true)
   }
 
   /**
@@ -230,21 +228,21 @@ class ChartsMain extends React.Component {
     this.setState({
       live: null
     })
-    const latestData = {}
+    const latestData = this.state.latestData
     let flag = false
     let latestDataKeys = Object.keys(latestData)
     liveData(data => {
       const option = this.state.option
       if (!option.series) return
 
-      latestData[data.symbol] = data.open.toFixed(2)
+      latestData[data.symbol] = (data.high + data.low) / 2
       if (!flag) {
         latestDataKeys = Object.keys(latestData)
         if (latestDataKeys.length === 2) {
           flag = true
         }
       }
-      const contract = latestData[latestDataKeys[0]] / latestData[latestDataKeys[1]]
+      const contract = (latestData[latestDataKeys[0]] / latestData[latestDataKeys[1]]).toFixed(2)
       option.series[2].markLine.data[0].yAxis = contract
       this.setState({
         option: option,
@@ -308,8 +306,9 @@ class ChartsMain extends React.Component {
   }
 
   render () {
-    const { month, names } = this.props.chartsData
-    const contrastMonth = this.props.chartsData.custom || month
+    const { names } = this.props.chartsData
+    const month = this.props.chartsData.product1_month
+    const contrastMonth = this.props.chartsData.product2_month
     const calculateResult = this.calculateboardLot()
     return (
       <div style={{ width: '100%', height: '100%' }}>
@@ -377,7 +376,7 @@ class ChartsMain extends React.Component {
               </Col>
             </Row>
           </Card>
-        ) : ''}
+        ) : null}
       </div>
     )
   }
