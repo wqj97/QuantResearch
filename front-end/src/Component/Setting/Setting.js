@@ -1,4 +1,4 @@
-import { Button, Icon } from "antd"
+import { Button, Icon, Modal } from "antd"
 import React from 'react'
 import { getProductConfigList } from '../../utils/API'
 import ProductWrap from "./ProductWrap";
@@ -8,11 +8,20 @@ class Setting extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      productConfigList: []
+      productConfigList: [],
+      visible: false
     }
   }
 
-  componentDidMount () {
+  handleOk = () => {
+  }
+  handleCancel = () => {
+    this.setState({
+      visible: false
+    })
+  }
+
+  getData = () => {
     getProductConfigList().then(data => {
       this.setState({
         productConfigList: data
@@ -20,18 +29,33 @@ class Setting extends React.Component {
     })
   }
 
+  componentDidMount () {
+    this.getData()
+  }
+
 
   render () {
     return (
       <div className="Setting">
         <div>
-          <Button type="dashed" className={'new-button'}>
+          <Button type="dashed" className={'new-button'} onClick={() => this.setState({ visible: true })}>
             <Icon type="plus" /> 新增产品
           </Button>
         </div>
         {this.state.productConfigList.map(data => {
-          return <ProductWrap {...data} key={data.id} />
+          return <ProductWrap onSuccess={this.getData} {...data} key={data.updated_at} />
         })}
+        <Modal
+          title="新增产品"
+          visible={this.state.visible}
+          okText={'保存'}
+          onOk={this.handleOk}
+          cancelText={'取消'}
+          onCancel={this.handleCancel}
+          footer={null}
+        >
+          <ProductWrap onSuccess={this.getData} new />
+        </Modal>
       </div>
     )
   }

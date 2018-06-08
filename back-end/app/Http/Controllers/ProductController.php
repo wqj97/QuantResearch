@@ -70,4 +70,38 @@ class ProductController extends Controller
     {
         return str_pad($month, 2, '0', 0);
     }
+
+    /**
+     * 修改产品配置
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function setProductConfig (Request $request)
+    {
+        $this->validate($request, [
+            'stableCoefficient' => 'required',
+            'code' => 'required',
+            'names' => 'required',
+            'product1_month' => 'required',
+            'product2_month' => 'required',
+            'openPosition' => 'required',
+            'unit' => 'required'
+        ]);
+        Product::updateOrCreate(['id' => $request->id], $request->all());
+        return response()->json('成功');
+    }
+
+    /**
+     * 删除一个产品
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteProductConfig (Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required'
+        ]);
+        Product::destroy($request->id);
+        return response()->json('删除成功');
+    }
 }

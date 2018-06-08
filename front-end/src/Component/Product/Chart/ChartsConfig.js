@@ -380,15 +380,6 @@ const products = {
  * @return {Promise<*>}
  */
 export const getConfig = async productName => {
-  // if (products[productName]) {
-  //   return products[productName]
-  // } else {
-  //   return await getProductConfig(productName).then(data => {
-  //     data.calculateFunc = commonCalculateAlgorithm(data.unit[0], data.unit[1])
-  //     data.func = periodFunc
-  //     return data
-  //   })
-  // }
   return await getProductConfig(productName).then(data => {
     data.calculateFunc = commonCalculateAlgorithm(data.unit[0], data.unit[1])
     data.func = periodFunc

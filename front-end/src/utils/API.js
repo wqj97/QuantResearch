@@ -114,3 +114,25 @@ export const getProductConfigList = async () => {
   const resp = await axios.get('/api/product/list')
   return resp.data
 }
+
+/**
+ * 设置一个产品
+ * @param config
+ * @return {Promise<*>}
+ */
+export const setProductConfig = async config => {
+  const resp = await axios.post('/api/product', config)
+  return resp.data
+}
+
+/**
+ * 删除一个产品
+ * @return {Promise<*>}
+ * @param {Number} id
+ */
+export const deleteProductConfig = async id => {
+  const resp = await axios.delete('/api/product', {
+    params: { id: id }
+  })
+  return resp.data
+}

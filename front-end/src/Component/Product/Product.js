@@ -8,7 +8,6 @@ import './Product.scss'
 import { withRouter } from 'react-router-dom'
 
 const generateMenu = (config, path = []) => {
-  // console.log(config)
   if (config.child) {
     return (<Menu.SubMenu title={config.name}
       key={path.join('/') + config.name}>{config.child.map(val => generateMenu(val, path.concat([config.name])))}</Menu.SubMenu>)

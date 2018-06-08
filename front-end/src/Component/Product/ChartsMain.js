@@ -46,6 +46,7 @@ class ChartsMain extends React.Component {
       option: {},
       live: false,
       code: props.chartsData.code,
+      monthKey: 0,
       config: {
         amount: 100000,
         deposit: 8,
@@ -67,7 +68,7 @@ class ChartsMain extends React.Component {
     const contrastMonth = chartsData.product2_month
 
     this.getAndParseProductData([month[0], contrastMonth[0]], chartsData)
-    this.middleLine = (this.props.chartsData.openPosition[0] + this.props.chartsData.openPosition[1]) / 2
+    this.middleLine = (this.props.chartsData.openPosition[this.state.monthKey][0] + this.props.chartsData.openPosition[this.state.monthKey][1]) / 2
   }
 
   componentWillReceiveProps (nextProps) {
@@ -81,7 +82,7 @@ class ChartsMain extends React.Component {
         code: chartsData.code,
         name: `${chartsData.names[0]}/${chartsData.names[1]}`,
       })
-      this.middleLine = (this.props.chartsData.openPosition[0] + this.props.chartsData.openPosition[1]) / 2
+      this.middleLine = (this.props.chartsData.openPosition[this.state.monthKey][0] + this.props.chartsData.openPosition[this.state.monthKey][1]) / 2
       if (this.closews) {
         this.closews()
       }
@@ -130,7 +131,7 @@ class ChartsMain extends React.Component {
     getProductDayData(monthQuery, refresh).then(data => {
       let option_generated
       if (monthQuery.length === 2) {
-        option_generated = option(chartsTitle, data, names, func, openPosition)
+        option_generated = option(chartsTitle, data, names, func, openPosition[this.state.monthKey])
       } else {
         option_generated = optionMerge(chartsTitle, data, names, func)
       }
@@ -163,7 +164,6 @@ class ChartsMain extends React.Component {
     const month = chartsData.product1_month
     const contrastMonth = chartsData.product2_month
     const eventValue = event.target.value
-
     // 当需要获取综合数据的时候的操作
     let queryMonth
     if (eventValue === 'merge') {
@@ -175,7 +175,8 @@ class ChartsMain extends React.Component {
       queryMonth = [month[eventValue], contrastMonth[eventValue]]
     }
     this.setState({
-      queryMonth: queryMonth
+      queryMonth: queryMonth,
+      monthKey: eventValue
     })
     this.getAndParseProductData(queryMonth, chartsData)
   }
