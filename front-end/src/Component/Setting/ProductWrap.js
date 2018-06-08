@@ -15,6 +15,7 @@ class ProductWrap extends React.Component {
           product1_month: [null, null, null],
           product2_month: [null, null, null],
           openPosition: [[null, null], [null, null], [null, null]],
+          stopLoss: [null, null, null],
           unit: [null, null]
         }
       }
@@ -273,6 +274,40 @@ class ProductWrap extends React.Component {
                   <Input placeholder="开仓区间" />
                 )}
               </Col>
+            </Input.Group>
+          </Form.Item>
+          <Form.Item label={'止损线'} labelCol={{ span: 7 }} wrapperCol={{ span: 17 }}>
+            <Input.Group>
+              {getFieldDecorator('stopLoss[0]', {
+                rules: [{
+                  required: true,
+                  message: '请输入止损线',
+                }],
+                normalize: Number,
+                initialValue: this.state.props.stopLoss[0],
+              })(
+                <Input placeholder="止损线" />
+              )}
+              {getFieldDecorator('stopLoss[1]', {
+                rules: [{
+                  required: true,
+                  message: '请输入止损线',
+                }],
+                normalize: Number,
+                initialValue: this.state.props.stopLoss[1],
+              })(
+                <Input placeholder="止损线" />
+              )}
+              {getFieldDecorator('stopLoss[2]', {
+                rules: [{
+                  required: true,
+                  message: '请输入止损线',
+                }],
+                normalize: Number,
+                initialValue: this.state.props.stopLoss[2],
+              })(
+                <Input placeholder="止损线" />
+              )}
             </Input.Group>
           </Form.Item>
           <Form.Item label={this.state.props.names[0] + '每手吨数'} labelCol={{ span: 7 }} wrapperCol={{ span: 17 }}>

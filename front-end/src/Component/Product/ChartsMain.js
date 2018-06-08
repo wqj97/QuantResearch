@@ -107,7 +107,7 @@ class ChartsMain extends React.Component {
       loading: true,
     })
 
-    const { code, names, func, openPosition } = chartsData
+    const { code, names, func, openPosition, stopLoss } = chartsData
 
     let monthQuery, chartsTitle
 
@@ -131,7 +131,7 @@ class ChartsMain extends React.Component {
     getProductDayData(monthQuery, refresh).then(data => {
       let option_generated
       if (monthQuery.length === 2) {
-        option_generated = option(chartsTitle, data, names, func, openPosition[this.state.monthKey])
+        option_generated = option(chartsTitle, data, names, func, openPosition[this.state.monthKey], stopLoss[this.state.monthKey])
       } else {
         option_generated = optionMerge(chartsTitle, data, names, func)
       }

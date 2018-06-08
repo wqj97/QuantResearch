@@ -135,12 +135,13 @@ const generateSeries = (data, names, xAxis, func, openPosition) => {
 
 }
 
-const option = (title, data, names, func, openPosition) => {
+const option = (title, data, names, func, openPosition, stopLoss) => {
   const xAxis = generateX(data)
   const option = new OptionFactory(title)
   return option.series(generateSeries(data, names, xAxis, func))
     .xAxis(xAxis)
     .markLine()
+    .stopLoss(stopLoss)
     .markArea(openPosition)
     .legend(names)
     .get()
@@ -376,6 +377,26 @@ class OptionFactory {
           yAxis: yAxis
         }
       ]
+    }
+    return this
+  }
+
+  /**
+   * 设置止损线
+   * @param data
+   * @return {OptionFactory}
+   */
+  stopLoss = data => {
+    if (this.option.series.length < 3) {
+      throw RangeError('先调用series')
+    }
+    this.option.series[2].markLine.data[2] = {
+      name: '止损线',
+      value: '止损线',
+      yAxis: data,
+      lineStyle: {
+        color: '#ff225c'
+      }
     }
     return this
   }

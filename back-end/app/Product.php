@@ -12,6 +12,7 @@ class Product extends Model
         'product1_month' => 'json',
         'product2_month' => 'json',
         'openPosition' => 'json',
+        'stopLoss' => 'json',
         'unit' => 'json'
     ];
 

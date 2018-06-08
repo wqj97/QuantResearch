@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('product1_month');
             $table->string('product2_month');
             $table->string('openPosition');
+            $table->string('stopLoss');
             $table->string('unit');
             $table->string('func')->nullable();
             $table->timestamps();
