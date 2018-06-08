@@ -15,7 +15,7 @@ class ProductWrap extends React.Component {
           product1_month: [null, null, null],
           product2_month: [null, null, null],
           openPosition: [[null, null], [null, null], [null, null]],
-          stopLoss: [null, null, null],
+          stopLoss: [[null, null], [null, null], [null, null]],
           unit: [null, null]
         }
       }
@@ -26,11 +26,30 @@ class ProductWrap extends React.Component {
     }
   }
 
+  convertToNumber = arr => {
+    if (arr.__proto__.constructor === Array) {
+      return arr.map(item => {
+        if (item.__proto__.constructor === Array) {
+          return item.map(this.convertToNumber)
+        } else {
+          return Number(item)
+        }
+      })
+    } else {
+      return Number(arr)
+    }
+  }
+
   handleSubmit = event => {
     event.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
         values.id = this.props.id
+        values.openPosition = this.convertToNumber(values.openPosition)
+        values.stopLoss = this.convertToNumber(values.stopLoss)
+        values.unit = this.convertToNumber(values.unit)
+        values.product1_month = this.convertToNumber(values.product1_month)
+        values.product2_month = this.convertToNumber(values.product2_month)
         setProductConfig(values).then(resp => {
           this.props.onSuccess()
           message.success(resp)
@@ -66,7 +85,7 @@ class ProductWrap extends React.Component {
             {getFieldDecorator('stableCoefficient', {
               rules: [{ required: true, message: '请输入稳定系数' }],
               initialValue: this.state.props.stableCoefficient,
-              normalize: Number,
+              normalize: Number
             })(
               <Input placeholder="稳定系数" />
             )}
@@ -134,7 +153,6 @@ class ProductWrap extends React.Component {
                     required: true,
                     message: '请输入月份',
                   }],
-                  normalize: Number,
                   initialValue: this.state.props.product1_month[0],
                 })(
                   <Input placeholder="月份" />
@@ -146,7 +164,6 @@ class ProductWrap extends React.Component {
                     required: true,
                     message: '请输入月份',
                   }],
-                  normalize: Number,
                   initialValue: this.state.props.product1_month[1],
                 })(
                   <Input placeholder="月份" />
@@ -158,7 +175,6 @@ class ProductWrap extends React.Component {
                     required: true,
                     message: '请输入月份',
                   }],
-                  normalize: Number,
                   initialValue: this.state.props.product1_month[2],
                 })(
                   <Input placeholder="月份" />
@@ -174,7 +190,6 @@ class ProductWrap extends React.Component {
                     required: true,
                     message: '请输入月份',
                   }],
-                  normalize: Number,
                   initialValue: this.state.props.product2_month[0],
                 })(
                   <Input placeholder="月份" />
@@ -186,7 +201,6 @@ class ProductWrap extends React.Component {
                     required: true,
                     message: '请输入月份',
                   }],
-                  normalize: Number,
                   initialValue: this.state.props.product2_month[1],
                 })(
                   <Input placeholder="月份" />
@@ -198,7 +212,6 @@ class ProductWrap extends React.Component {
                     required: true,
                     message: '请输入月份',
                   }],
-                  normalize: Number,
                   initialValue: this.state.props.product2_month[2],
                 })(
                   <Input placeholder="月份" />
@@ -214,7 +227,6 @@ class ProductWrap extends React.Component {
                     required: true,
                     message: '请输入开仓区间',
                   }],
-                  normalize: Number,
                   initialValue: this.state.props.openPosition[0][0],
                 })(
                   <Input placeholder="开仓区间" />
@@ -224,7 +236,6 @@ class ProductWrap extends React.Component {
                     required: true,
                     message: '请输入开仓区间',
                   }],
-                  normalize: Number,
                   initialValue: this.state.props.openPosition[0][1],
                 })(
                   <Input placeholder="开仓区间" />
@@ -236,7 +247,6 @@ class ProductWrap extends React.Component {
                     required: true,
                     message: '请输入开仓区间',
                   }],
-                  normalize: Number,
                   initialValue: this.state.props.openPosition[1][0],
                 })(
                   <Input placeholder="开仓区间" />
@@ -246,7 +256,6 @@ class ProductWrap extends React.Component {
                     required: true,
                     message: '请输入开仓区间',
                   }],
-                  normalize: Number,
                   initialValue: this.state.props.openPosition[1][1],
                 })(
                   <Input placeholder="开仓区间" />
@@ -258,7 +267,6 @@ class ProductWrap extends React.Component {
                     required: true,
                     message: '请输入开仓区间',
                   }],
-                  normalize: Number,
                   initialValue: this.state.props.openPosition[2][0],
                 })(
                   <Input placeholder="开仓区间" />
@@ -268,7 +276,6 @@ class ProductWrap extends React.Component {
                     required: true,
                     message: '请输入开仓区间',
                   }],
-                  normalize: Number,
                   initialValue: this.state.props.openPosition[2][1],
                 })(
                   <Input placeholder="开仓区间" />
@@ -278,36 +285,66 @@ class ProductWrap extends React.Component {
           </Form.Item>
           <Form.Item label={'止损线'} labelCol={{ span: 7 }} wrapperCol={{ span: 17 }}>
             <Input.Group>
-              {getFieldDecorator('stopLoss[0]', {
-                rules: [{
-                  required: true,
-                  message: '请输入止损线',
-                }],
-                normalize: Number,
-                initialValue: this.state.props.stopLoss[0],
-              })(
-                <Input placeholder="止损线" />
-              )}
-              {getFieldDecorator('stopLoss[1]', {
-                rules: [{
-                  required: true,
-                  message: '请输入止损线',
-                }],
-                normalize: Number,
-                initialValue: this.state.props.stopLoss[1],
-              })(
-                <Input placeholder="止损线" />
-              )}
-              {getFieldDecorator('stopLoss[2]', {
-                rules: [{
-                  required: true,
-                  message: '请输入止损线',
-                }],
-                normalize: Number,
-                initialValue: this.state.props.stopLoss[2],
-              })(
-                <Input placeholder="止损线" />
-              )}
+              <Col span={8}>
+                {getFieldDecorator('stopLoss[0][0]', {
+                  rules: [{
+                    required: true,
+                    message: '请输入开仓区间',
+                  }],
+                  initialValue: this.state.props.stopLoss[0][0],
+                })(
+                  <Input placeholder="开仓区间" />
+                )}
+                {getFieldDecorator('stopLoss[0][1]', {
+                  rules: [{
+                    required: true,
+                    message: '请输入开仓区间',
+                  }],
+                  initialValue: this.state.props.stopLoss[0][1],
+                })(
+                  <Input placeholder="开仓区间" />
+                )}
+              </Col>
+              <Col span={8}>
+                {getFieldDecorator('stopLoss[1][0]', {
+                  rules: [{
+                    required: true,
+                    message: '请输入开仓区间',
+                  }],
+                  initialValue: this.state.props.stopLoss[1][0],
+                })(
+                  <Input placeholder="开仓区间" />
+                )}
+                {getFieldDecorator('stopLoss[1][1]', {
+                  rules: [{
+                    required: true,
+                    message: '请输入开仓区间',
+                  }],
+                  initialValue: this.state.props.stopLoss[1][1],
+                })(
+                  <Input placeholder="开仓区间" />
+                )}
+              </Col>
+              <Col span={8}>
+                {getFieldDecorator('stopLoss[2][0]', {
+                  rules: [{
+                    required: true,
+                    message: '请输入开仓区间',
+                  }],
+                  initialValue: this.state.props.stopLoss[2][0],
+                })(
+                  <Input placeholder="开仓区间" />
+                )}
+                {getFieldDecorator('stopLoss[2][1]', {
+                  rules: [{
+                    required: true,
+                    message: '请输入开仓区间',
+                  }],
+                  initialValue: this.state.props.stopLoss[2][1],
+                })(
+                  <Input placeholder="开仓区间" />
+                )}
+              </Col>
             </Input.Group>
           </Form.Item>
           <Form.Item label={this.state.props.names[0] + '每手吨数'} labelCol={{ span: 7 }} wrapperCol={{ span: 17 }}>
@@ -316,7 +353,6 @@ class ProductWrap extends React.Component {
                 required: true,
                 message: '请输入每手吨数'
               }],
-              normalize: Number,
               initialValue: this.state.props.unit[0],
             })(
               <Input type={'number'} placeholder="每手吨数" />
@@ -328,7 +364,6 @@ class ProductWrap extends React.Component {
                 required: true,
                 message: '请输入每手吨数'
               }],
-              normalize: Number,
               initialValue: this.state.props.unit[1],
             })(
               <Input type={'number'} placeholder="每手吨数" />

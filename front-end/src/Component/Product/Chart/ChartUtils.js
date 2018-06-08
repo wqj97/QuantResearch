@@ -141,8 +141,7 @@ const option = (title, data, names, func, openPosition, stopLoss) => {
   return option.series(generateSeries(data, names, xAxis, func))
     .xAxis(xAxis)
     .markLine()
-    .stopLoss(stopLoss)
-    .markArea(openPosition)
+    .markArea(openPosition, stopLoss)
     .legend(names)
     .get()
 }
@@ -382,32 +381,14 @@ class OptionFactory {
   }
 
   /**
-   * 设置止损线
-   * @param data
-   * @return {OptionFactory}
-   */
-  stopLoss = data => {
-    if (this.option.series.length < 3) {
-      throw RangeError('先调用series')
-    }
-    this.option.series[2].markLine.data[2] = {
-      name: '止损线',
-      value: '止损线',
-      yAxis: data,
-      lineStyle: {
-        color: '#ff225c'
-      }
-    }
-    return this
-  }
-
-  /**
    * 设置开仓区域
-   * @param yAxis
+   * @param {Array<Number>}openPosition
+   * @param {Array<Number>} stopLoss
    * @return {OptionFactory}
    */
-  markArea = yAxis => {
-    if (yAxis.constructor !== Array || yAxis.length !== 2) {
+  markArea = (openPosition, stopLoss) => {
+    if (openPosition.constructor !== Array || openPosition.length !== 2) {
+      console.log(openPosition)
       throw TypeError('必须传入Array且有2个元素')
     }
 
@@ -417,22 +398,75 @@ class OptionFactory {
 
     this.option.series[2].markLine.data[1] = {
       name: '中间线',
-      yAxis: (yAxis[0] + yAxis[1]) / 2
+      yAxis: (openPosition[0] + openPosition[1]) / 2
     }
 
     this.option.series[2].markArea = {
-      itemStyle: {
-        color: 'rgba(0, 0, 0, 0.3)'
-      },
       data: [[
         {
           name: '开仓区域',
-          yAxis: yAxis[0],
+          yAxis: openPosition[0],
           xAxis: 'min',
+          label:{
+            color: '#fff'
+          },
+          itemStyle: {
+            color: 'rgba(0, 0, 0, 0.3)'
+          }
         },
         {
-          yAxis: yAxis[1],
+          yAxis: openPosition[1],
           xAxis: 'max',
+          label:{
+            color: '#fff'
+          },
+          itemStyle: {
+            color: 'rgba(0, 0, 0, 0.3)'
+          },
+        }
+      ], [
+        {
+          name: '下止损',
+          yAxis: openPosition[0],
+          xAxis: 'min',
+          label:{
+            color: '#fff'
+          },
+          itemStyle: {
+            color: 'rgba(255, 0, 0, 0.2)'
+          }
+        },
+        {
+          yAxis: stopLoss[0],
+          xAxis: 'max',
+          label:{
+            color: '#fff'
+          },
+          itemStyle: {
+            color: 'rgba(255, 0, 0, 0.2)'
+          },
+        }
+      ], [
+        {
+          name: '上止损',
+          yAxis: openPosition[1],
+          xAxis: 'min',
+          label:{
+            color: '#fff'
+          },
+          itemStyle: {
+            color: 'rgba(255, 0, 0, 0.2)'
+          }
+        },
+        {
+          yAxis: stopLoss[1],
+          xAxis: 'max',
+          label:{
+            color: '#fff'
+          },
+          itemStyle: {
+            color: 'rgba(255, 0, 0, 0.2)'
+          },
         }
       ]]
     }

@@ -48,7 +48,10 @@ class Product extends React.Component {
   handleMenuChange = item => {
     let productKey = item.key.replace(/\s+\(.*\)/g, '')
     try {
-      this.setState({ chartsData: getConfig(productKey.split('/').splice(-2).join('/')), keyPath: item.keyPath })
+      getConfig(productKey.split('/').splice(-2).join('/')).then(data => {
+        this.setState({ chartsData: data, keyPath: item.keyPath })
+      })
+
     } catch (e) {
       message.error(e.message)
     }

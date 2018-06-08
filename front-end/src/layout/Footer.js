@@ -18,7 +18,7 @@ const links = [{
   blankTarget: true,
 }]
 
-const copyright = <div><p>打造国内专业的个人投资者群体</p><p>Copyright <Icon type="copyright" /> 2018 天津量研科技</p></div>
+const copyright = <div><p>打造国内专业的投资者群体</p><p>Copyright <Icon type="copyright" /> 2018 天津量研科技有限公司</p></div>
 
 class Footer extends React.Component {
   constructor (props) {

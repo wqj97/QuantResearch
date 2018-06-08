@@ -22,8 +22,8 @@ const Banner = () => (
     <div className={'home-banner'}>
       <Row type={'flex'} align={'middle'} justify={'space-around'}>
         <Col span={8} offset={2}>
-          <p>量化分析</p>
-          <p>准确给出量化开仓数据</p>
+          <p>量化对冲分析</p>
+          <p>准确给出量化对冲数据</p>
         </Col>
         <Col span={14}>
           <img src={require('../../assets/data.png')} alt="" />
@@ -32,94 +32,6 @@ const Banner = () => (
     </div>
   </Carousel>
 )
-
-// const Block1 = () => (
-//   <QueueAnim delay={300} className={'block-1'}>
-//     <ScrollAnim.OverPack key={'a'} playScale={0.3} replay>
-//       <QueueAnim key={'a'} delay={300}>
-//         <div key={'a'}>
-//           <Icon type="tablet" />工大量研
-//         </div>
-//         <div key={'b'}>
-//           <Icon type="shopping-cart" />工大量研
-//         </div>
-//         <div key={'c'}>
-//           <Icon type="cloud-upload-o" />工大量研
-//         </div>
-//       </QueueAnim>
-//     </ScrollAnim.OverPack>
-//     <ScrollAnim.OverPack key={'b'} playScale={0.3} replay>
-//       <QueueAnim key={'b'} delay={600}>
-//         <div key={'a'}>
-//           <Icon type="tablet" />工大量研
-//         </div>
-//         <div key={'b'}>
-//           <Icon type="shopping-cart" />工大量研
-//         </div>
-//         <div key={'c'}>
-//           <Icon type="cloud-upload-o" />工大量研
-//         </div>
-//       </QueueAnim>
-//     </ScrollAnim.OverPack>
-//     <ScrollAnim.OverPack key={'c'} playScale={0.1} replay>
-//       <QueueAnim key={'c'} delay={900}>
-//         <div key={'a'}>
-//           <Icon type="tablet" />工大量研
-//         </div>
-//         <div key={'b'}>
-//           <Icon type="shopping-cart" />工大量研
-//         </div>
-//         <div key={'c'}>
-//           <Icon type="cloud-upload-o" />工大量研
-//         </div>
-//       </QueueAnim>
-//     </ScrollAnim.OverPack>
-//   </QueueAnim>
-// )
-//
-// const Block2 = () => (
-//   <QueueAnim delay={300} className={'block-2'}>
-//     <ScrollAnim.OverPack key={'a'} playScale={0.3} replay>
-//       <QueueAnim key={'a'} delay={300}>
-//         <div key={'a'}>
-//           <Icon type="tablet" />工大量研
-//         </div>
-//         <div key={'b'}>
-//           <Icon type="shopping-cart" />工大量研
-//         </div>
-//         <div key={'c'}>
-//           <Icon type="cloud-upload-o" />工大量研
-//         </div>
-//       </QueueAnim>
-//     </ScrollAnim.OverPack>
-//     <ScrollAnim.OverPack key={'b'} playScale={0.3} replay>
-//       <QueueAnim key={'b'} delay={600}>
-//         <div key={'a'}>
-//           <Icon type="tablet" />工大量研
-//         </div>
-//         <div key={'b'}>
-//           <Icon type="shopping-cart" />工大量研
-//         </div>
-//         <div key={'c'}>
-//           <Icon type="cloud-upload-o" />工大量研
-//         </div>
-//       </QueueAnim>
-//     </ScrollAnim.OverPack>
-//     <ScrollAnim.OverPack key={'c'} playScale={0.3} replay>
-//       <QueueAnim key={'c'} delay={900}>
-//         <div key={'a'}>
-//           <Icon type="tablet" />工大量研
-//         </div>
-//         <div key={'b'}>
-//           <Icon type="shopping-cart" />工大量研
-//         </div>
-//         <div key={'c'}>
-//           <Icon type="cloud-upload-o" />工大量研
-//         </div>
-//       </QueueAnim>
-//     </ScrollAnim.OverPack>
-//   </QueueAnim>
-// )
 
 class Home extends React.Component {
   render () {
@@ -161,15 +73,12 @@ class Home extends React.Component {
         <div className="description">
           <Row>
             <Col span={17} className="description-left">
-              <div className={'description-title'}>打造国内专业的个人投资者群体</div>
-              <div className={'description-subtitle'}>一站式量化研究平台</div>
+              <div className={'description-title'}>打造国内专业的投资者群体</div>
+              <div className={'description-subtitle'}>一站式量化对冲研究平台</div>
             </Col>
             <Col span={7} className={'description-right'}>
               <div className="description-point">
                 支持四所期货品种
-              </div>
-              <div className="description-point">
-                一站式量化研究平台
               </div>
               <div className="description-point">
                 量化知识库
