@@ -1,4 +1,5 @@
 import { remove } from 'lodash'
+import { getProductNoticeConfigList } from '../../utils/API'
 
 export const menuList = [
   {
@@ -31,10 +32,21 @@ export const menuList = [
 ]
 
 export class LinkNode {
-  constructor (parent, child, name) {
+  /**
+   * @param {LinkNode} parent 父节点
+   * @param {Array<LinkNode>} child 子节点列表
+   * @param {String} name 节点名
+   * @param {Boolean} doable 是否可开仓
+   * @param {Boolean} stop 是否需要止损
+   * @param {Array<Object>} roles 权限
+   */
+  constructor (parent, child, name, doable = false, stop = false, roles = []) {
     this.parent = parent
     this.child = child
     this.name = name
+    this.doable = doable
+    this.stop = stop
+    this.roles = roles
   }
 
   appendChild = child => {
@@ -46,9 +58,18 @@ export class LinkNode {
   }
 }
 
-export const generateMenuLinkList = menuList => {
+export const generateMenuLinkList = async menuList => {
   const rootNode = new LinkNode(null, [], '根菜单')
-
+  const noticeList = await getProductNoticeConfigList()
+  const searchNotice = name => {
+    let out = null
+    noticeList.forEach(item => {
+      if (item.name === name) {
+        out = item
+      }
+    })
+    return out
+  }
   const DF = (item, parentNode) => {
     item.forEach(child => {
       if (child.child) {
@@ -56,7 +77,12 @@ export const generateMenuLinkList = menuList => {
         parentNode.appendChild(currentNode)
         DF(child.child, currentNode)
       } else {
-        parentNode.appendChild(new LinkNode(parentNode, null, child))
+        const notice = searchNotice(child)
+        if (notice) {
+          parentNode.appendChild(new LinkNode(parentNode, null, child, notice.doable, notice.stop, notice.roles.map(item => item.id)))
+        } else {
+          parentNode.appendChild(new LinkNode(parentNode, null, child, false, false, [1]))
+        }
       }
     })
   }

@@ -39,7 +39,6 @@ class User extends React.Component {
                   <img src={this.props.user.head} alt={'头像'}/>
                 </div>
                 <div className="head-background">
-                  {/*<img src={this.props.user.head} />*/}
                 </div>
               </div>
               <div className="user-info">

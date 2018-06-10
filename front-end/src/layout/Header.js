@@ -7,13 +7,14 @@ import './Header.scss'
 
 class UserDropDown extends React.Component {
   static propTypes = {
-    user: PropTypes.object.isRequired,
     logout: PropTypes.func.isRequired
   }
 
   handleClick = e => {
+    e.domEvent.stopPropagation()
     if (e.key === 'logout') {
       this.props.logout()
+      this.props.history.push('/login')
     } else if (e.key === 'user') {
       this.props.changeKey({ current: 'skip' })
       this.props.history.push('/user')
@@ -62,7 +63,6 @@ class UserDropDown extends React.Component {
 
 class Header extends React.Component {
   static propTypes = {
-    user: PropTypes.object.isRequired,
     handleLogout: PropTypes.func.isRequired
   }
 
@@ -83,11 +83,22 @@ class Header extends React.Component {
 
   handleLogout = () => {
     this.props.handleLogout()
-    this.props.history.push('/login')
+  }
+
+  getRole = () => {
+    let result = null
+    const user = this.props.user
+    if (user && user.roles.length) {
+      result = user.roles.map(role => {
+        return role.name
+      })
+    }
+    return result
   }
 
   render () {
     const user = this.props.user
+    const role = this.getRole()
     return (
       <div className="Header" style={{
         position: 'fixed',
@@ -116,12 +127,14 @@ class Header extends React.Component {
           <Menu.Item key="/social">
             <Icon type="hdd" />社区
           </Menu.Item>
-          <Menu.Item key={user ? 'skip' : '/login'} style={{ float: 'right', width: 120, textAlign: 'center' }}>
+          <Menu.Item key={user ? '/user' : '/login'} style={{ float: 'right', width: 120, textAlign: 'center' }}>
             <UserDropDown history={this.props.history} changeKey={this.setState.bind(this)} logout={this.handleLogout} user={user} />
           </Menu.Item>
-          <Menu.Item key="/setting" style={{ float: 'right' }}>
-            <Icon type="setting" />管理
-          </Menu.Item>
+          {role && role[0] === '管理员' ? (
+            <Menu.Item key="/setting" style={{ float: 'right' }}>
+              <Icon type="setting" />管理
+            </Menu.Item>
+          ) : null}
         </Menu>
       </div>
     )

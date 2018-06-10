@@ -136,3 +136,21 @@ export const deleteProductConfig = async id => {
   })
   return resp.data
 }
+
+/**
+ * 获取提醒列表
+ * @return {Promise<*>}
+ */
+export const getProductNoticeConfigList = async () => {
+  const resp = await axios.get('/api/product/notice')
+  return resp.data
+}
+
+/**
+ * 获取角色列表
+ * @return {Promise<*>}
+ */
+export const getRoles = async () => {
+  const resp = await axios.get('/api/user/roles')
+  return resp.data
+}

@@ -1,6 +1,6 @@
 import { Button, Icon, Modal } from "antd"
 import React from 'react'
-import { getProductConfigList } from '../../utils/API'
+import { getProductConfigList, getRoles } from '../../utils/API'
 import ProductWrap from "./ProductWrap";
 import './Setting.scss'
 
@@ -9,8 +9,14 @@ class Setting extends React.Component {
     super(props)
     this.state = {
       productConfigList: [],
-      visible: false
+      visible: false,
+      roles: []
     }
+    getRoles().then(data => {
+      this.setState({
+        roles: data
+      })
+    })
   }
 
   handleOk = () => {
@@ -43,7 +49,7 @@ class Setting extends React.Component {
           </Button>
         </div>
         {this.state.productConfigList.map(data => {
-          return <ProductWrap onSuccess={this.getData} {...data} key={data.updated_at} />
+          return <ProductWrap onSuccess={this.getData} {...data} key={data.updated_at} role={this.state.roles} />
         })}
         <Modal
           title="新增产品"

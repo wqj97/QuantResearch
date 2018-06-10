@@ -12,7 +12,7 @@ class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      user: Store.get('user') || {}
+      user: Store.get('user') || null
     }
   }
 
@@ -24,9 +24,10 @@ class App extends Component {
 
   handleLogout = () => {
     this.setState({
-      user: {}
+      user: null
     })
     Store.remove('user')
+
   }
 
   render () {

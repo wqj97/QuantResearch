@@ -58,12 +58,20 @@ class ProductController extends Controller
 
     /**
      * 获取所有的产品配置
-     * @param Request $request
      * @return array
      */
-    public function getProductConfigList (Request $request)
+    public function getProductConfigList ()
     {
         return Product::all();
+    }
+
+    /**
+     * 获取所有的产品提醒配置
+     * @return array
+     */
+    public function getProductConfigNoticeList ()
+    {
+        return Product::with(['roles'])->get(['name', 'stop', 'doable', 'id']);
     }
 
     private function month_pad ($month)
@@ -85,9 +93,23 @@ class ProductController extends Controller
             'product1_month' => 'required',
             'product2_month' => 'required',
             'openPosition' => 'required',
-            'unit' => 'required'
+            'doable' => 'required',
+            'stop' => 'required',
+            'unit' => 'required',
+            'roles' => 'required'
         ]);
-        Product::updateOrCreate(['id' => $request->id], $request->all());
+        $product = Product::find($request->id);
+        $product->stableCoefficient = $request->stableCoefficient;
+        $product->code = $request->code;
+        $product->names = $request->names;
+        $product->product1_month = $request->product1_month;
+        $product->product2_month = $request->product2_month;
+        $product->openPosition = $request->openPosition;
+        $product->unit = $request->unit;
+        $product->doable = $request->doable;
+        $product->stop = $request->stop;
+        $product->roles()->sync($request->roles);
+        $product->save();
         return response()->json('成功');
     }
 

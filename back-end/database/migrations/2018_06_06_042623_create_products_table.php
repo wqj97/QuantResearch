@@ -24,6 +24,8 @@ class CreateProductsTable extends Migration
             $table->string('openPosition');
             $table->string('stopLoss');
             $table->string('unit');
+            $table->boolean('stop')->default(false);
+            $table->boolean('doable')->default(false);
             $table->string('func')->nullable();
             $table->timestamps();
         });

@@ -21,9 +21,9 @@ class DataController extends Controller
         ]);
         define('FUCK_CZC', ["PM", "FG", "WH", "CF", "SR", "OI", "TA", "RI", "LR", "MA", "RS", "RM", "TC", "ZC", "JR", "SF", "SM"]);
         if ($request->has('refresh')) {
-            Cache::forget("data_$request->code");
+            Cache::forget("data_$request->code" . date('ymd'));
         }
-        return \Cache::remember("data_$request->code", 1440, function () use ($request) {
+        return \Cache::remember("data_$request->code" . date('ymd'), 1440, function () use ($request) {
             return $this->queryData($request);
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -93,5 +94,14 @@ class UserController extends Controller
     public function getSelfSelected (Request $request)
     {
         return $request->user()->self_selected()->get();
+    }
+
+    /**
+     * 获取所有的角色
+     * @return Role[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getRoles ()
+    {
+        return Role::all();
     }
 }

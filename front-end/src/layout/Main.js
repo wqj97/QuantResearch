@@ -53,8 +53,7 @@ const Routes = props => {
 
 class Main extends React.Component {
   static propTypes = {
-    handleLogin: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+    handleLogin: PropTypes.func.isRequired
   }
 
   constructor (props) {

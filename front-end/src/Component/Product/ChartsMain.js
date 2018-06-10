@@ -244,6 +244,7 @@ class ChartsMain extends React.Component {
         }
       }
       const contract = (latestData[latestDataKeys[0]] / latestData[latestDataKeys[1]]).toFixed(2)
+      option.series[2].data.push([data.date, contract])
       option.series[2].markLine.data[0].yAxis = contract
       this.setState({
         option: option,
@@ -314,9 +315,13 @@ class ChartsMain extends React.Component {
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <ReactEcharts className="ChartsMain"
+          style={{
+            width: '100%',
+            height: '75%'
+          }}
           notMerge={true}
           option={this.state.option}
-          style={{ width: '100%', height: '75%' }} />
+        />
         <Row>
           <Col span={14}>
             <Card title={this.state.names[2] ? (<span>{this.state.names[2]} <LivingStatus live={this.state.live} /></span>) :

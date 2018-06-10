@@ -9,5 +9,6 @@ key_path=./scripts/wanqj.key
 
 #upload file
 ssh $USER@$IP -i $key_path "rm -fr $dest_dir"
+echo 正在上传文件
 scp -C -i $key_path -r $source_dir $USER@$IP:$dest_dir
 echo 🎉🎉🎉

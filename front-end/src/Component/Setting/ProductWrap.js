@@ -1,4 +1,4 @@
-import { Button, Col, Form, Icon, Input, message, Popconfirm } from 'antd'
+import { Button, Checkbox, Col, Form, Icon, Input, message, Popconfirm, Switch } from 'antd'
 import React from 'react'
 import { setProductConfig, deleteProductConfig } from '../../utils/API'
 
@@ -9,6 +9,7 @@ class ProductWrap extends React.Component {
       this.state = {
         props: {
           name: '',
+          open: false,
           stableCoefficient: '',
           code: [null, null],
           names: ['产品1', '产品2'],
@@ -16,6 +17,7 @@ class ProductWrap extends React.Component {
           product2_month: [null, null, null],
           openPosition: [[null, null], [null, null], [null, null]],
           stopLoss: [[null, null], [null, null], [null, null]],
+          roles: [],
           unit: [null, null]
         }
       }
@@ -26,6 +28,11 @@ class ProductWrap extends React.Component {
     }
   }
 
+  /**
+   * 转化成数字
+   * @param arr
+   * @return {*}
+   */
   convertToNumber = arr => {
     if (arr.__proto__.constructor === Array) {
       return arr.map(item => {
@@ -68,9 +75,12 @@ class ProductWrap extends React.Component {
   render () {
     const { getFieldDecorator } = this.props.form
     return (
-      <div className={'product-wrap'}>
-        <div className="product-head">
+      <div className={['product-wrap', this.state.open ? 'open' : 'close'].join(' ')}>
+        <div className="product-mask" onClick={() => this.setState({ open: !this.state.open })}>
           {this.state.props.name}
+        </div>
+        <div className="product-head" onClick={() => this.setState({ open: !this.state.open })}>
+          {this.state.props.name} <Icon className={'open-btn'} type={this.state.open ? 'up' : 'down'} />
         </div>
         <Form className="product-content" onSubmit={this.handleSubmit}>
           <Form.Item label={'产品名'} labelCol={{ span: 7 }} wrapperCol={{ span: 17 }}>
@@ -367,6 +377,44 @@ class ProductWrap extends React.Component {
               initialValue: this.state.props.unit[1],
             })(
               <Input type={'number'} placeholder="每手吨数" />
+            )}
+          </Form.Item>
+          <Form.Item label={'权限'} labelCol={{ span: 7 }} wrapperCol={{ span: 17 }}>
+            {getFieldDecorator('roles', {
+              rules: [{
+                required: true,
+                message: '请至少指定一个权限'
+              }],
+              initialValue: this.state.props.roles.map(item => item.id),
+            })(
+              <Checkbox.Group options={this.props.role.map(role => {
+                return {
+                  label: role.name,
+                  value: role.id
+                }
+              })} />
+            )}
+          </Form.Item>
+          <Form.Item label={'可做'} labelCol={{ span: 7 }} wrapperCol={{ span: 17 }}>
+            {getFieldDecorator('doable', {
+              rules: [{
+                required: true,
+                message: '可做'
+              }],
+              initialValue: this.state.props.doable,
+            })(
+              <Switch checkedChildren="开" unCheckedChildren="关" defaultChecked={this.state.props.doable} />
+            )}
+          </Form.Item>
+          <Form.Item label={'止损'} labelCol={{ span: 7 }} wrapperCol={{ span: 17 }}>
+            {getFieldDecorator('stop', {
+              rules: [{
+                required: true,
+                message: '可做'
+              }],
+              initialValue: this.state.props.stop,
+            })(
+              <Switch checkedChildren="开" unCheckedChildren="关" defaultChecked={this.state.props.stop} />
             )}
           </Form.Item>
           {this.props.new ? null : (

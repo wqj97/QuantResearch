@@ -396,10 +396,10 @@ class OptionFactory {
       throw RangeError('先调用series和markLine')
     }
 
-    this.option.series[2].markLine.data[1] = {
-      name: '中间线',
-      yAxis: (openPosition[0] + openPosition[1]) / 2
-    }
+    // this.option.series[2].markLine.data[1] = {
+    //   name: '中间线',
+    //   yAxis: (openPosition[0] + openPosition[1]) / 2
+    // }
 
     this.option.series[2].markArea = {
       data: [[
@@ -408,7 +408,8 @@ class OptionFactory {
           yAxis: openPosition[0],
           xAxis: 'min',
           label:{
-            color: '#fff'
+            color: '#fff',
+            position: 'left'
           },
           itemStyle: {
             color: 'rgba(0, 0, 0, 0.3)'
@@ -430,7 +431,8 @@ class OptionFactory {
           yAxis: openPosition[0],
           xAxis: 'min',
           label:{
-            color: '#fff'
+            color: '#fff',
+            position: 'bottom'
           },
           itemStyle: {
             color: 'rgba(255, 0, 0, 0.2)'

@@ -4,9 +4,10 @@
   display: flex;
   flex-wrap: nowrap;
   .charts-menu {
-    flex: 0 0 250px;
+    width: 300px;
     overflow-x: hidden;
     overflow-y: scroll;
+    box-sizing: border-box;
     &::-webkit-scrollbar {
       width: 3px;
       border-radius: 3px;
@@ -16,14 +17,13 @@
     }
   }
   .charts-main {
-    width: 100%;
-    flex: 1;
+    width: calc(100vh - 300px);
   }
-  .ant-menu-item-selected{
+  .ant-menu-item-selected {
     color: $primary-color;
     background: #f8f8f8 !important;
-    &:after{
-      border-right:  none;
+    &:after {
+      border-right: none;
     }
   }
 }

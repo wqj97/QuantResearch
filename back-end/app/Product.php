@@ -13,8 +13,19 @@ class Product extends Model
         'product2_month' => 'json',
         'openPosition' => 'json',
         'stopLoss' => 'json',
-        'unit' => 'json'
+        'unit' => 'json',
+        'doable' => 'boolean',
+        'stop' => 'boolean'
     ];
+
+    protected $with = [
+        'roles'
+    ];
+
+    public function roles ()
+    {
+        return $this->belongsToMany('App\Role')->withTimestamps();
+    }
 
     protected $guarded = [];
 }

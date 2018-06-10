@@ -1,4 +1,4 @@
-import { Menu, message } from 'antd'
+import { Badge, Menu, message } from 'antd'
 import React from 'react'
 import { getConfig } from './Chart/ChartsConfig'
 import ChartsMain from './ChartsMain'
@@ -13,7 +13,13 @@ const generateMenu = (config, path = []) => {
       key={path.join('/') + config.name}>{config.child.map(val => generateMenu(val, path.concat([config.name])))}</Menu.SubMenu>)
   } else {
     const key = path.join('/') + '/' + (config.name ? config.name : config)
-    return (<Menu.Item key={key}>{config.name ? config.name : config}</Menu.Item>)
+    return (
+      <Menu.Item key={key}>
+        {config.name ? config.name : config}&nbsp;
+        {config.doable ? (<Badge status="success" />) : null}
+        {config.stop ? (<Badge status="error" />) : null}
+      </Menu.Item>
+    )
   }
 }
 
@@ -34,39 +40,77 @@ class Product extends React.Component {
     super(props)
     this.state = {
       chartsData: null,
-      menuList: generateMenuLinkList(menuList),
+      menuList: null,
       keyPath: ["跨产品对冲/建材能源系/螺纹/热卷", "跨产品对冲建材能源系", "跨产品对冲"],
       randomNumber: 5
     }
-    getConfig('螺纹/热卷').then(data => {
-      this.setState({
-        chartsData: data
+    generateMenuLinkList(menuList).then(data => {
+      getSelfSelectedList().then(list => {
+        list.forEach(node => {
+          const linkNode = new LinkNode(data.child[0], null, `${node.name} ( ${node.code.join(' ')} )`)
+          data.child[0].appendChild(linkNode)
+        })
+        this.setState({
+          menuList: data
+        })
+        getConfig('螺纹/热卷').then(data => {
+          this.setState({
+            chartsData: data
+          })
+        })
+      }).catch(() => {
+        this.setState({
+          menuList: data
+        })
+        getConfig('螺纹/热卷').then(data => {
+          this.setState({
+            chartsData: data
+          })
+        })
       })
     })
+
+  }
+
+  getProductName = () => {
+    return this.state.keyPath[0].split('/').splice(-2).join('/')
   }
 
   handleMenuChange = item => {
     let productKey = item.key.replace(/\s+\(.*\)/g, '')
     try {
+      const ProductRoles = linkSearch(this.getProductName(), this.state.menuList.child[1]).roles
+      const UserRole = this.props.user.roles.map(item => item.id)
+      let hasAuth = false
+      UserRole.forEach(role => {
+        if (ProductRoles.indexOf(role) !== -1) {
+          hasAuth = true
+        }
+      })
+      if (!hasAuth) {
+        message.warn(`您没有权限查看${productKey}的数据`)
+        return
+      }
+    } catch (e) {
+      message.warn('您没有登录, 只能查看一个产品')
+      return
+    }
+    try {
       getConfig(productKey.split('/').splice(-2).join('/')).then(data => {
         this.setState({ chartsData: data, keyPath: item.keyPath })
       })
-
     } catch (e) {
       message.error(e.message)
     }
   }
 
   handleToggleSelected = add => {
-    const getProductName = () => {
-      return this.state.keyPath[0].split('/').splice(-2).join('/')
-    }
     if (add) {
-      const linkNode = linkSearch(getProductName(), this.state.menuList.child[1])
+      const linkNode = linkSearch(this.getProductName(), this.state.menuList.child[1])
       const linkCopy = new LinkNode(this.state.menuList.child[0], null, linkNode.name)
       this.state.menuList.child[0].appendChild(linkCopy)
     } else {
-      const linkNode = linkSearch(getProductName(), this.state.menuList.child[0])
+      const linkNode = linkSearch(this.getProductName(), this.state.menuList.child[0])
       if (linkNode) {
         linkNode.parent.removeChild(linkNode)
       }
@@ -75,20 +119,15 @@ class Product extends React.Component {
   }
 
   componentDidMount () {
-    getSelfSelectedList().then(list => {
-      list.forEach(node => {
-        const linkNode = new LinkNode(this.state.menuList.child[0], null, `${node.name} ( ${node.code.join(' ')} )`)
-        this.state.menuList.child[0].appendChild(linkNode)
-      })
-      this.forceUpdate()
-    })
   }
 
 
   render () {
     return (
       <div className="Product">
-        <LeftMenu menuList={this.state.menuList} handleClick={this.handleMenuChange} count={this.state.randomNumber} />
+        {this.state.menuList ? (
+          <LeftMenu menuList={this.state.menuList} handleClick={this.handleMenuChange} count={this.state.randomNumber} />
+        ) : null}
         {this.state.chartsData ? (
           <ChartsMain
             onToggleSelected={this.handleToggleSelected}
