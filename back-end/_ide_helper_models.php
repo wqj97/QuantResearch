@@ -50,12 +50,17 @@ namespace App{
  * @property array $product1_month
  * @property array $product2_month
  * @property array $openPosition
+ * @property array $stopLoss
  * @property array $unit
+ * @property bool $stop
+ * @property bool $doable
  * @property string|null $func
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Role[] $roles
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereDoable($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereFunc($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereName($value)
@@ -64,6 +69,8 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereProduct1Month($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereProduct2Month($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereStableCoefficient($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereStop($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereStopLoss($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereUnit($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereUpdatedAt($value)
  */
@@ -86,6 +93,7 @@ namespace App{
  * @property \Carbon\Carbon|null $updated_at
  * @property string|null $deleted_at
  * @property-read \App\ProductConfig $product_config
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Role[] $roles
  * @property-read \App\ProductConfig $self_selected
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\User onlyTrashed()
@@ -105,5 +113,21 @@ namespace App{
  * @method static \Illuminate\Database\Query\Builder|\App\User withoutTrashed()
  */
 	class User extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * App\Role
+ *
+ * @property int $id
+ * @property string $name
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereUpdatedAt($value)
+ */
+	class Role extends \Eloquent {}
 }
 

@@ -43,12 +43,9 @@ export const liveData = (cb, code) => {
         cb(JSON.parse(data.data))
       }
       ws.onerror = event => {
-        console.log(event)
         rej('连接失败')
       }
-      ws.onclose = console.log
       ws.onopen = event => {
-        console.log(event)
         res(ws.close.bind(ws))
       }
     }

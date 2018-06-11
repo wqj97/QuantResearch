@@ -77,9 +77,11 @@ class Product extends React.Component {
   }
 
   handleMenuChange = item => {
-    let productKey = item.key.replace(/\s+\(.*\)/g, '')
+    const productKey = item.key.replace(/\s+\(.*\)/g, '')
+    const productName = productKey.split('/').splice(-2).join('/')
     try {
-      const ProductRoles = linkSearch(this.getProductName(), this.state.menuList.child[1]).roles
+      const ProductRoles = linkSearch(productName, this.state.menuList.child[1]).roles
+      console.log(ProductRoles)
       const UserRole = this.props.user.roles.map(item => item.id)
       let hasAuth = false
       UserRole.forEach(role => {
@@ -96,7 +98,7 @@ class Product extends React.Component {
       return
     }
     try {
-      getConfig(productKey.split('/').splice(-2).join('/')).then(data => {
+      getConfig(productName).then(data => {
         this.setState({ chartsData: data, keyPath: item.keyPath })
       })
     } catch (e) {

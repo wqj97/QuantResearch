@@ -93,6 +93,7 @@ class ProductController extends Controller
             'product1_month' => 'required',
             'product2_month' => 'required',
             'openPosition' => 'required',
+            'stopLoss' => 'required',
             'doable' => 'required',
             'stop' => 'required',
             'unit' => 'required',
@@ -102,9 +103,11 @@ class ProductController extends Controller
         $product->stableCoefficient = $request->stableCoefficient;
         $product->code = $request->code;
         $product->names = $request->names;
+        $product->name = $request->name;
         $product->product1_month = $request->product1_month;
         $product->product2_month = $request->product2_month;
         $product->openPosition = $request->openPosition;
+        $product->stopLoss = $request->stopLoss;
         $product->unit = $request->unit;
         $product->doable = $request->doable;
         $product->stop = $request->stop;
