@@ -60,7 +60,7 @@ class Setting extends React.Component {
           onCancel={this.handleCancel}
           footer={null}
         >
-          <ProductWrap onSuccess={this.getData} new />
+          <ProductWrap onSuccess={this.getData} new role={this.state.roles}/>
         </Modal>
       </div>
     )

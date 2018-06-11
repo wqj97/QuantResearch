@@ -66,15 +66,15 @@ const generateSeries = (data, names, xAxis, func, openPosition) => {
       const dataDate = Number(date.slice(-2))
       if (month !== contrastMonth) {
         if (dataMonth >= Number(contrastMonth) && dataMonth <= Number(month)) {
-          return NaN
+          return [date, NaN]
         }
       } else {
         if (dataMonth === Number(month) && dataDate <= 15 && dataDate >= 1) {
-          return NaN
+          return [date, NaN]
         }
       }
 
-      return data[date]
+      return [date, data[date]]
     })
   })
 
@@ -174,59 +174,6 @@ const optionMerge = (title, data, names, func) => {
     .xAxis(xAxis)
     .legend(nameDisplay)
     .get()
-}
-
-const liveOption = (title, data) => {
-  return {
-    title: {
-      text: title,
-      textStyle: {
-        color: '#fff',
-        fontSize: 24
-      }
-    },
-    backgroundColor: '#21202D',
-    legend: {
-      inactiveColor: '#777',
-      textStyle: {
-        color: '#fff'
-      },
-    },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        animation: false,
-        type: 'cross',
-        lineStyle: {
-          color: '#376df4',
-          width: 2,
-          opacity: 1
-        }
-      }
-    },
-    xAxis: {
-      type: 'category',
-      axisLine: { lineStyle: { color: '#8392A5' } }
-    },
-    yAxis: {
-      scale: true,
-      axisLine: { lineStyle: { color: '#8392A5' } },
-      splitLine: { show: false }
-    },
-    animation: false,
-    series: {
-      name: '实时数据',
-      type: 'line',
-      data: data,
-      smooth: true,
-      showSymbol: false,
-      lineStyle: {
-        normal: {
-          width: 2,
-        },
-      }
-    }
-  }
 }
 
 class OptionFactory {
@@ -365,7 +312,7 @@ class OptionFactory {
       throw RangeError('先调用series')
     }
     if (yAxis === null && this.option.series.length === 3) {
-      yAxis = this.option.series[2].data[this.option.series[2].data.length - 1]
+      yAxis = this.option.series[2].data[this.option.series[2].data.length - 1][1]
     }
     this.option.series[2].markLine = {
       symbol: 'circle',
@@ -404,10 +351,10 @@ class OptionFactory {
     this.option.series[2].markArea = {
       data: [[
         {
-          name: '开仓区域',
+          name: '止盈区域',
           yAxis: openPosition[0],
           xAxis: 'min',
-          label:{
+          label: {
             color: '#fff',
             position: 'left'
           },
@@ -418,7 +365,7 @@ class OptionFactory {
         {
           yAxis: openPosition[1],
           xAxis: 'max',
-          label:{
+          label: {
             color: '#fff'
           },
           itemStyle: {
@@ -430,7 +377,7 @@ class OptionFactory {
           name: '下止损',
           yAxis: openPosition[0],
           xAxis: 'min',
-          label:{
+          label: {
             color: '#fff',
             position: 'bottom'
           },
@@ -441,7 +388,7 @@ class OptionFactory {
         {
           yAxis: stopLoss[0],
           xAxis: 'max',
-          label:{
+          label: {
             color: '#fff'
           },
           itemStyle: {
@@ -453,7 +400,7 @@ class OptionFactory {
           name: '上止损',
           yAxis: openPosition[1],
           xAxis: 'min',
-          label:{
+          label: {
             color: '#fff'
           },
           itemStyle: {
@@ -463,7 +410,7 @@ class OptionFactory {
         {
           yAxis: stopLoss[1],
           xAxis: 'max',
-          label:{
+          label: {
             color: '#fff'
           },
           itemStyle: {
@@ -481,5 +428,4 @@ export {
   option,
   optionMerge,
   OptionFactory,
-  liveOption
 }

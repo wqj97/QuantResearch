@@ -136,8 +136,8 @@ class ChartsMain extends React.Component {
         option_generated = optionMerge(chartsTitle, data, names, func)
       }
       const latestData = {
-        [monthQuery[0]]: option_generated.series[0].data[option_generated.series[0].data.length - 1].toFixed(2),
-        [monthQuery[1]]: option_generated.series[1].data[option_generated.series[1].data.length - 1].toFixed(2)
+        [monthQuery[0]]: option_generated.series[0].data[option_generated.series[0].data.length - 1][1].toFixed(2),
+        [monthQuery[1]]: option_generated.series[1].data[option_generated.series[1].data.length - 1][1].toFixed(2)
       }
       this.setState({
         option: option_generated,
@@ -243,8 +243,11 @@ class ChartsMain extends React.Component {
           flag = true
         }
       }
-      const contract = (latestData[latestDataKeys[0]] / latestData[latestDataKeys[1]]).toFixed(2)
-      option.series[2].data.push([data.date, contract])
+      const contract = Number(latestData[latestDataKeys[0]] / latestData[latestDataKeys[1]])
+      const now = new Date()
+      const xAxis = now.toLocaleTimeString()
+      option.xAxis.data.push(xAxis)
+      option.series[2].data.push([xAxis, contract])
       option.series[2].markLine.data[0].yAxis = contract
       this.setState({
         option: option,

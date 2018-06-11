@@ -99,7 +99,7 @@ class ProductController extends Controller
             'unit' => 'required',
             'roles' => 'required'
         ]);
-        $product = Product::find($request->id);
+        $product = Product::findOrNew($request->id);
         $product->stableCoefficient = $request->stableCoefficient;
         $product->code = $request->code;
         $product->names = $request->names;
@@ -111,8 +111,8 @@ class ProductController extends Controller
         $product->unit = $request->unit;
         $product->doable = $request->doable;
         $product->stop = $request->stop;
-        $product->roles()->sync($request->roles);
         $product->save();
+        $product->roles()->sync($request->roles);
         return response()->json('成功');
     }
 
@@ -120,13 +120,16 @@ class ProductController extends Controller
      * 删除一个产品
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function deleteProductConfig (Request $request)
     {
         $this->validate($request, [
             'id' => 'required'
         ]);
-        Product::destroy($request->id);
+        $product = Product::find($request->id);
+        $product->roles()->detach();
+        $product->delete($request->id);
         return response()->json('删除成功');
     }
 }

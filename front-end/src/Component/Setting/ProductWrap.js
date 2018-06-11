@@ -17,7 +17,7 @@ class ProductWrap extends React.Component {
           product2_month: [null, null, null],
           openPosition: [[null, null], [null, null], [null, null]],
           stopLoss: [[null, null], [null, null], [null, null]],
-          roles: [],
+          roles: [{ id: 1 }],
           unit: [null, null]
         }
       }

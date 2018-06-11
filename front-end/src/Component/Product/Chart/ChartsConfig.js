@@ -17,6 +17,16 @@ const commonCalculateAlgorithm = (unit1, unit2) => {
   }
 }
 
+const drawdown = (val1, val2) => {
+
+}
+
+/**
+ * 跨产品对冲比值公式
+ * @param val1
+ * @param val2
+ * @return {number}
+ */
 const periodFunc = (val1, val2) => {
   return val1 / val2
 }
