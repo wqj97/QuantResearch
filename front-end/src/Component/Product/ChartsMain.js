@@ -91,7 +91,8 @@ class ChartsMain extends React.Component {
   }
 
   shouldComponentUpdate (nextProps, nextState, nextContext) {
-    return Boolean(nextState.config)
+    const latestDataKeysLength = Object.keys(nextState.latestData).length
+    return Boolean(nextState.config && latestDataKeysLength)
   }
 
 
@@ -135,14 +136,18 @@ class ChartsMain extends React.Component {
       } else {
         option_generated = optionMerge(chartsTitle, data, names, func)
       }
+      const latest_1 = option_generated.series[0].data[option_generated.series[0].data.length - 1][1].toFixed(2)
+      const latest_2 = option_generated.series[1].data[option_generated.series[1].data.length - 1][1].toFixed(2)
       const latestData = {
-        [monthQuery[0]]: option_generated.series[0].data[option_generated.series[0].data.length - 1][1].toFixed(2),
-        [monthQuery[1]]: option_generated.series[1].data[option_generated.series[1].data.length - 1][1].toFixed(2)
+        [monthQuery[0]]: latest_1,
+        [monthQuery[1]]: latest_2
       }
+      const contract = Number(latest_1 / latest_2)
       this.setState({
         option: option_generated,
         names: names,
         latestData: latestData,
+        short: contract > this.middleLine,
         loading: false
       })
       this.syncConfig()
@@ -209,7 +214,6 @@ class ChartsMain extends React.Component {
 
   /**
    * 手动刷新数据
-   * TODO: 还需要完善后端
    */
   refreshData = () => {
     const { chartsData } = this.props
@@ -311,10 +315,18 @@ class ChartsMain extends React.Component {
   }
 
   render () {
-    const { names } = this.props.chartsData
-    const month = this.props.chartsData.product1_month
-    const contrastMonth = this.props.chartsData.product2_month
+    const { names, product1_month, product2_month, stopLoss } = this.props.chartsData
     const calculateResult = this.calculateboardLot()
+    const { latestData, monthKey, short } = this.state
+    const latestDataKeys = Object.keys(latestData)
+    const drawdown = latestDataKeys.length ? this.props.chartsData.drawdown(
+      latestData[latestDataKeys[0]],
+      latestData[latestDataKeys[1]],
+      stopLoss[monthKey][short ? 1 : 0],
+      calculateResult[this.symbol[0]],
+      calculateResult[this.symbol[1]]
+    ) : 0
+
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <ReactEcharts className="ChartsMain"
@@ -332,9 +344,9 @@ class ChartsMain extends React.Component {
               <p>计算公式: {this.state.names[0]}实时价格 / {this.state.names[1]}实时价格</p>
               <div style={{ margin: '15px 0' }}>
                 选择主力月: <Radio.Group onChange={this.handleMonthChange} defaultValue={0}>
-                <Radio.Button value={0}>{month[0]} / {contrastMonth[0]}</Radio.Button>
-                <Radio.Button value={1}>{month[1]} / {contrastMonth[1]}</Radio.Button>
-                <Radio.Button value={2}>{month[2]} / {contrastMonth[2]}</Radio.Button>
+                <Radio.Button value={0}>{product1_month[0]} / {product2_month[0]}</Radio.Button>
+                <Radio.Button value={1}>{product1_month[1]} / {product2_month[1]}</Radio.Button>
+                <Radio.Button value={2}>{product1_month[2]} / {product2_month[2]}</Radio.Button>
                 <Radio.Button value={'merge'}>三线合一</Radio.Button>
               </Radio.Group>
               </div>
@@ -373,6 +385,7 @@ class ChartsMain extends React.Component {
                 <Card title={this.props.chartsData.names[0]}>
                   <p>方向: {!this.state.short ? '做多' : '做空'}</p>
                   <p>实时: {this.state.latestData[this.symbol[0]]}</p>
+                  <p>最大回撤: {drawdown}</p>
                   <p>数量: {calculateResult[this.symbol[0]]} 手</p>
                 </Card>
               </Col>
@@ -380,6 +393,7 @@ class ChartsMain extends React.Component {
                 <Card title={this.props.chartsData.names[1]}>
                   <p>方向: {this.state.short ? '做多' : '做空'}</p>
                   <p>实时: {this.state.latestData[this.symbol[1]]}</p>
+                  <p>最大回撤: {drawdown}</p>
                   <p>数量: {calculateResult[this.symbol[1]]} 手</p>
                 </Card>
               </Col>

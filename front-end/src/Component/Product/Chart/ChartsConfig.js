@@ -17,8 +17,26 @@ const commonCalculateAlgorithm = (unit1, unit2) => {
   }
 }
 
-const drawdown = (val1, val2) => {
-
+/**
+ * 计算最大回撤
+ * @param {Number} unit1 分子每手吨数
+ * @param {Number} unit2 分母每手吨数
+ * @return {function(*, *, *, *, *): number}
+ */
+const drawdown = (unit1, unit2) => {
+  /**
+   * @param {Number} value1 分子实时价格
+   * @param {Number} value2 分母实时价格
+   * @param {Number} stop 止损线
+   * @param {Number} openPosition1 分子产品开仓手数目
+   * @param {Number} openPosition2 分母产品开仓手数目
+   */
+  return (value1, value2, stop, openPosition1, openPosition2) => {
+    const drawdownA = ((value1 / stop) - value2) * openPosition2 * unit2
+    const drawdownB = ((value2 / stop) - value1) * openPosition1 * unit1
+    const A_AbsBiggerThan_B = Math.abs(drawdownA) > Math.abs(drawdownA)
+    return A_AbsBiggerThan_B ? drawdownA : drawdownB
+  }
 }
 
 /**
@@ -40,6 +58,7 @@ export const getConfig = async productName => {
   return await getProductConfig(productName).then(data => {
     data.calculateFunc = commonCalculateAlgorithm(data.unit[0], data.unit[1])
     data.func = periodFunc
+    data.drawdown = drawdown(data.unit[0], data.unit[1])
     return data
   })
 }
