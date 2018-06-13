@@ -55,10 +55,9 @@ const periodFunc = (val1, val2) => {
  * @return {Promise<*>}
  */
 export const getConfig = async productName => {
-  return await getProductConfig(productName).then(data => {
-    data.calculateFunc = commonCalculateAlgorithm(data.unit[0], data.unit[1])
-    data.func = periodFunc
-    data.drawdown = drawdown(data.unit[0], data.unit[1])
-    return data
-  })
+  const data = await getProductConfig(productName)
+  data.calculateFunc = commonCalculateAlgorithm(data.unit[0], data.unit[1])
+  data.func = periodFunc
+  data.drawdown = drawdown(data.unit[0], data.unit[1])
+  return data
 }
