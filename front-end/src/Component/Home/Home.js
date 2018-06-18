@@ -1,9 +1,8 @@
 import { Carousel, Col, Row } from "antd"
 
 import 'rc-banner-anim/assets/index.css'
-import QueueAnim from 'rc-queue-anim'
 import React from 'react'
-import Footer from "../../layout/Footer";
+import Footer from "../../layout/Footer"
 import './Home.scss'
 
 const Banner = () => (
@@ -36,16 +35,16 @@ const Banner = () => (
 class Home extends React.Component {
   render () {
     return (
-      <QueueAnim className={'Home'} interval={500} duration={1500}>
+      <div className={'Home'} interval={500} duration={1500}>
         <Banner key={'a'} />
         <Row type={'flex'} justify={'center'} className={'banner-menu'}>
           <Col span={6}>
             <div className="banner-menu-item">
               <div className="banner-menu-icon">
-                <img src={require('../../assets/sign-up.svg')} alt="" />
+                <img src={require('../../assets/news.svg')} alt="" />
               </div>
               <div className="banner-menu-title">
-                免费注册
+                量研新闻
               </div>
             </div>
           </Col>
@@ -62,10 +61,10 @@ class Home extends React.Component {
           <Col span={6}>
             <div className="banner-menu-item">
               <div className="banner-menu-icon">
-                <img src={require('../../assets/price.svg')} alt="" />
+                <img src={require('../../assets/lab.svg')} alt="" />
               </div>
               <div className="banner-menu-title">
-                价格详情
+                量化金融研究所
               </div>
             </div>
           </Col>
@@ -94,6 +93,27 @@ class Home extends React.Component {
               </div>
               <div className="description-point">
                 实盘心得
+              </div>
+            </Col>
+          </Row>
+        </div>
+        <div className="aboutus">
+          <Row type={'flex'} align={'middle'} justify={'center'} style={{height: '100%'}}>
+            <Col>
+              <div className="content">
+                致力于推广量化投资&对冲投资的投资逻辑和科学的投资方式
+              </div>
+              <div className="content">
+                旨在助力普通的个人或者机构投资者摒弃散户思维，接受先进、科学的投资理念
+              </div>
+              <div className="content">
+                间接追踪二级市场中的大资金相对趋势方向，追求大概率事件和长久稳定的复利收益
+              </div>
+              <div className="content">
+                创始人均来自阿里巴巴、百度
+              </div>
+              <div className="content">
+                有着大宗商品贸易、国内二级资本市场投资、大型国企风险投资背景。
               </div>
             </Col>
           </Row>
@@ -176,7 +196,7 @@ class Home extends React.Component {
           </Col>
         </Row>
         <Footer key={'d'} />
-      </QueueAnim>
+      </div>
     )
   }
 }

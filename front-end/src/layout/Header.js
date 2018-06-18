@@ -116,16 +116,25 @@ class Header extends React.Component {
             <img src={require('../assets/logo-reverse.svg')} width={30} style={{ marginRight: 15 }} alt={'量研云'} />量研云
           </Menu.Item>
           <Menu.Item key="/product">
-            <Icon type="area-chart" />量化产品
+            <Icon type='area-chart'/>主观策略
+          </Menu.Item>
+          <Menu.Item key="/product1">
+            <i className="iconfont icon-keguan" />客观策略
           </Menu.Item>
           <Menu.Item key="/suggest">
-            <Icon type="hdd" />资讯
+            <i className="iconfont icon-xinwen" />量研新闻
           </Menu.Item>
           <Menu.Item key="/school">
-            <Icon type="hdd" />学院
+            <i className="iconfont icon-xueyuan " />量研学院
           </Menu.Item>
           <Menu.Item key="/social">
-            <Icon type="hdd" />社区
+            <i className="iconfont icon-shequ" />量研社区
+          </Menu.Item>
+          <Menu.Item key="/contact">
+            <i className="iconfont icon-lianxiwomen" />联系我们
+          </Menu.Item>
+          <Menu.Item key="/join-us">
+            <i className="iconfont icon-zhaopin" />加入我们
           </Menu.Item>
           <Menu.Item key={user ? '/user' : '/login'} style={{ float: 'right', width: 120, textAlign: 'center' }}>
             <UserDropDown history={this.props.history} changeKey={this.setState.bind(this)} logout={this.handleLogout} user={user} />

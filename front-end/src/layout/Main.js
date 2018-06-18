@@ -12,6 +12,7 @@ import User from "../Component/User/User"
 
 
 import './Main.scss'
+import Footer from "./Footer";
 
 const Product = Loadable({
   loader: () => import('../Component/Product/Product'),
@@ -20,6 +21,11 @@ const Product = Loadable({
 
 const Setting = Loadable({
   loader: () => import('../Component/Setting/Setting'),
+  loading: Laoding,
+})
+
+const Contact = Loadable({
+  loader: () => import('../Component/Contact'),
   loading: Laoding,
 })
 
@@ -43,6 +49,8 @@ const Routes = props => {
               render={() => <User {...props} />} />
             <Route path={'/setting'} exact
               render={() => <Setting {...props} />} />
+            <Route path={'/contact'} exact
+              render={() => <Contact {...props} />} />
             <Route component={Building} />
           </Switch>
         </CSSTransition>

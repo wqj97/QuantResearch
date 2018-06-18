@@ -93,11 +93,11 @@
     &:hover {
       background: $primary-color / 1.1;
     }
-    //margin-top: -1px;
     .banner-menu-item {
       padding: 20px 0;
+      height: 100%;
       cursor: pointer;
-      box-sizing: content-box;
+      box-sizing: border-box;
       border-left: 1px solid rgba(255, 255, 255, 0.6);
       display: flex;
       align-items: center;
@@ -239,6 +239,18 @@
           height: calc(100% / 5);
         }
       }
+    }
+  }
+  .aboutus {
+    background: url("../../assets/aboutus-bg.jpg") no-repeat fixed top;
+    background-size: cover;
+    height: 60vh;
+    .content {
+      color: #fff;
+      font-weight: bold;
+      font-size: 2vw;
+      text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+      margin: 15px 0;
     }
   }
 }

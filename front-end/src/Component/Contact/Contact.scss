@@ -1,0 +1,44 @@
+.Contact {
+  .contact-title {
+    height: 40vh;
+    color: #fff;
+    font-size: 8vh;
+    user-select: none;
+    letter-spacing: 50px;
+    font-weight: bold;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+    background: url("../../assets/contactus-bg.jpg") center no-repeat fixed;
+    background-size: cover;
+    @include clark-flex-center;
+  }
+  .contact-block {
+    font-size: 20px;
+    margin: 0 50px;
+
+    .content-block-title {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+  }
+  .team-block {
+    img {
+      height: 300px;
+    }
+    .ant-card {
+      height: 100%;
+      transition: transform 1s ease, box-shadow 1s ease;
+      &:hover {
+        transform: scale(1.1) translateY(-30px);
+        @include clark-box-shadow;
+      }
+    }
+    .team-title {
+      padding-bottom: 20px;
+      margin: 0 40px 40px;
+      border-bottom: 1px solid #eee;
+      font-size: 36px;
+      text-align: center;
+    }
+  }
+}

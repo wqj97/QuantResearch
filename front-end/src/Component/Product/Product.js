@@ -44,28 +44,18 @@ class Product extends React.Component {
       keyPath: ["跨产品对冲/建材能源系/螺纹/热卷", "跨产品对冲建材能源系", "跨产品对冲"],
       randomNumber: 5
     }
-    generateMenuLinkList(menuList).then(data => {
-      getSelfSelectedList().then(list => {
+    generateMenuLinkList(menuList).then(linkListData => {
+      Promise.all([
+        getSelfSelectedList(),
+        getConfig('螺纹/热卷')
+      ]).then(([list, configData]) => {
         list.forEach(node => {
-          const linkNode = new LinkNode(data.child[0], null, `${node.name} ( ${node.code.join(' ')} )`)
-          data.child[0].appendChild(linkNode)
+          const linkNode = new LinkNode(linkListData.child[0], null, `${node.name} ( ${node.code.join(' ')} )`)
+          linkListData.child[0].appendChild(linkNode)
         })
         this.setState({
-          menuList: data
-        })
-        getConfig('螺纹/热卷').then(data => {
-          this.setState({
-            chartsData: data
-          })
-        })
-      }).catch(() => {
-        this.setState({
-          menuList: data
-        })
-        getConfig('螺纹/热卷').then(data => {
-          this.setState({
-            chartsData: data
-          })
+          menuList: linkListData,
+          chartsData: configData
         })
       })
     })
