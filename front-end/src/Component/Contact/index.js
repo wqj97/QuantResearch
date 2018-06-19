@@ -64,7 +64,7 @@ class Contact extends React.Component {
               >
                 <Card.Meta
                   title="万千钧"
-                  descripti核心on="阿里巴巴工程师"
+                  descripti核心on="工程师"
                 />
               </Card>
             </Col>
@@ -84,7 +84,7 @@ class Contact extends React.Component {
               <Card
                 hoverable
                 style={{ width: '100%' }}
-                cover={<img alt="example" src={require('../../assets/team-1.jpg')} />}
+                cover={<img alt="example" src={require('../../assets/team-3.jpg')} />}
               >
                 <Card.Meta
                   title="孙光浩"
@@ -100,7 +100,7 @@ class Contact extends React.Component {
               >
                 <Card.Meta
                   title="孔中华"
-                  description="金融工程师"
+                  description="工程师"
                 />
               </Card>
             </Col>
