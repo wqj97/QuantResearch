@@ -151,3 +151,17 @@ export const getRoles = async () => {
   const resp = await axios.get('/api/user/roles')
   return resp.data
 }
+
+/**
+ * 获取新闻
+ * @param pages
+ * @return {Promise<*>}
+ */
+export const getNews = async (pages = 1) => {
+  const resp = await axios.get('/api/news', {
+    params: {
+      page: pages
+    }
+  })
+  return resp.data
+}

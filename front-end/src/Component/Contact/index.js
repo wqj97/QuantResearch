@@ -15,7 +15,7 @@ class Contact extends React.Component {
         <div className="contact-title">
           联系我们
         </div>
-        <Row style={{ height: '25vh' }} type={'flex'} justify={'center'} align={'middle'}>
+        <Row style={{ height: '25vh', minHeight:'400px' }} type={'flex'} justify={'center'} align={'middle'}>
           <Col className={'contact-block'} span={10}>
             <div className="content-block-title">
               天津量研科技有限公司
@@ -64,7 +64,7 @@ class Contact extends React.Component {
               >
                 <Card.Meta
                   title="万千钧"
-                  descripti核心on="工程师"
+                  description="工程师"
                 />
               </Card>
             </Col>

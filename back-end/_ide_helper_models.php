@@ -10,6 +10,32 @@
 
 namespace App{
 /**
+ * App\News
+ *
+ * @property int $id
+ * @property string $title
+ * @property string $content
+ * @property string $classify
+ * @property string $url
+ * @property string $analysis
+ * @property string|null $deleted_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereAnalysis($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereClassify($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereUrl($value)
+ */
+	class News extends \Eloquent {}
+}
+
+namespace App{
+/**
  * App\ProductConfig
  *
  * @property int $id

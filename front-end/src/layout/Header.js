@@ -121,7 +121,7 @@ class Header extends React.Component {
           <Menu.Item key="/product1">
             <i className="iconfont icon-keguan" />客观策略
           </Menu.Item>
-          <Menu.Item key="/suggest">
+          <Menu.Item key="/news">
             <i className="iconfont icon-xinwen" />量研新闻
           </Menu.Item>
           <Menu.Item key="/school">

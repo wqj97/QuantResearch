@@ -1,0 +1,71 @@
+$text-color: rgba(#000, 0.4);
+$text-color-secondary: rgba(#000, 0.45);
+$heading-color: rgba(#000, 0.85);
+$primary-color: #1890ff;
+$disabled-color: rgba(#000, 0.25);
+.projectList {
+  :global {
+    .ant-card-meta-description {
+      color: $text-color-secondary;
+      height: 44px;
+      line-height: 22px;
+      overflow: hidden;
+    }
+  }
+
+  .cardTitle {
+    line-height: 24px;
+    font-size: 14px;
+    span {
+      float: right;
+    }
+    a {
+      color: $heading-color;
+      height: 24px;
+      display: inline-block;
+      vertical-align: top;
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+
+  .projectGrid {
+    width: 33.33%;
+  }
+
+  .projectItemContent {
+    display: flex;
+    margin-top: 8px;
+    overflow: hidden;
+    font-size: 12px;
+    height: 20px;
+    line-height: 20px;
+    .anticon {
+      margin-right: 12px;
+    }
+    a {
+      color: $text-color-secondary;
+      display: inline-block;
+      flex: 1 1 0;
+      &:hover {
+        color: $primary-color;
+      }
+    }
+    .datetime {
+      color: $disabled-color;
+      flex: 0 0 auto;
+      float: right;
+    }
+  }
+}
+
+.activitiesList {
+  padding: 0 24px 8px 24px;
+  .username {
+    color: $text-color;
+  }
+  .event {
+    font-weight: normal;
+  }
+}

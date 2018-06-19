@@ -28,6 +28,11 @@ const Contact = Loadable({
   loading: Laoding,
 })
 
+const News = Loadable({
+  loader: () => import('../Component/News'),
+  loading: Laoding,
+})
+
 const Routes = props => {
   return (
     <Route render={({ location }) => (
@@ -50,6 +55,8 @@ const Routes = props => {
               render={() => <Setting {...props} />} />
             <Route path={'/contact'} exact
               render={() => <Contact {...props} />} />
+            <Route path={'/news'} exact
+              render={() => <News {...props} />} />
             <Route component={Building} />
           </Switch>
         </CSSTransition>

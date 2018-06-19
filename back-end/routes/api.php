@@ -1,7 +1,4 @@
 <?php
-
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -34,4 +31,9 @@ Route::group(['prefix' => 'product'], function () {
     Route::delete('', 'ProductController@deleteProductConfig'); // 删除产品配置
     Route::get('list', 'ProductController@getProductConfigList'); // 获取产品配置列表
     Route::get('notice', 'ProductController@getProductConfigNoticeList'); // 获取产品提醒列表
+});
+
+Route::group(['prefix' => 'news'] ,function () {
+   Route::post('', 'NewsController@createNews'); // 创建新闻
+   Route::get('', 'NewsController@getNews'); // 获取新闻
 });
