@@ -12,7 +12,6 @@ import User from "../Component/User/User"
 
 
 import './Main.scss'
-import Footer from "./Footer";
 
 const Product = Loadable({
   loader: () => import('../Component/Product/Product'),

@@ -53,9 +53,9 @@ class Contact extends React.Component {
         </Row>
         <div className="team-block">
           <div className="team-title">
-            团队
+            核心团队
           </div>
-          <Row type={'flex'} align={'middle'} justify={'space-around'}>
+          <Row type={'flex'} justify={'space-around'}>
             <Col span={5}>
               <Card
                 hoverable
@@ -64,7 +64,7 @@ class Contact extends React.Component {
               >
                 <Card.Meta
                   title="万千钧"
-                  description="阿里巴巴工程师"
+                  descripti核心on="阿里巴巴工程师"
                 />
               </Card>
             </Col>
@@ -96,11 +96,11 @@ class Contact extends React.Component {
               <Card
                 hoverable
                 style={{ width: '100%' }}
-                cover={<img alt="example" src={require('../../assets/team-1.jpg')} />}
+                cover={<img alt="example" src={require('../../assets/team-4.jpg')} />}
               >
                 <Card.Meta
                   title="孔中华"
-                  description="阿里巴巴工程师"
+                  description="金融工程师"
                 />
               </Card>
             </Col>
