@@ -6,8 +6,8 @@
   align-items: center;
 }
 
-@mixin clark-box-shadow {
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.10);
+@mixin clark-box-shadow($opacity: 0.1) {
+  box-shadow: 0 20px 35px rgba(0, 0, 0, $opacity);
 }
 
 $primary-color: #39628D;

@@ -1,0 +1,44 @@
+.JoinUs {
+  font-size: 18px;
+  .ant-col-12 {
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    transition: all .3s ease;
+    &:hover {
+      background: #f8f8f8;
+      border: 0.5px solid transparent;
+      @include clark-box-shadow;
+      position: relative;
+      z-index: 10;
+    }
+  }
+
+  .job-content {
+    padding-left: 15px;
+  }
+  .job-title {
+    font-size: 24px;
+    margin: 0 0 15px;
+    font-weight: bold;
+  }
+  .job-duty {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  .find-partner {
+    background: url("../../assets/joinus-bg.png") center no-repeat;
+    background-size: cover;
+    color: #fff;
+    height: 40vh;
+    font-weight: 800;
+    @include clark-flex-center;
+    .slogan {
+      font-size: 3vw;
+    }
+    .sub-title {
+      margin-top: 20px;
+      font-size: 24px;
+    }
+  }
+}

@@ -4,7 +4,6 @@ import Loadable from 'react-loadable'
 import { Route, Switch } from 'react-router-dom'
 
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import Building from "../Component/Building/Building";
 import Home from '../Component/Home/Home'
 import Laoding from '../Component/Loading'
 import Login from '../Component/Login/Login'
@@ -33,6 +32,16 @@ const News = Loadable({
   loading: Laoding,
 })
 
+const JoinUs = Loadable({
+  loader: () => import('../Component/JoinUs'),
+  loading: Laoding,
+})
+
+const Building = Loadable({
+  loader: () => import('../Component/Building/Building'),
+  loading: Laoding,
+})
+
 const Routes = props => {
   return (
     <Route render={({ location }) => (
@@ -57,6 +66,8 @@ const Routes = props => {
               render={() => <Contact {...props} />} />
             <Route path={'/news'} exact
               render={() => <News {...props} />} />
+            <Route path={'/join-us'} exact
+              render={() => <JoinUs {...props} />} />
             <Route component={Building} />
           </Switch>
         </CSSTransition>
