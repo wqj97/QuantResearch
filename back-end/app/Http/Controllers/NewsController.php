@@ -19,14 +19,20 @@ class NewsController extends Controller
             'content' => 'required',
             'classify' => 'required',
             'url' => 'required',
-            'analysis' => 'required|json'
+            'analysis' => 'required'
         ]);
 
         if (News::where('url', $request->url)->exists()) {
             return response()->json('success');
         }
 
-        return News::create($request->all());
+        return News::create([
+            'title' => $request->title,
+            'content' => $request->post('content'),
+            'classify' => $request->classify,
+            'url' => $request->url,
+            'analysis' => json_decode($request->analysis)
+        ]);
     }
 
     /**
