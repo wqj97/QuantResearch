@@ -33,7 +33,8 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('notice', 'ProductController@getProductConfigNoticeList'); // 获取产品提醒列表
 });
 
-Route::group(['prefix' => 'news'] ,function () {
-   Route::post('', 'NewsController@createNews'); // 创建新闻
-   Route::get('', 'NewsController@getNews'); // 获取新闻
+Route::group(['prefix' => 'news'], function () {
+    Route::post('', 'NewsController@createNews'); // 创建新闻
+    Route::post('check', 'NewsController@checkNews'); // 检测新闻是否已经存在
+    Route::get('', 'NewsController@getNews'); // 获取新闻
 });

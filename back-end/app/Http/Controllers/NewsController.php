@@ -37,4 +37,22 @@ class NewsController extends Controller
     {
         return News::orderByDesc('id')->paginate(15);
     }
+
+    /**
+     * 检测新闻是否存在
+     * @param Request $request
+     * @return bool
+     */
+    public function checkNews (Request $request)
+    {
+        $this->validate($request, [
+            'url' => 'required'
+        ]);
+
+        if (News::where('url', $request->url)->exists()) {
+            return response('', 200);
+        } else {
+            return response('', 404);
+        }
+    }
 }
