@@ -44,7 +44,7 @@ class Home extends React.Component {
                 <img src={require('../../assets/news.svg')} alt="" />
               </div>
               <div className="banner-menu-title">
-                量研新闻
+                产品简介
               </div>
             </div>
           </Col>
