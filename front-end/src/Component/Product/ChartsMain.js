@@ -1,5 +1,6 @@
 import { Badge, Button, Card, Col, InputNumber, Radio, Row, Checkbox } from "antd"
 import ReactEcharts from 'echarts-for-react'
+import PropTypes from "prop-types";
 import React from 'react'
 import { getProductDayData, liveData, syncUserProductConfig } from '../../utils/API'
 import { option, optionMerge } from './Chart/ChartUtils'
@@ -39,6 +40,10 @@ const LivingStatus = props => {
 }
 
 class ChartsMain extends React.Component {
+  static PropTypes = {
+    userStore: PropTypes.any.isRequired
+  }
+
   constructor (props) {
     super(props)
     this.symbol = ['', '']

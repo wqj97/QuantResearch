@@ -145,7 +145,14 @@ module.exports = {
             include: paths.appSrc,
             loader: require.resolve('babel-loader'),
             options: {
-              plugins: [['import', { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]],
+              presets: ['react', 'stage-1'],
+              plugins: [['import', {
+                "libraryName": "antd",
+                "libraryDirectory": "es",
+                "style": "css"
+              }],
+                'transform-decorators-legacy',
+                'transform-decorators'],
 
               // This is a feature of `babel-loader` for webpack (not Babel itself).
               // It enables caching results in ./node_modules/.cache/babel-loader/

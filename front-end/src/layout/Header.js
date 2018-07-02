@@ -3,17 +3,19 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import './Header.scss'
-
+import { observer } from 'mobx-react'
 
 class UserDropDown extends React.Component {
   static propTypes = {
-    logout: PropTypes.func.isRequired
+    userStore: PropTypes.any.isRequired,
+    history: PropTypes.object.isRequired,
+    changeKey: PropTypes.func.isRequired
   }
 
   handleClick = e => {
     e.domEvent.stopPropagation()
     if (e.key === 'logout') {
-      this.props.logout()
+      this.props.userStore.logout()
       this.props.history.push('/login')
     } else if (e.key === 'user') {
       this.props.changeKey({ current: 'skip' })
@@ -22,7 +24,7 @@ class UserDropDown extends React.Component {
   }
 
   render () {
-    const { user } = this.props
+    const { user } = this.props.userStore
     if (user && user.name) {
       const menu = (
         <Menu style={{ width: 250 }} onClick={this.handleClick}>
@@ -61,9 +63,10 @@ class UserDropDown extends React.Component {
 
 }
 
+@observer
 class Header extends React.Component {
   static propTypes = {
-    handleLogout: PropTypes.func.isRequired
+    userStore: PropTypes.any.isRequired
   }
 
   constructor (props) {
@@ -82,14 +85,14 @@ class Header extends React.Component {
   }
 
   handleLogout = () => {
-    this.props.handleLogout()
+    this.props.userStore.logout()
   }
 
   getRole = () => {
     let result = null
-    const user = this.props.user
-    if (user && user.roles.length) {
-      result = user.roles.map(role => {
+    const userStore = this.props.userStore
+    if (userStore.user && userStore.user.roles.length) {
+      result = userStore.user.roles.map(role => {
         return role.name
       })
     }
@@ -97,7 +100,8 @@ class Header extends React.Component {
   }
 
   render () {
-    const user = this.props.user
+    const userStore = this.props.userStore
+    const user = userStore.user
     const role = this.getRole()
     return (
       <div className="Header" style={{
@@ -116,7 +120,7 @@ class Header extends React.Component {
             <img src={require('../assets/logo-reverse.svg')} width={30} style={{ marginRight: 15 }} alt={'量研云'} />量研云
           </Menu.Item>
           <Menu.Item key="/product">
-            <Icon type='area-chart'/>主观策略
+            <Icon type='area-chart' />主观策略
           </Menu.Item>
           <Menu.Item key="/product1">
             <i className="iconfont icon-keguan" />客观策略
@@ -137,7 +141,7 @@ class Header extends React.Component {
             <i className="iconfont icon-zhaopin" />加入我们
           </Menu.Item>
           <Menu.Item key={user ? '/user' : '/login'} style={{ float: 'right', width: 120, textAlign: 'center' }}>
-            <UserDropDown history={this.props.history} changeKey={this.setState.bind(this)} logout={this.handleLogout} user={user} />
+            <UserDropDown history={this.props.history} changeKey={this.setState.bind(this)} userStore={userStore} />
           </Menu.Item>
           {role && role[0] === '管理员' ? (
             <Menu.Item key="/setting" style={{ float: 'right' }}>

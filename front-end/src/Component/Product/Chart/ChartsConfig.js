@@ -34,7 +34,7 @@ const drawdown = (unit1, unit2) => {
   return (value1, value2, stop, openPosition1, openPosition2) => {
     const drawdownA = ((value1 / stop) - value2) * openPosition2 * unit2
     const drawdownB = ((value2 / stop) - value1) * openPosition1 * unit1
-    const A_AbsBiggerThan_B = Math.abs(drawdownA) > Math.abs(drawdownA)
+    const A_AbsBiggerThan_B = Math.abs(drawdownA) > Math.abs(drawdownB)
     return A_AbsBiggerThan_B ? drawdownA : drawdownB
   }
 }

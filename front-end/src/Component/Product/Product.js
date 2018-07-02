@@ -1,11 +1,11 @@
 import { Badge, Menu, message } from 'antd'
 import React from 'react'
+import { withRouter } from 'react-router-dom'
+import { getSelfSelectedList } from '../../utils/API'
 import { getConfig } from './Chart/ChartsConfig'
 import ChartsMain from './ChartsMain'
-import { menuList, generateMenuLinkList, linkSearch, LinkNode } from './MenuConfig'
-import { getSelfSelectedList } from '../../utils/API'
+import { generateMenuLinkList, LinkNode, linkSearch, menuList } from './MenuConfig'
 import './Product.scss'
-import { withRouter } from 'react-router-dom'
 
 const generateMenu = (config, path = []) => {
   if (config.child) {
@@ -70,7 +70,7 @@ class Product extends React.Component {
     const productKey = item.key.replace(/\s+\(.*\)/g, '')
     const productName = productKey.split('/').splice(-2).join('/')
     const ProductRoles = linkSearch(productName, this.state.menuList.child[1]).roles
-    const UserRole = this.props.user.roles.map(item => item.id)
+    const UserRole = this.props.userStore.user.roles.map(item => item.id)
     if (UserRole.indexOf(1) === -1) {
       try {
         let hasAuth = false

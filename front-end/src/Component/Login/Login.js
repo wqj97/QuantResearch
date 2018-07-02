@@ -8,7 +8,7 @@ import './Login.scss'
 
 class Login extends React.Component {
   static propTypes = {
-    handleLogin: PropTypes.func.isRequired
+    userStore: PropTypes.any.isRequired
   }
 
   constructor (props) {
@@ -21,7 +21,7 @@ class Login extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         login(values).then(data => {
-          this.props.handleLogin(data)
+          this.props.userStore.login(data)
           this.props.history.push('/')
         })
       }

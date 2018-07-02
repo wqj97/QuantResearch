@@ -78,7 +78,7 @@ const Routes = props => {
 
 class Main extends React.Component {
   static propTypes = {
-    handleLogin: PropTypes.func.isRequired
+    userStore: PropTypes.any.isRequired
   }
 
   constructor (props) {

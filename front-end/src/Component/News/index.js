@@ -1,10 +1,10 @@
-import React from 'react'
-import './News.scss'
-import { Row, Col, Card, Avatar, List, Pagination, Icon } from 'antd'
-import { Link } from "react-router-dom";
-import 'moment/locale/zh-cn'
+import { Card, Col, Icon, Pagination, Row } from 'antd'
 import moment from 'moment'
+import 'moment/locale/zh-cn'
+import React from 'react'
+import { Link } from "react-router-dom";
 import { getNews } from '../../utils/API'
+import './News.scss'
 
 class News extends React.Component {
   constructor (props) {

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-IP=139.199.124.15
+IP=180.76.97.240
 USER=root
 source_dir=./build
 dest_dir=/home/wwwroot/www.lyquant.com/public/public
