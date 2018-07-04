@@ -1,9 +1,14 @@
 import { Col, message, Row, Tag } from 'antd'
+import PropTypes from "prop-types";
 import React from 'react'
 import { getSelfSelectedList, syncUserProductConfig } from '../../utils/API'
 import './User.scss'
 
 class User extends React.Component {
+  static propTypes = {
+    userStore: PropTypes.any.isRequired
+  }
+
   constructor (props) {
     super(props)
     this.state = {
@@ -21,10 +26,11 @@ class User extends React.Component {
 
   handleClose = tag => {
     tag.config.selfSelected = false
-    syncUserProductConfig(tag.code, tag.name, tag.config).then(() =>message.success('删除成功'))
+    syncUserProductConfig(tag.code, tag.name, tag.config).then(() => message.success('删除成功'))
   }
 
   render () {
+    const { user } = this.props.userStore
     return (
       <div className="User">
         <Row type={'flex'}>
@@ -32,11 +38,12 @@ class User extends React.Component {
             <div className="user-box">
               <div className="user-head">
                 <div className="user-meta">
-                  <div>@{this.props.user.name}</div>
-                  <div>{this.props.user.email}</div>
+                  <div>@{user.name}</div>
+                  <div>{user.roles.map(item => (item.name)).join(', ')}</div>
+                  <div>{user.email}</div>
                 </div>
                 <div className="user-avata">
-                  <img src={this.props.user.head} alt={'头像'}/>
+                  <img src={user.head} alt={'头像'} />
                 </div>
                 <div className="head-background">
                 </div>

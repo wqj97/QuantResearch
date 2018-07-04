@@ -17,7 +17,7 @@ namespace App{
  * @property string $content
  * @property string $classify
  * @property string $url
- * @property string $analysis
+ * @property array $analysis
  * @property string|null $deleted_at
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
@@ -62,6 +62,25 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereUserId($value)
  */
 	class ProductConfig extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * App\UserLoginRecord
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string $ip
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \App\User $user_info
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\UserLoginRecord whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\UserLoginRecord whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\UserLoginRecord whereIp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\UserLoginRecord whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\UserLoginRecord whereUserId($value)
+ */
+	class UserLoginRecord extends \Eloquent {}
 }
 
 namespace App{

@@ -35,6 +35,7 @@ class UserDropDown extends React.Component {
               </Col>
               <Col span={12} offset={2}>
                 <p>{user.name}</p>
+                <div>{user.roles.map(item => (item.name)).join(', ')}</div>
                 <p>{user.email}</p>
               </Col>
             </Row>

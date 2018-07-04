@@ -7,8 +7,14 @@ import store from 'store'
  * @return {Promise<*>}
  * @constructor
  */
-export const Login = async (data) => {
+export const login = async (data) => {
   const resp = await axios.post('/api/user', data)
+  store.set('user', resp.data)
+  return resp.data
+}
+
+export const signup = async (data) => {
+  const resp = await axios.post('/api/user/signup', data)
   store.set('user', resp.data)
   return resp.data
 }

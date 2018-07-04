@@ -6,7 +6,7 @@ import { Route, Switch } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import Home from '../Component/Home/Home'
 import Laoding from '../Component/Loading'
-import Login from '../Component/Login/Login'
+import LoginAndSignup from '../Component/LoginAndSignup'
 import User from "../Component/User/User"
 
 
@@ -54,8 +54,8 @@ const Routes = props => {
           <Switch className="Main" location={location}>
             <Route path={'/'} exact
               component={Home} />
-            <Route path={'/login'} exact
-              render={() => <Login {...props} />} />
+            <Route path={'/(login|signup)'} exact
+              render={() => <LoginAndSignup {...props} />} />
             <Route path={'/product'} exact
               render={() => <Product {...props} />} />
             <Route path={'/user'} exact

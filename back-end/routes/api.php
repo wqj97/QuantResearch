@@ -18,14 +18,15 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('selfSelected', 'UserController@getSelfSelected'); // 获取自选列表
     });
     Route::post('', 'UserController@login'); // 登录
+    Route::post('signup', 'UserController@signup'); // 注册
     Route::get('roles', 'UserController@getRoles'); // 获取所有的角色
 });
 
-Route::group(['prefix' => 'data'], function () {
+Route::group(['prefix' => 'data', 'middleware' => 'auth:api'], function () {
     Route::get('', 'DataController@getDayData'); // 获取日线数据
 });
 
-Route::group(['prefix' => 'product'], function () {
+Route::group(['prefix' => 'product', 'middleware' => 'auth:api'], function () {
     Route::get('', 'ProductController@getProductConfig'); // 获取产品配置
     Route::post('', 'ProductController@setProductConfig'); // 设置产品配置
     Route::delete('', 'ProductController@deleteProductConfig'); // 删除产品配置

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Role;
 use App\User;
+use App\UserLoginRecord;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -34,10 +35,42 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ])) {
-            return \Auth::user()->makeVisible('api_token');
+            $user = \Auth::user();
+            UserLoginRecord::create([
+                'user_id' => $user->id,
+                'ip' => $request->getClientIp()
+            ]);
+            return $user->makeVisible('api_token');
         } else {
             return response()->json('账号或密码错误', 403);
         }
+    }
+
+    /**
+     * 注册用户
+     * @param Request $request
+     * @return User|\Illuminate\Database\Eloquent\Model|\Illuminate\Http\JsonResponse
+     */
+    public function signup (Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required',
+            'password' => 'required',
+            'name' => 'required'
+        ]);
+        if (User::where('email', $request->email)->exists()) {
+            return response()->json('邮箱已经存在', 409);
+        }
+        $user = User::create([
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'name' => $request->name,
+            'api_token' => str_random(40)
+        ]);
+
+        $user->roles()->attach(6);
+
+        return User::find($user->id)->makeVisible('api_token');
     }
 
     /**
