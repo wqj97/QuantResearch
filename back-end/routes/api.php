@@ -39,3 +39,5 @@ Route::group(['prefix' => 'news'], function () {
     Route::post('check', 'NewsController@checkNews'); // 检测新闻是否已经存在
     Route::get('', 'NewsController@getNews'); // 获取新闻
 });
+
+Route::any('wechat', 'WechatController@serve');
