@@ -35,17 +35,8 @@ class UsersTableSeeder extends Seeder
             'name' => '孙光浩'
         ]);
 
-        \App\User::create([
-            'email' => '1@1.com',
-            'password' => bcrypt('1'),
-            'api_token' => str_random(40),
-            'phone' => '1',
-            'name' => '免费测试账号'
-        ]);
-
         \App\User::find(1)->roles()->attach([1, 2]);
         \App\User::find(2)->roles()->attach([1, 2]);
         \App\User::find(3)->roles()->attach([1, 2]);
-        \App\User::find(4)->roles()->attach([6]);
     }
 }

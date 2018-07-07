@@ -64,6 +64,25 @@ class UserDropDown extends React.Component {
 
 }
 
+const WechatDropDown = () => (
+  <Dropdown overlay={(
+    <Row type={'flex'} justify={'center'} align={'center'}>
+      <div>
+        <img style={{
+          width: 500
+        }} src={require('../assets/qrcode.jpg')} alt="" />
+      </div>
+      <div style={{textAlign: 'center'}}>
+        关注我们订阅可开仓止损消息
+      </div>
+    </Row>
+  )} placement="bottomCenter" style={{ textAlign: 'center' }}>
+    <div>
+      关注我们
+    </div>
+  </Dropdown>
+)
+
 @observer
 class Header extends React.Component {
   static propTypes = {
@@ -143,6 +162,9 @@ class Header extends React.Component {
           </Menu.Item>
           <Menu.Item key={user ? '/user' : '/login'} style={{ float: 'right', width: 120, textAlign: 'center' }}>
             <UserDropDown history={this.props.history} changeKey={this.setState.bind(this)} userStore={userStore} />
+          </Menu.Item>
+          <Menu.Item key={user ? '/user' : '/login'} style={{ float: 'right', width: 120, textAlign: 'center' }}>
+            <WechatDropDown />
           </Menu.Item>
           {role && role[0] === '管理员' ? (
             <Menu.Item key="/setting" style={{ float: 'right' }}>

@@ -18,7 +18,8 @@ class ProductSeeder extends Seeder
             'names' => ['螺纹', '热卷', '螺纹 / 热卷'],
             'product1_month' => [1, 5, 10],
             'product2_month' => [1, 5, 10],
-            'openPosition' => [0.91, 1.1],
+            'openPosition' => [[0.91, 1.1], [0.91, 1.1], [0.91, 1.1]],
+            'stopLoss' => [[0.91, 1.1], [0.91, 1.1], [0.91, 1.1]],
             'unit' => [10, 10]
         ]);
     }
