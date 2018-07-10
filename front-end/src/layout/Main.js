@@ -4,12 +4,12 @@ import Loadable from 'react-loadable'
 import { Route, Switch } from 'react-router-dom'
 
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import Store from 'store'
 import Home from '../Component/Home/Home'
 import Laoding from '../Component/Loading'
 import LoginAndSignup from '../Component/LoginAndSignup'
 import User from "../Component/User/User"
-
-
+import { HomeModal } from './HomeModal'
 import './Main.scss'
 
 const Product = Loadable({
@@ -37,8 +37,18 @@ const JoinUs = Loadable({
   loading: Laoding,
 })
 
+const Community = Loadable({
+  loader: () => import('../Component/Community'),
+  loading: Laoding,
+})
+
 const Building = Loadable({
   loader: () => import('../Component/Building/Building'),
+  loading: Laoding,
+})
+
+const ProductIntroduction = Loadable({
+  loader: () => import('../Component/ProductIntroduction'),
   loading: Laoding,
 })
 
@@ -68,6 +78,10 @@ const Routes = props => {
               render={() => <News {...props} />} />
             <Route path={'/join-us'} exact
               render={() => <JoinUs {...props} />} />
+            <Route path={'/community'} {...props}
+              render={() => <Community />} />
+            <Route path={'/product-introduction'} {...props} exact
+              render={() => <ProductIntroduction />} />
             <Route component={Building} />
           </Switch>
         </CSSTransition>
@@ -83,9 +97,29 @@ class Main extends React.Component {
 
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      visible: false
+    }
+    const noticeRead = Store.get('noticeRead')
+    if (!noticeRead) {
+      this.setState({
+        visible: true
+      })
+    }
   }
 
+  handleOk = () => {
+    Store.set('noticeRead', true)
+    this.setState({
+      visible: false
+    })
+  }
+
+  handleCancle = () => {
+    this.setState({
+      visible: false
+    })
+  }
 
   render () {
     return (
@@ -94,6 +128,7 @@ class Main extends React.Component {
         position: 'relative',
         height: '100vh'
       }}>
+        <HomeModal visible={this.state.visible} ok={this.handleOk} cancle={this.handleCancle} />
         <Routes {...this.props} />
       </div>
     )

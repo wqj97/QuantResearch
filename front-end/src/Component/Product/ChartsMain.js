@@ -40,10 +40,6 @@ const LivingStatus = props => {
 }
 
 class ChartsMain extends React.Component {
-  static PropTypes = {
-    userStore: PropTypes.any.isRequired
-  }
-
   constructor (props) {
     super(props)
     this.symbol = ['', '']
@@ -76,7 +72,7 @@ class ChartsMain extends React.Component {
     this.middleLine = (this.props.chartsData.openPosition[this.state.monthKey][0] + this.props.chartsData.openPosition[this.state.monthKey][1]) / 2
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     const { chartsData } = nextProps
     const month = chartsData.product1_month
     const contrastMonth = chartsData.product2_month
@@ -324,13 +320,16 @@ class ChartsMain extends React.Component {
     const calculateResult = this.calculateboardLot()
     const { latestData, monthKey, short } = this.state
     const latestDataKeys = Object.keys(latestData)
-    const drawdown = latestDataKeys.length ? this.props.chartsData.drawdown(
-      latestData[latestDataKeys[0]],
-      latestData[latestDataKeys[1]],
-      stopLoss[monthKey][short ? 1 : 0],
-      calculateResult[this.symbol[0]],
-      calculateResult[this.symbol[1]]
-    ) : 0
+    let drawdown = 0
+    if (monthKey !== 'merge') {
+      drawdown = latestDataKeys.length ? this.props.chartsData.drawdown(
+        latestData[latestDataKeys[0]],
+        latestData[latestDataKeys[1]],
+        stopLoss[monthKey][short ? 1 : 0],
+        calculateResult[this.symbol[0]],
+        calculateResult[this.symbol[1]]
+      ) : 0
+    }
 
     return (
       <div style={{ width: '100%', height: '100%' }}>

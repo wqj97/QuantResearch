@@ -91,7 +91,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | When using the "apc" or "memcached" session drivers, you may specify a
-    | cache store that should be used for these sessions. This value must
+    | cache store that should be used for these sessions. This text must
     | correspond with one of the application's configured cache stores.
     |
     */
@@ -171,8 +171,8 @@ return [
     | HTTP Access Only
     |--------------------------------------------------------------------------
     |
-    | Setting this value to true will prevent JavaScript from accessing the
-    | value of the cookie and the cookie will only be accessible through
+    | Setting this text to true will prevent JavaScript from accessing the
+    | text of the cookie and the cookie will only be accessible through
     | the HTTP protocol. You are free to modify this option if needed.
     |
     */

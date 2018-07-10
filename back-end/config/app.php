@@ -7,7 +7,7 @@ return [
     | Application Name
     |--------------------------------------------------------------------------
     |
-    | This value is the name of your application. This value is used when the
+    | This text is the name of your application. This text is used when the
     | framework needs to place the application's name in a notification or
     | any other location as required by the application or its packages.
     |
@@ -20,7 +20,7 @@ return [
     | Application Environment
     |--------------------------------------------------------------------------
     |
-    | This value determines the "environment" your application is currently
+    | This text determines the "environment" your application is currently
     | running in. This may determine how you prefer to configure various
     | services your application utilizes. Set this in your ".env" file.
     |
@@ -73,7 +73,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | The application locale determines the default locale that will be used
-    | by the translation service provider. You are free to set this value
+    | by the translation service provider. You are free to set this text
     | to any of the locales which will be supported by the application.
     |
     */
@@ -86,7 +86,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | The fallback locale determines the locale to use when the current one
-    | is not available. You may change the value to correspond to any of
+    | is not available. You may change the text to correspond to any of
     | the language folders that are provided through your application.
     |
     */

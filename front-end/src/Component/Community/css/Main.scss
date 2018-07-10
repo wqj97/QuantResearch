@@ -1,0 +1,85 @@
+.community-console {
+  @include clark-box-shadow();
+  margin-top: 30px;
+  padding: 15px;
+  border: 1px solid #eee;
+}
+
+.community-container {
+  @include clark-box-shadow();
+  border: 1px solid #eee;
+  margin-top: 30px;
+  padding: 15px;
+  .topic-container {
+    cursor: pointer;
+  }
+  .topic-container:not(:first-child) {
+    border-top: 1px solid #eee;
+    margin-top: 15px;
+    padding-top: 15px;
+  }
+  .topic-title {
+    position: relative;
+    font-size: 18px;
+    color: #333;
+    font-weight: 900;
+    cursor: pointer;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    .last-reply {
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-size: 13px;
+      color: #9EA3A6;
+      font-weight: normal;
+    }
+  }
+  .topic-des {
+    font-size: 14px;
+    color: #666;
+    line-height: 25px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+  .topic-info {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #9EA3A6;
+    .topic-author {
+      display: inline-block;
+      color: #333;
+      .author-head {
+        display: inline-block;
+        img {
+          width: 40px;
+          border-radius: 100%;
+        }
+      }
+      .author-name {
+        margin-left: 15px;
+        display: inline-block;
+      }
+    }
+    .topic-meta {
+      display: inline-block;
+      margin-left: 15px;
+      .topic-create-date {
+        display: inline-block;
+      }
+      .topic-info {
+        display: inline-block;
+        .info-each {
+          margin-left: 15px;
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+}

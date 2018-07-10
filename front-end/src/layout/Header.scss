@@ -9,8 +9,14 @@
   }
   .ant-menu-item {
     color: #ADC2D9;
-    a{
+    a {
       color: #fff
     }
   }
+}
+
+.ant-dropdown-menu-flex.ant-dropdown-menu-flex-center.wechat {
+  @include clark-box-shadow;
+  background: #fff;
+  border-radius: 0 0 5px 5px;
 }

@@ -66,7 +66,7 @@ class UserDropDown extends React.Component {
 
 const WechatDropDown = () => (
   <Dropdown overlay={(
-    <Row type={'flex'} justify={'center'} align={'center'}>
+    <Row type={'flex'} className={'wechat'} justify={'center'} align={'center'}>
       <div>
         <img style={{
           width: 500
@@ -97,7 +97,7 @@ class Header extends React.Component {
   }
 
   handleClick = e => {
-    if (e.key === 'skip' || e.key === 'logo') return
+    if (e.key === 'skip' || e.key === 'logo' || e.key === 'wechat') return
     this.setState({
       current: e.key,
     })
@@ -151,7 +151,7 @@ class Header extends React.Component {
           <Menu.Item key="/school">
             <i className="iconfont icon-xueyuan " />量研学院
           </Menu.Item>
-          <Menu.Item key="/social">
+          <Menu.Item key="/community">
             <i className="iconfont icon-shequ" />量研社区
           </Menu.Item>
           <Menu.Item key="/contact">
@@ -163,7 +163,7 @@ class Header extends React.Component {
           <Menu.Item key={user ? '/user' : '/login'} style={{ float: 'right', width: 120, textAlign: 'center' }}>
             <UserDropDown history={this.props.history} changeKey={this.setState.bind(this)} userStore={userStore} />
           </Menu.Item>
-          <Menu.Item key={user ? '/user' : '/login'} style={{ float: 'right', width: 120, textAlign: 'center' }}>
+          <Menu.Item key={'wechat'} style={{ float: 'right', width: 120, textAlign: 'center' }}>
             <WechatDropDown />
           </Menu.Item>
           {role && role[0] === '管理员' ? (

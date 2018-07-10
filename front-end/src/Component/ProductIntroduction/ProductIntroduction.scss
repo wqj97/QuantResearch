@@ -1,0 +1,28 @@
+.ProductIntroduction {
+  .block {
+    width: 60%;
+    margin: 0 auto;
+    .block-title {
+      padding-top: 5vh;
+      color: #006dcc;
+      margin-bottom: 16px;
+      font-size: 24px;
+    }
+    .block-content {
+      font-size: 18px;
+      margin-bottom: 15px;
+      line-height: 30px;
+      letter-spacing: 0.8px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .block-image {
+      text-align: center;
+      margin: 40px 0;
+      img{
+        max-width: 100%;
+        @include clark-box-shadow;
+        border-radius: 3px;
+      }
+    }
+  }
+}

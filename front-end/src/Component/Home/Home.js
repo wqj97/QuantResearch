@@ -1,7 +1,8 @@
-import { Carousel, Col, Row } from "antd"
+import { Carousel, Col, Popover, Row } from "antd"
 
 import 'rc-banner-anim/assets/index.css'
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Footer from "../../layout/Footer"
 import './Home.scss'
 
@@ -39,24 +40,30 @@ class Home extends React.Component {
         <Banner key={'a'} />
         <Row type={'flex'} justify={'center'} className={'banner-menu'}>
           <Col span={6}>
-            <div className="banner-menu-item">
-              <div className="banner-menu-icon">
-                <img src={require('../../assets/news.svg')} alt="" />
+            <Link to={'/product-introduction'}>
+              <div className="banner-menu-item">
+                <div className="banner-menu-icon">
+                  <img src={require('../../assets/product.svg')} alt="" />
+                </div>
+                <div className="banner-menu-title">
+                  产品简介
+                </div>
               </div>
-              <div className="banner-menu-title">
-                产品简介
-              </div>
-            </div>
+            </Link>
           </Col>
           <Col span={6}>
-            <div className="banner-menu-item">
-              <div className="banner-menu-icon">
-                <img src={require('../../assets/contact.svg')} alt="" />
+            <Popover content={(
+              '02223983126'
+            )} title="联系方式">
+              <div className="banner-menu-item">
+                <div className="banner-menu-icon">
+                  <img src={require('../../assets/contact.svg')} alt="" />
+                </div>
+                <div className="banner-menu-title">
+                  与我们联系
+                </div>
               </div>
-              <div className="banner-menu-title">
-                与我们联系
-              </div>
-            </div>
+            </Popover>
           </Col>
           <Col span={6}>
             <div className="banner-menu-item">
@@ -98,7 +105,7 @@ class Home extends React.Component {
           </Row>
         </div>
         <div className="aboutus">
-          <Row type={'flex'} align={'middle'} justify={'center'} style={{height: '100%'}}>
+          <Row type={'flex'} align={'middle'} justify={'center'} style={{ height: '100%' }}>
             <Col>
               <div className="content">
                 致力于推广量化投资&对冲投资的投资逻辑和科学的投资方式

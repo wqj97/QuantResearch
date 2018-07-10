@@ -21,15 +21,15 @@ namespace App{
  * @property string|null $deleted_at
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereAnalysis($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereClassify($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereAnalysis($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereClassify($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereContent($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereCreatedAt($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereDeletedAt($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereId($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereTitle($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereUpdatedAt($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\News whereUrl($text)
  */
 	class News extends \Eloquent {}
 }
@@ -49,17 +49,17 @@ namespace App{
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property string|null $deleted_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereConfig($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereDeposit($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereSelfSelected($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereAmount($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereCode($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereConfig($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereCreatedAt($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereDeletedAt($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereDeposit($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereId($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereName($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereSelfSelected($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereUpdatedAt($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductConfig whereUserId($text)
  */
 	class ProductConfig extends \Eloquent {}
 }
@@ -74,11 +74,11 @@ namespace App{
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property-read \App\User $user_info
- * @method static \Illuminate\Database\Eloquent\Builder|\App\UserLoginRecord whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\UserLoginRecord whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\UserLoginRecord whereIp($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\UserLoginRecord whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\UserLoginRecord whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\UserLoginRecord whereCreatedAt($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\UserLoginRecord whereId($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\UserLoginRecord whereIp($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\UserLoginRecord whereUpdatedAt($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\UserLoginRecord whereUserId($text)
  */
 	class UserLoginRecord extends \Eloquent {}
 }
@@ -103,21 +103,21 @@ namespace App{
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Role[] $roles
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereDoable($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereFunc($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereNames($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereOpenPosition($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereProduct1Month($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereProduct2Month($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereStableCoefficient($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereStop($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereStopLoss($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereUnit($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCode($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCreatedAt($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereDoable($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereFunc($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereId($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereName($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereNames($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereOpenPosition($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereProduct1Month($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereProduct2Month($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereStableCoefficient($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereStop($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereStopLoss($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereUnit($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereUpdatedAt($text)
  */
 	class Product extends \Eloquent {}
 }
@@ -143,17 +143,17 @@ namespace App{
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\User onlyTrashed()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereApiToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereHead($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereApiToken($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCreatedAt($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereDeletedAt($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmail($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereHead($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereId($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereName($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePassword($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePhone($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($text)
  * @method static \Illuminate\Database\Query\Builder|\App\User withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\User withoutTrashed()
  */
@@ -168,10 +168,10 @@ namespace App{
  * @property string $name
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereCreatedAt($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereId($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereName($text)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Role whereUpdatedAt($text)
  */
 	class Role extends \Eloquent {}
 }
