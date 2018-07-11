@@ -12,10 +12,9 @@ const links = [{
   href: '',
   blankTarget: true,
 }, {
-  key: '条款',
-  title: '条款',
-  href: '',
-  blankTarget: true,
+  key: '服务条款',
+  title: '服务条款',
+  href: '/#/clause',
 }]
 
 const copyright = <div><p>打造国内专业的投资者群体</p><p>Copyright <Icon type="copyright" /> 2018 天津量研科技有限公司</p></div>

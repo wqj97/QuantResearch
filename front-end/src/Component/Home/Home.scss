@@ -128,8 +128,9 @@
     height: 600px;
     background: url("../../assets/price_back.jpg") no-repeat fixed center;
     background-size: cover;
-    .ant-col-6 {
+    .ant-col-4 {
       height: 70%;
+      margin: 0 -25px;
       .price-title {
         background: #EEEFF3;
       }
@@ -137,10 +138,11 @@
         background: #4FC685;
       }
     }
-    .ant-col-8 {
+    .ant-col-6 {
       position: relative;
       z-index: 9;
       height: 80%;
+      margin: 0 10px;
       .price-box {
         background: #222327;
         color: #fff;
@@ -161,7 +163,6 @@
       border-radius: 8px;
       overflow: hidden;
       position: relative;
-      margin: 0 -10px;
     }
     .price-title {
       line-height: 80px;

@@ -52,6 +52,11 @@ const ProductIntroduction = Loadable({
   loading: Laoding,
 })
 
+const Clause = Loadable({
+  loader: () => import('../Component/Clause'),
+  loading: Laoding,
+})
+
 const Routes = props => {
   return (
     <Route render={({ location }) => (
@@ -82,6 +87,8 @@ const Routes = props => {
               render={() => <Community />} />
             <Route path={'/product-introduction'} {...props} exact
               render={() => <ProductIntroduction />} />
+            <Route path={'/clause'} {...props} exact
+              render={() => <Clause />} />
             <Route component={Building} />
           </Switch>
         </CSSTransition>
@@ -100,6 +107,9 @@ class Main extends React.Component {
     this.state = {
       visible: false
     }
+  }
+
+  componentDidMount () {
     const noticeRead = Store.get('noticeRead')
     if (!noticeRead) {
       this.setState({

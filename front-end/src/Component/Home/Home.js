@@ -1,4 +1,4 @@
-import { Carousel, Col, Popover, Row } from "antd"
+import { Carousel, Col, Row } from "antd"
 
 import 'rc-banner-anim/assets/index.css'
 import React from 'react'
@@ -52,18 +52,14 @@ class Home extends React.Component {
             </Link>
           </Col>
           <Col span={6}>
-            <Popover content={(
-              '02223983126'
-            )} title="联系方式">
-              <div className="banner-menu-item">
-                <div className="banner-menu-icon">
-                  <img src={require('../../assets/contact.svg')} alt="" />
-                </div>
-                <div className="banner-menu-title">
-                  与我们联系
-                </div>
+            <div className="banner-menu-item">
+              <div className="banner-menu-icon">
+                <img src={require('../../assets/discount.svg')} alt="" />
               </div>
-            </Popover>
+              <div className="banner-menu-title">
+                新用户特惠
+              </div>
+            </div>
           </Col>
           <Col span={6}>
             <div className="banner-menu-item">
@@ -126,10 +122,10 @@ class Home extends React.Component {
           </Row>
         </div>
         <Row type={'flex'} justify={'center'} align={'middle'} className={'pricing-block'}>
-          <Col span={6}>
+          <Col span={4}>
             <div className="price-box">
               <div className="price-title">
-                免费版
+                月付版
               </div>
               <div className="price-content">
                 产品数: 1
@@ -151,13 +147,13 @@ class Home extends React.Component {
               </div>
             </div>
           </Col>
-          <Col span={8}>
+          <Col span={6}>
             <div className="price-box">
               <div className="price-title">
-                个人用户版
+                年费版
               </div>
               <div className="price-content">
-                产品数: 10
+                产品数: 全部产品
               </div>
               <div className="price-content">
                 实时数据: 支持
@@ -169,10 +165,10 @@ class Home extends React.Component {
                 紧急变动: 支持
               </div>
               <div className="price-content">
-                可登陆设备数: 1
+                可登陆设备数: 10
               </div>
               <div className="price-pay">
-                <span className={'del-price'}>¥ 40000</span><span>¥ 20000</span>
+                <span className={'del-price'}>1年价格</span><span>八折优惠</span>
               </div>
             </div>
           </Col>
@@ -180,6 +176,31 @@ class Home extends React.Component {
             <div className="price-box">
               <div className="price-title">
                 企业版
+              </div>
+              <div className="price-content">
+                产品数: 全部产品
+              </div>
+              <div className="price-content">
+                实时数据: 支持
+              </div>
+              <div className="price-content">
+                开仓提醒: 支持
+              </div>
+              <div className="price-content">
+                紧急变动: 支持
+              </div>
+              <div className="price-content">
+                可登陆设备数: 10
+              </div>
+              <div className="price-pay">
+                与我们联系
+              </div>
+            </div>
+          </Col>
+          <Col span={4}>
+            <div className="price-box">
+              <div className="price-title">
+                季付版
               </div>
               <div className="price-content">
                 产品数: 全部产品
