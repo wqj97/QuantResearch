@@ -1,10 +1,9 @@
-import { Badge, Button, Card, Col, InputNumber, Radio, Row, Checkbox } from "antd"
+import { Badge, Button, Card, Checkbox, Col, InputNumber, Radio, Row } from "antd"
 import ReactEcharts from 'echarts-for-react'
-import PropTypes from "prop-types";
+import { debounce } from 'lodash'
 import React from 'react'
 import { getProductDayData, liveData, syncUserProductConfig } from '../../utils/API'
 import { option, optionMerge } from './Chart/ChartUtils'
-import { debounce } from 'lodash'
 
 const CardTitle = props => (
   <div>开仓指导窗口 ( 右侧设置保证金 )

@@ -57,6 +57,11 @@ const Clause = Loadable({
   loading: Laoding,
 })
 
+const Payment = Loadable({
+  loader: () => import('../Component/Payment'),
+  loading: Laoding,
+})
+
 const Routes = props => {
   return (
     <Route render={({ location }) => (
@@ -83,12 +88,14 @@ const Routes = props => {
               render={() => <News {...props} />} />
             <Route path={'/join-us'} exact
               render={() => <JoinUs {...props} />} />
-            <Route path={'/community'} {...props}
-              render={() => <Community />} />
-            <Route path={'/product-introduction'} {...props} exact
-              render={() => <ProductIntroduction />} />
-            <Route path={'/clause'} {...props} exact
-              render={() => <Clause />} />
+            <Route path={'/community'}
+              render={() => <Community  {...props} />} />
+            <Route path={'/product-introduction'} exact
+              render={() => <ProductIntroduction {...props} />} />
+            <Route path={'/payment'} exact
+              render={() => <Payment {...props} />} />
+            <Route path={'/clause'} exact
+              render={() => <Clause {...props}/>} />
             <Route component={Building} />
           </Switch>
         </CSSTransition>

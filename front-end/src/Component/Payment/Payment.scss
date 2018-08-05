@@ -1,0 +1,54 @@
+.Payment {
+  padding-bottom: 85px;
+  .ant-list-header {
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;
+  }
+  .ant-list-item {
+    background: #fff;
+  }
+  .meal-item {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .meal-title {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      flex: 0 0 150px;
+    }
+    .meal-count {
+      flex: 0 0 150px;
+      text-align: center;
+    }
+  }
+  .checkout {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
+    background: #fff;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    padding: 0 30px;
+    .price-count{
+      font-size: 20px;
+      font-weight: bold;
+      .price{
+        color: #ff2e47;
+      }
+    }
+    .confirm-btn {
+      button{
+        width: 150px;
+        height: 50px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+  }
+}

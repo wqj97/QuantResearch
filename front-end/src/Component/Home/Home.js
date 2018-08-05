@@ -11,6 +11,17 @@ const Banner = () => (
     <div className={'home-banner'}>
       <Row type={'flex'} align={'middle'} justify={'space-around'}>
         <Col span={8} offset={2}>
+          <p>百度云计算战略投资</p>
+          <p>服务高度稳定, 响应快速</p>
+        </Col>
+        <Col span={14}>
+          <img src={require('../../assets/baiduCloud.jpg')} alt="" />
+        </Col>
+      </Row>
+    </div>
+    <div className={'home-banner'}>
+      <Row type={'flex'} align={'middle'} justify={'space-around'}>
+        <Col span={8} offset={2}>
           <p>交易所数据接入</p>
           <p>秒级数据实时展现</p>
         </Col>
@@ -142,9 +153,11 @@ class Home extends React.Component {
               <div className="price-content">
                 可登陆设备数: 1
               </div>
-              <div className="price-pay">
-                立即使用
-              </div>
+              <Link to={'/payment'}>
+                <div className="price-pay">
+                  ¥1000
+                </div>
+              </Link>
             </div>
           </Col>
           <Col span={6}>
@@ -167,9 +180,11 @@ class Home extends React.Component {
               <div className="price-content">
                 可登陆设备数: 10
               </div>
-              <div className="price-pay">
-                <span className={'del-price'}>1年价格</span><span>八折优惠</span>
-              </div>
+              <Link to={'/payment'}>
+                <div className="price-pay">
+                  <span className={'del-price'}>¥12000</span><span>¥10000</span>
+                </div>
+              </Link>
             </div>
           </Col>
           <Col span={6}>
@@ -190,11 +205,13 @@ class Home extends React.Component {
                 紧急变动: 支持
               </div>
               <div className="price-content">
-                可登陆设备数: 10
+                可登陆设备数: 定制
               </div>
-              <div className="price-pay">
-                与我们联系
-              </div>
+              <Link to={'/payment'}>
+                <div className="price-pay">
+                  与我们联系
+                </div>
+              </Link>
             </div>
           </Col>
           <Col span={4}>
@@ -215,11 +232,13 @@ class Home extends React.Component {
                 紧急变动: 支持
               </div>
               <div className="price-content">
-                可登陆设备数: 10
+                可登陆设备数: 3
               </div>
-              <div className="price-pay">
-                与我们联系
-              </div>
+              <Link to={'/payment'}>
+                <div className="price-pay">
+                  ¥2700
+                </div>
+              </Link>
             </div>
           </Col>
         </Row>
