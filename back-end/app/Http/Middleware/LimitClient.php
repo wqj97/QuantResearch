@@ -22,7 +22,7 @@ class LimitClient extends Authenticate
 
         if ($user = $request->user()) {
             $record = UserLoginRecord::where('user_id', $user->id)->orderByDesc('created_at')->first();
-            if ($record->ip !== $request->getClientIp()) {
+            if ($record && $record->ip !== $request->getClientIp()) {
                 return response()->json('更具您目前的账号等级, 同一时间您的账号只能登陆一个客户端, 请重新登录', 421);
             }
         }

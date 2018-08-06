@@ -54,18 +54,22 @@ class UserController extends Controller
     public function signup (Request $request)
     {
         $this->validate($request, [
-            'email' => 'required',
+            'phone' => 'required',
             'password' => 'required',
             'name' => 'required'
         ]);
-        if (User::where('email', $request->email)->exists()) {
-            return response()->json('邮箱已经存在', 409);
+        if (User::where('phone', $request->email)->exists()) {
+            return response()->json('手机号已经存在', 409);
         }
         $user = User::create([
-            'email' => $request->email,
+            'phone' => $request->phone,
             'password' => bcrypt($request->password),
             'name' => $request->name,
             'api_token' => str_random(40)
+        ]);
+        UserLoginRecord::create([
+            'user_id' => $user->id,
+            'ip' => $request->getClientIp()
         ]);
 
         $user->roles()->attach(6);

@@ -12,7 +12,7 @@
 */
 
 $app = new Illuminate\Foundation\Application(
-    realpath(__DIR__.'/../')
+    realpath(__DIR__ . '/../')
 );
 
 /*
@@ -51,5 +51,11 @@ $app->singleton(
 | from the actual running of the application and sending responses.
 |
 */
-
+$envs = ['local', 'test', 'production'];
+$env = get_cfg_var('env');
+if (empty($env) || !in_array($env, $envs)) {
+    exit('no env files');
+}
+$env = '.env.' . $env;
+$app->loadEnvironmentFrom($env);
 return $app;

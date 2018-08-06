@@ -11,6 +11,7 @@
   .meal-item {
     width: 100%;
     display: flex;
+    flex-direction: row;
     justify-content: space-around;
     align-items: center;
     .meal-title {
@@ -22,6 +23,10 @@
     .meal-count {
       flex: 0 0 150px;
       text-align: center;
+    }
+    .meal-desc {
+      width: 100%;
+      align-self: flex-end;
     }
   }
   .checkout {
@@ -35,15 +40,15 @@
     background: #fff;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
     padding: 0 30px;
-    .price-count{
+    .price-count {
       font-size: 20px;
       font-weight: bold;
-      .price{
+      .price {
         color: #ff2e47;
       }
     }
     .confirm-btn {
-      button{
+      button {
         width: 150px;
         height: 50px;
         font-size: 20px;

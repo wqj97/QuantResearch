@@ -1,6 +1,8 @@
-import { List, InputNumber, Button } from 'antd';
+import { List, InputNumber, Button, Modal, Table } from 'antd';
 import { observer } from 'mobx-react'
 import { store } from './PaymentStore'
+import { observable } from 'mobx'
+import moment from 'moment'
 import React from 'react'
 import './Payment.scss'
 
@@ -26,39 +28,95 @@ const MealInfo = props => {
   )
 }
 
+const ConfirmOrder = props => {
+  const mealList = props.store.mealCount
+  const totalPrice = props.store.mealTotalPrice
+  return (
+    <Table
+      columns={[
+        {
+          title: '套餐名',
+          dataIndex: 'title',
+          key: 'title'
+        },
+        {
+          title: '量数',
+          dataIndex: 'mealCount',
+          key: 'mealCount'
+        },
+        {
+          title: '开始日期',
+          dataIndex: 'startDate',
+          render: () => <span>{moment().format('YYYY年M月d日')}</span>
+        },
+        {
+          title: '结束日期',
+          dataIndex: 'endDate',
+          render: (text, record) => <span>{moment().add(record.mealCount, record.type).format('YYYY年M月d日')}</span>
+        }
+      ]}
+      bordered
+      footer={() => <span>总价: {totalPrice}</span>}
+      pagination={false}
+      dataSource={mealList}
+    />
+  )
+}
+
 
 @observer
 class Payment extends React.Component {
+  @observable
+  confirmVisible = false
+
   render () {
     return (
       <div className="Payment">
         <List
-          header={<div>建材能源系套餐</div>}
+          header={<div>限时特惠套餐</div>}
           className={'meal-list'}
           bordered
           dataSource={store.list.slice(0, 3)}
           renderItem={item => (<List.Item key={item.id}><MealInfo meal={item} /></List.Item>)}
         />
         <List
-          header={<div>农产品系套餐</div>}
+          header={<div>建材能源系套餐</div>}
           className={'meal-list'}
           bordered
           dataSource={store.list.slice(3, 6)}
           renderItem={item => (<List.Item key={item.id}><MealInfo meal={item} /></List.Item>)}
         />
         <List
+          header={<div>农产品系套餐</div>}
+          className={'meal-list'}
+          bordered
+          dataSource={store.list.slice(6, 9)}
+          renderItem={item => (<List.Item key={item.id}><MealInfo meal={item} /></List.Item>)}
+        />
+        <List
           header={<div>石化系套餐</div>}
           className={'meal-list'}
           bordered
-          dataSource={store.list.slice(6.9)}
+          dataSource={store.list.slice(9, 12)}
           renderItem={item => (<List.Item key={item.id}><MealInfo meal={item} /></List.Item>)}
         />
+        <Modal
+          visible={this.confirmVisible}
+          title={'确认订单'}
+          okText={'确认下单'}
+          cancelText={'再想一想'}
+          onOk={() => {
+          }}
+          onCancel={() => this.confirmVisible = false}
+        >
+          <ConfirmOrder store={store} />
+        </Modal>
         <div className="checkout">
           <div className="price-count">
             总价: <span className="price">¥ {store.mealTotalPrice.toFixed(2)}</span>
           </div>
           <div className="confirm-btn">
-            <Button type={'primary'}>结算</Button>
+            <Button type={'primary'} onClick={() => this.confirmVisible = true}>结算</Button>
           </div>
         </div>
       </div>
