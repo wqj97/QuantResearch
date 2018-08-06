@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Role')->withTimestamps();
     }
+
+    public function meal_group ()
+    {
+        return $this->hasMany('App\MealGroup', 'meal_group_id', 'user_id');
+    }
 }

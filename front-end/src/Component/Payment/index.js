@@ -17,9 +17,11 @@ const MealInfo = props => {
         <div>
           套餐内容包含: {meal.content}
         </div>
-        <div>可登陆设备数: {meal.client}</div>
         <div>紧急变动提醒: {meal.emergentNotify ? '有' : '无'}</div>
         <div>开仓提醒: {meal.notify ? '有' : '无'}</div>
+      </div>
+      <div className="meal-price">
+        ¥: {meal.price}
       </div>
       <div className="meal-count">
         <InputNumber min={0} defaultValue={0} onChange={value => store.mealCountChange(meal, value)} />
@@ -72,34 +74,19 @@ class Payment extends React.Component {
   render () {
     return (
       <div className="Payment">
-        <List
-          header={<div>限时特惠套餐</div>}
-          className={'meal-list'}
-          bordered
-          dataSource={store.list.slice(0, 3)}
-          renderItem={item => (<List.Item key={item.id}><MealInfo meal={item} /></List.Item>)}
-        />
-        <List
-          header={<div>建材能源系套餐</div>}
-          className={'meal-list'}
-          bordered
-          dataSource={store.list.slice(3, 6)}
-          renderItem={item => (<List.Item key={item.id}><MealInfo meal={item} /></List.Item>)}
-        />
-        <List
-          header={<div>农产品系套餐</div>}
-          className={'meal-list'}
-          bordered
-          dataSource={store.list.slice(6, 9)}
-          renderItem={item => (<List.Item key={item.id}><MealInfo meal={item} /></List.Item>)}
-        />
-        <List
-          header={<div>石化系套餐</div>}
-          className={'meal-list'}
-          bordered
-          dataSource={store.list.slice(9, 12)}
-          renderItem={item => (<List.Item key={item.id}><MealInfo meal={item} /></List.Item>)}
-        />
+        {
+          store.list.map(group => {
+            return (
+              <List
+                header={<div>{group.name}</div>}
+                className={'meal-list'}
+                bordered
+                dataSource={group.group_item}
+                renderItem={item => (<List.Item key={item.id}><MealInfo meal={item} /></List.Item>)}
+              />
+            )
+          })
+        }
         <Modal
           visible={this.confirmVisible}
           title={'确认订单'}

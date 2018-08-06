@@ -171,3 +171,12 @@ export const getNews = async (pages = 1) => {
   })
   return resp.data
 }
+
+/**
+ * 获取套餐列表
+ * @return {Promise<*>}
+ */
+export const getMealList =  async () => {
+  const resp = await axios.get('/api/meal')
+  return resp.data
+}
