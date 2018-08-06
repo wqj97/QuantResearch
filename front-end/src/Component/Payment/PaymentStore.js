@@ -9,34 +9,35 @@ class PayStore {
   list = []
 
   @observable
-  mealCount = []
+  mealAdded = []
 
   constructor () {
     this.getMealList();
   }
 
   @action.bound
-  mealCountChange (meal, value) {
+  mealCountChange (meal, group, value) {
     let modifyKey = -1;
-    this.mealCount.forEach((mealItem, key) => {
+    this.mealAdded.forEach((mealItem, key) => {
       if (meal.id === mealItem.id) {
         modifyKey = key
       }
     })
     if (modifyKey !== -1) {
-      this.mealCount[modifyKey].mealCount = value
+      this.mealAdded[modifyKey].mealAdded = value
     } else {
       const tempMeal = meal;
       meal.mealCount = value
-      this.mealCount.push(tempMeal)
+      meal.groupName = group.name
+      this.mealAdded.push(tempMeal)
     }
   }
 
   @computed
   get mealTotalPrice () {
     let totalPrice = 0
-    this.mealCount.forEach(meal => {
-      totalPrice += meal.price * meal.mealCount
+    this.mealAdded.forEach(meal => {
+      totalPrice += meal.price * meal.mealAdded
     })
     return totalPrice || 0
   }

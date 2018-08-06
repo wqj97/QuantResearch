@@ -8,6 +8,7 @@ import './Payment.scss'
 
 const MealInfo = props => {
   const meal = props.meal
+  const group = props.group
   return (
     <div className={'meal-item'}>
       <div className="meal-title">
@@ -24,27 +25,43 @@ const MealInfo = props => {
         ¥: {meal.price}
       </div>
       <div className="meal-count">
-        <InputNumber min={0} defaultValue={0} onChange={value => store.mealCountChange(meal, value)} />
+        <InputNumber min={0} defaultValue={0} onChange={value => store.mealCountChange(meal, group, value)} />
       </div>
     </div>
   )
 }
 
 const ConfirmOrder = props => {
-  const mealList = props.store.mealCount
+  const mealList = props.store.mealAdded
   const totalPrice = props.store.mealTotalPrice
   return (
     <Table
       columns={[
         {
           title: '套餐名',
+          dataIndex: 'groupName',
+          key: 'groupName'
+        },
+        {
+          title: '套餐类型',
           dataIndex: 'title',
           key: 'title'
         },
         {
-          title: '量数',
-          dataIndex: 'mealCount',
-          key: 'mealCount'
+          title: '单价',
+          dataIndex: 'price',
+          key: 'price'
+        },
+        {
+          title: '份数',
+          dataIndex: 'mealAdded',
+          key: 'mealAdded'
+        },
+        {
+          title: '合计',
+          dataIndex: 'total',
+          key: 'total',
+          render: (text, record) => <span>¥ {record.price * record.mealAdded}</span>
         },
         {
           title: '开始日期',
@@ -54,7 +71,7 @@ const ConfirmOrder = props => {
         {
           title: '结束日期',
           dataIndex: 'endDate',
-          render: (text, record) => <span>{moment().add(record.mealCount, record.type).format('YYYY年M月d日')}</span>
+          render: (text, record) => <span>{moment().add(record.mealAdded, record.type).format('YYYY年M月d日')}</span>
         }
       ]}
       bordered
@@ -82,7 +99,7 @@ class Payment extends React.Component {
                 className={'meal-list'}
                 bordered
                 dataSource={group.group_item}
-                renderItem={item => (<List.Item key={item.id}><MealInfo meal={item} /></List.Item>)}
+                renderItem={item => (<List.Item key={item.id}><MealInfo group={group} meal={item} /></List.Item>)}
               />
             )
           })
@@ -92,6 +109,7 @@ class Payment extends React.Component {
           title={'确认订单'}
           okText={'确认下单'}
           cancelText={'再想一想'}
+          width={'50vw'}
           onOk={() => {
           }}
           onCancel={() => this.confirmVisible = false}

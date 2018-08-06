@@ -40,8 +40,12 @@ axios.interceptors.response.use(data => {
 }, error => {
   clearInterval(window.NProgressInc)
   NProgress.done()
-  message.error(`网络请求出现错误 (${error.response.status} ${errors[error.response.status] || error.response.statusText}), 请稍后再试`,
-    3000)
+  if (errors[error.response.status]) {
+    message.error(`网络请求出现错误: ${error.response.status} ${errors[error.response.status]})`, 6)
+  } else {
+    message.error(`网络请求出现错误 (${error.response.status} ${error.response.statusText}), 请稍后再试`, 6)
+  }
+
   return Promise.reject(error)
 })
 
