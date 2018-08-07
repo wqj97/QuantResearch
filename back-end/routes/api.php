@@ -42,6 +42,7 @@ Route::group(['prefix' => 'news'], function () {
 
 Route::group(['prefix' => 'meal'], function () {
    Route::get('', 'MealController@getMealList'); // 获取套餐列表
+   Route::get('group', 'MealController@getMealGroup'); // 获取套餐列表
 });
 
 Route::any('wechat', 'WechatController@serve');

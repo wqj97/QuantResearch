@@ -15,4 +15,13 @@ class MealController extends Controller
     {
         return MealGroup::with('group_item')->get();
     }
+
+    /**
+     * 获取所有组
+     * @return MealGroup[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getMealGroup ()
+    {
+        return MealGroup::all();
+    }
 }
