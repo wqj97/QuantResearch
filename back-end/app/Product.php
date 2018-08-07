@@ -29,7 +29,8 @@ class Product extends Model
 
     public function group ()
     {
-        return $this->belongsToMany('App\MealGroup', 'product_meal', 'product_id', 'meal_group_id')->withTimestamps();
+        return $this->belongsToMany('App\MealGroup', 'product_meal', 'product_id', 'meal_group_id')
+            ->withTimestamps();
     }
 
     protected $guarded = [];

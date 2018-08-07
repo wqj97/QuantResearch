@@ -1,5 +1,5 @@
 import { remove } from 'lodash'
-import { getProductNoticeConfigList } from '../../utils/API'
+import { getProductConfigList } from '../../utils/API'
 
 export const menuList = [
   {
@@ -60,7 +60,7 @@ export class LinkNode {
 
 export const generateMenuLinkList = async menuList => {
   const rootNode = new LinkNode(null, [], '根菜单')
-  const noticeList = await getProductNoticeConfigList()
+  const noticeList = await getProductConfigList()
   const searchNotice = name => {
     let out = null
     noticeList.forEach(item => {

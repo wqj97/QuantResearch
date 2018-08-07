@@ -29,7 +29,7 @@ class User extends Authenticatable
     ];
 
     protected $with = [
-        'roles'
+        'roles', 'group'
     ];
 
     /**
@@ -51,8 +51,8 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Role')->withTimestamps();
     }
 
-    public function meal_group ()
+    public function group ()
     {
-        return $this->hasMany('App\MealGroup', 'meal_group_id', 'user_id');
+        return $this->belongsToMany('App\MealGroup', 'user_meal', 'meal_group_id', 'user_id');
     }
 }

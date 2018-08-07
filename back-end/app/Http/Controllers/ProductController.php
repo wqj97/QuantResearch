@@ -65,15 +65,6 @@ class ProductController extends Controller
         return Product::with(['group'])->get();
     }
 
-    /**
-     * 获取所有的产品提醒配置
-     * @return array
-     */
-    public function getProductConfigNoticeList ()
-    {
-        return Product::get(['name', 'stop', 'doable', 'id']);
-    }
-
     private function month_pad ($month)
     {
         return str_pad($month, 2, '0', 0);

@@ -22,6 +22,13 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('group', 'UserController@getRoles'); // 获取所有的角色
 });
 
+Route::group(['prefix' => 'pay'], function () {
+    Route::get('notify', 'PayController@handleNotify')->name('payNotifyUrl'); // 收取支付回调
+    Route::group(['middleware' => 'auth:api'], function () {
+
+    });
+});
+
 Route::group(['prefix' => 'data', 'middleware' => 'auth:api'], function () {
     Route::get('', 'DataController@getDayData'); // 获取日线数据
 });
@@ -31,7 +38,6 @@ Route::group(['prefix' => 'product', 'middleware' => 'auth:api'], function () {
     Route::post('', 'ProductController@setProductConfig'); // 设置产品配置
     Route::delete('', 'ProductController@deleteProductConfig'); // 删除产品配置
     Route::get('list', 'ProductController@getProductConfigList'); // 获取产品配置列表
-    Route::get('notice', 'ProductController@getProductConfigNoticeList'); // 获取产品提醒列表
 });
 
 Route::group(['prefix' => 'news'], function () {
@@ -41,8 +47,8 @@ Route::group(['prefix' => 'news'], function () {
 });
 
 Route::group(['prefix' => 'meal'], function () {
-   Route::get('', 'MealController@getMealList'); // 获取套餐列表
-   Route::get('group', 'MealController@getMealGroup'); // 获取套餐列表
+    Route::get('', 'MealController@getMealList'); // 获取套餐列表
+    Route::get('group', 'MealController@getMealGroup'); // 获取套餐列表
 });
 
 Route::any('wechat', 'WechatController@serve');

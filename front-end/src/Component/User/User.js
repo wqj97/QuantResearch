@@ -3,24 +3,21 @@ import PropTypes from "prop-types";
 import React from 'react'
 import { getSelfSelectedList, syncUserProductConfig } from '../../utils/API'
 import './User.scss'
+import { observer } from 'mobx-react'
+import { observable } from 'mobx'
 
+@observer
 class User extends React.Component {
   static propTypes = {
     userStore: PropTypes.any.isRequired
   }
 
-  constructor (props) {
-    super(props)
-    this.state = {
-      tagList: []
-    }
-  }
+  @observable
+  tagList = []
 
   componentDidMount () {
     getSelfSelectedList().then(list => {
-      this.setState({
-        tagList: list
-      })
+      this.tagList = list
     })
   }
 
@@ -52,7 +49,7 @@ class User extends React.Component {
                 <Row type={'flex'} justify={'space-around'} align={'bottom'} style={{ height: '100%' }}>
                   <Col span={8}>
                     <div className={'info-title'}>自选</div>
-                    <div className={'info-content'}>2</div>
+                    <div className={'info-content'}>{this.tagList.length}</div>
                   </Col>
                   <Col span={8}>
                     <div className={'info-title'}>关注</div>
@@ -67,19 +64,41 @@ class User extends React.Component {
             </div>
           </Col>
           <Col span={17} offset={1}>
-            <div className="selected-list">
-              <div className="box-title">
-                自选
-              </div>
-              <div className="tag-list">
-                {this.state.tagList.map(tag => {
-                  return (<Tag closable
-                    key={tag.id}
-                    color={'blue'}
-                    onClose={() => this.handleClose(tag)}>{tag.name} ( {tag.code.join('/')} )</Tag>)
-                })}
-              </div>
-            </div>
+            <Row>
+              <Col>
+                <div className="selected-list">
+                  <div className="box-title">
+                    自选
+                  </div>
+                  <div className="tag-list">
+                    {this.tagList.map(tag => {
+                      return (<Tag
+                        closable
+                        key={tag.id}
+                        color={'blue'}
+                        onClose={() => this.handleClose(tag)}>{tag.name} ( {tag.code.join('/')} )</Tag>)
+                    })}
+                  </div>
+                </div>
+              </Col>
+              <Col>
+                <div className="selected-list">
+                  <div className="box-title">
+                    已购产品
+                  </div>
+                  <div className="tag-list">
+                    {user.group.map(tag => {
+                      return (<Tag
+                        closable
+                        key={tag.id}
+                        color={'blue'}
+                        onClose={() => {
+                        }}>{tag.name}</Tag>)
+                    })}
+                  </div>
+                </div>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </div>
