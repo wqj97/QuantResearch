@@ -17,7 +17,7 @@ class ProductWrap extends React.Component {
           product2_month: [null, null, null],
           openPosition: [[null, null], [null, null], [null, null]],
           stopLoss: [[null, null], [null, null], [null, null]],
-          roles: [{ id: 1 }],
+          group: [],
           unit: [null, null]
         }
       }
@@ -379,18 +379,18 @@ class ProductWrap extends React.Component {
               <Input type={'number'} placeholder="每手吨数" />
             )}
           </Form.Item>
-          <Form.Item label={'权限'} labelCol={{ span: 7 }} wrapperCol={{ span: 17 }}>
-            {getFieldDecorator('roles', {
+          <Form.Item label={'产品组'} labelCol={{ span: 7 }} wrapperCol={{ span: 17 }}>
+            {getFieldDecorator('group_id', {
               rules: [{
                 required: true,
-                message: '请至少指定一个权限'
+                message: '请至少指定一个组'
               }],
-              initialValue: this.state.props.roles.map(item => item.id),
+              initialValue: this.state.props.group.map(item => item.id),
             })(
-              <Checkbox.Group options={this.props.role.map(role => {
+              <Checkbox.Group options={this.props.groupDef.map(group => {
                 return {
-                  label: role.name,
-                  value: role.id
+                  label: group.name,
+                  value: group.id
                 }
               })} />
             )}

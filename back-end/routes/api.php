@@ -19,7 +19,7 @@ Route::group(['prefix' => 'user'], function () {
     });
     Route::post('', 'UserController@login'); // 登录
     Route::post('signup', 'UserController@signup'); // 注册
-    Route::get('roles', 'UserController@getRoles'); // 获取所有的角色
+    Route::get('group', 'UserController@getRoles'); // 获取所有的角色
 });
 
 Route::group(['prefix' => 'data', 'middleware' => 'auth:api'], function () {

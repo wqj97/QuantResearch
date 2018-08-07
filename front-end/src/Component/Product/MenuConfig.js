@@ -79,7 +79,7 @@ export const generateMenuLinkList = async menuList => {
       } else {
         const notice = searchNotice(child)
         if (notice) {
-          parentNode.appendChild(new LinkNode(parentNode, null, child, notice.doable, notice.stop, notice.roles.map(item => item.id)))
+          parentNode.appendChild(new LinkNode(parentNode, null, child, notice.doable, notice.stop, notice.group.map(item => item.id)))
         } else {
           parentNode.appendChild(new LinkNode(parentNode, null, child))
         }

@@ -1,44 +1,43 @@
 import { Button, Icon, Modal } from "antd"
 import React from 'react'
-import { getProductConfigList, getRoles } from '../../utils/API'
+import { getProductConfigList, getMealGroup } from '../../utils/API'
 import ProductWrap from "./ProductWrap";
 import './Setting.scss'
+import { observable } from 'mobx'
+import { observer } from 'mobx-react'
 
+@observer
 class Setting extends React.Component {
+  @observable
+  productConfigList = []
+  @observable
+  visible = false
+  @observable
+  group = []
+
   constructor (props) {
     super(props)
-    this.state = {
-      productConfigList: [],
-      visible: false,
-      roles: []
-    }
-    getRoles().then(data => {
-      this.setState({
-        roles: data
-      })
-    })
   }
+
+  componentDidMount () {
+    getMealGroup().then(data => {
+      this.group = data
+    })
+    this.getData()
+  }
+
 
   handleOk = () => {
   }
   handleCancel = () => {
-    this.setState({
-      visible: false
-    })
+    this.visible = false
   }
 
   getData = () => {
     getProductConfigList().then(data => {
-      this.setState({
-        productConfigList: data
-      })
+      this.productConfigList = data
     })
   }
-
-  componentDidMount () {
-    this.getData()
-  }
-
 
   render () {
     return (
@@ -48,19 +47,19 @@ class Setting extends React.Component {
             <Icon type="plus" /> 新增产品
           </Button>
         </div>
-        {this.state.productConfigList.map(data => {
-          return <ProductWrap onSuccess={this.getData} {...data} key={data.updated_at} role={this.state.roles} />
+        {this.productConfigList.map(data => {
+          return <ProductWrap onSuccess={this.getData} {...data} key={data.updated_at} groupDef={this.group} />
         })}
         <Modal
           title="新增产品"
-          visible={this.state.visible}
+          visible={this.visible}
           okText={'保存'}
           onOk={this.handleOk}
           cancelText={'取消'}
           onCancel={this.handleCancel}
           footer={null}
         >
-          <ProductWrap onSuccess={this.getData} new role={this.state.roles}/>
+          <ProductWrap onSuccess={this.getData} new groupDef={this.group} />
         </Modal>
       </div>
     )

@@ -154,7 +154,7 @@ export const getProductNoticeConfigList = async () => {
  * @return {Promise<*>}
  */
 export const getRoles = async () => {
-  const resp = await axios.get('/api/user/roles')
+  const resp = await axios.get('/api/user/group')
   return resp.data
 }
 
@@ -178,5 +178,14 @@ export const getNews = async (pages = 1) => {
  */
 export const getMealList =  async () => {
   const resp = await axios.get('/api/meal')
+  return resp.data
+}
+
+/**
+ * 获取套餐组
+ * @return {Promise<*>}
+ */
+export const getMealGroup =  async () => {
+  const resp = await axios.get('/api/meal/group')
   return resp.data
 }

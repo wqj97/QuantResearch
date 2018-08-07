@@ -70,7 +70,7 @@ class Product extends React.Component {
     const productKey = item.key.replace(/\s+\(.*\)/g, '')
     const productName = productKey.split('/').splice(-2).join('/')
     const ProductRoles = linkSearch(productName, this.state.menuList.child[1]).roles
-    const UserRole = this.props.userStore.user.roles.map(item => item.id)
+    const UserRole = this.props.userStore.user.group.map(item => item.id)
     if (UserRole.indexOf(1) === -1) {
       try {
         let hasAuth = false

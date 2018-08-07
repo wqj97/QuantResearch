@@ -16,7 +16,7 @@ class ProductController extends Controller
         $this->validate($request, [
             'names' => 'required'
         ]);
-        $product_config = Product::where('name', $request->names)->first();
+        $product_config = Product::with('group')->where('name', $request->names)->first();
         if (!$product_config) {
             return response()->json('这个产品还没有被支持');
         }
@@ -62,7 +62,7 @@ class ProductController extends Controller
      */
     public function getProductConfigList ()
     {
-        return Product::all();
+        return Product::with(['group'])->get();
     }
 
     /**
@@ -71,7 +71,7 @@ class ProductController extends Controller
      */
     public function getProductConfigNoticeList ()
     {
-        return Product::with(['roles'])->get(['name', 'stop', 'doable', 'id']);
+        return Product::get(['name', 'stop', 'doable', 'id']);
     }
 
     private function month_pad ($month)
@@ -97,7 +97,7 @@ class ProductController extends Controller
             'doable' => 'required',
             'stop' => 'required',
             'unit' => 'required',
-            'roles' => 'required'
+            'group_id' => 'required'
         ]);
         $product = Product::findOrNew($request->id);
         $product->stableCoefficient = $request->stableCoefficient;
@@ -112,7 +112,7 @@ class ProductController extends Controller
         $product->doable = $request->doable;
         $product->stop = $request->stop;
         $product->save();
-        $product->roles()->sync($request->roles);
+        $product->group()->sync($request->group_id);
         return response()->json('成功');
     }
 

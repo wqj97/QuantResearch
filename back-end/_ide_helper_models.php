@@ -102,7 +102,7 @@ namespace App{
  * @property string|null $func
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Role[] $roles
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Role[] $group
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereDoable($value)
@@ -139,7 +139,7 @@ namespace App{
  * @property string|null $deleted_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \App\ProductConfig $product_config
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Role[] $roles
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Role[] $group
  * @property-read \App\ProductConfig $self_selected
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\User onlyTrashed()
