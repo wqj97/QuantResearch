@@ -23,7 +23,7 @@ Route::group(['prefix' => 'user'], function () {
 });
 
 Route::group(['prefix' => 'pay'], function () {
-    Route::get('notify', 'PayController@handleNotify'); // 收取支付回调
+    Route::get('qrCodeNotify', 'PayController@handleQrCodeNotify'); // 收取支付回调
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('createPayOrder', 'PayController@createPayOrder'); // 创建支付订单
     });

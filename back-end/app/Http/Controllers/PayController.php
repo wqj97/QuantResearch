@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Meal;
 use App\PayOrder;
+use App\Product;
 use Illuminate\Http\Request;
 use Jenssegers\Mongodb\Auth\User;
 
@@ -63,8 +64,39 @@ class PayController extends Controller
         ]);
     }
 
-    public function handleNotify ()
+    /**
+     * @return mixed
+     * @throws \EasyWeChat\Kernel\Exceptions\Exception
+     */
+    public function handleQrCodeNotify ()
     {
+        /**
+         * @var $app \EasyWeChat\Payment\Application
+         */
+        $app = \EasyWeChat::payment();
+        $response = $app->handleScannedNotify(function ($message, $fail, $alert) use ($app) {
+            $order_info = PayOrder::find($message['product_id']);
+            $total_fee = 0;
+            $products = Meal::findMany(explode(',', $order_info->body));
+            $products->each(function (Meal $meal) use (&$total_fee) {
+                $total_fee += $meal->price;
+            });
+            $product_name = $products->map(function (Meal $meal) {
+                return $meal->title;
+            });
+            $total_fee *= 100;
+            $result = $app->order->unify([
+                'trade_type' => 'NATIVE',
+                'product_id' => $message['product_id'],
+                'out_trade_no' => $order_info->out_trade_no,
+                'body' => join(',', $product_name->toArray()),
+                'total_fee' => $total_fee,
+                'openid' => $message['openid']
+            ]);
 
+            return $result['prepay_id'];
+        });
+
+        return $response;
     }
 }
