@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Meal;
 use App\PayOrder;
-use App\Product;
 use Illuminate\Http\Request;
 use Jenssegers\Mongodb\Auth\User;
 
