@@ -69,24 +69,22 @@ class Product extends React.Component {
   handleMenuChange = item => {
     const productKey = item.key.replace(/\s+\(.*\)/g, '')
     const productName = productKey.split('/').splice(-2).join('/')
-    const ProductRoles = linkSearch(productName, this.state.menuList.child[1]).roles
-    const UserRole = this.props.userStore.user.group.map(item => item.id)
-    if (UserRole.indexOf(1) === -1) {
-      try {
-        let hasAuth = false
-        UserRole.forEach(role => {
-          if (ProductRoles.indexOf(role) !== -1) {
-            hasAuth = true
-          }
-        })
-        if (!hasAuth) {
-          message.warn(`您没有权限查看${productKey}的数据`)
-          return
+    const productGroup = linkSearch(productName, this.state.menuList.child[1]).group
+    try {
+      const userGroup = this.props.userStore.user.group.map(item => item.id)
+      let hasAuth = false
+      userGroup.forEach(role => {
+        if (productGroup.indexOf(role) !== -1) {
+          hasAuth = true
         }
-      } catch (e) {
-        message.warn('您没有登录, 只能查看一个产品')
+      })
+      if (!hasAuth) {
+        message.warn(`您没有权限查看${productKey}的数据`)
         return
       }
+    } catch (e) {
+      message.warn('您没有登录, 只能查看一个产品')
+      return
     }
     try {
       getConfig(productName).then(data => {

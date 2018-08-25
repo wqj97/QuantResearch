@@ -104,18 +104,18 @@ return [
     /*
      * 微信支付
      */
-     'payment' => [
-         'default' => [
-             'sandbox'            => env('WECHAT_PAYMENT_SANDBOX', false),
-             'app_id'             => env('WECHAT_PAYMENT_APPID', 'wxf332382c5916bb27'),
-             'mch_id'             => env('WECHAT_PAYMENT_MCH_ID', '1507892251'),
-             'key'                => env('WECHAT_PAYMENT_KEY', 'key-for-signature'),
-             'cert_path'          => resource_path('/cert/apiclient_cert.pem'),    // XXX: 绝对路径！！！！
-             'key_path'           => resource_path('/cert/apiclient_key.pem'),      // XXX: 绝对路径！！！！
-             'notify_url'         => route('payNotifyUrl'),                           // 默认支付结果通知地址
-         ],
-         // ...
-     ],
+    'payment' => [
+        'default' => [
+            'sandbox' => env('WECHAT_PAYMENT_SANDBOX', false),
+            'app_id' => env('WECHAT_PAYMENT_APPID', 'wxf332382c5916bb27'),
+            'mch_id' => env('WECHAT_PAYMENT_MCH_ID', '1507892251'),
+            'key' => env('WECHAT_PAYMENT_KEY', 'key-for-signature'),
+            'cert_path' => resource_path('/cert/apiclient_cert.pem'),    // XXX: 绝对路径！！！！
+            'key_path' => resource_path('/cert/apiclient_key.pem'),      // XXX: 绝对路径！！！！
+            'notify_url' => env('APP_URL') . '/pay/notify',                           // 默认支付结果通知地址
+        ],
+        // ...
+    ],
 
     /*
      * 企业微信

@@ -89,7 +89,6 @@ class User extends React.Component {
                   <div className="tag-list">
                     {user.group.map(tag => {
                       return (<Tag
-                        closable
                         key={tag.id}
                         color={'blue'}
                         onClose={() => {

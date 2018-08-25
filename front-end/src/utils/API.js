@@ -167,7 +167,7 @@ export const getNews = async (pages = 1) => {
  * 获取套餐列表
  * @return {Promise<*>}
  */
-export const getMealList =  async () => {
+export const getMealList = async () => {
   const resp = await axios.get('/api/meal')
   return resp.data
 }
@@ -176,7 +176,20 @@ export const getMealList =  async () => {
  * 获取套餐组
  * @return {Promise<*>}
  */
-export const getMealGroup =  async () => {
+export const getMealGroup = async () => {
   const resp = await axios.get('/api/meal/group')
+  return resp.data
+}
+
+/**
+ * 创建支付订单
+ * @return {Promise<*>}
+ */
+export const createPayOrder = async (ids) => {
+  const resp = await axios.get('/api/pay/createPayOrder', {
+    params: {
+      meal_ids: ids
+    }
+  })
   return resp.data
 }

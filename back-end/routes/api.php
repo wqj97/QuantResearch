@@ -23,11 +23,13 @@ Route::group(['prefix' => 'user'], function () {
 });
 
 Route::group(['prefix' => 'pay'], function () {
-    Route::get('notify', 'PayController@handleNotify')->name('payNotifyUrl'); // 收取支付回调
+    Route::get('notify', 'PayController@handleNotify'); // 收取支付回调
     Route::group(['middleware' => 'auth:api'], function () {
-
+        Route::get('createPayOrder', 'PayController@createPayOrder'); // 创建支付订单
     });
 });
+
+Route::any('wechat', 'WechatController@serve');
 
 Route::group(['prefix' => 'data', 'middleware' => 'auth:api'], function () {
     Route::get('', 'DataController@getDayData'); // 获取日线数据

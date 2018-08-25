@@ -53,6 +53,6 @@ class User extends Authenticatable
 
     public function group ()
     {
-        return $this->belongsToMany('App\MealGroup', 'user_meal', 'meal_group_id', 'user_id');
+        return $this->belongsToMany('App\MealGroup', 'user_meal', 'user_id', 'meal_group_id');
     }
 }

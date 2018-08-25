@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.6.19 on 2018-08-06 22:33:18.
+ * Generated for Laravel 5.6.34 on 2018-08-22 23:30:40.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -1248,7 +1248,7 @@ namespace Illuminate\Support\Facades {
          * Set the shared instance of the container.
          *
          * @param \Illuminate\Contracts\Container\Container|null $container
-         * @return static 
+         * @return \Illuminate\Contracts\Container\Container|static 
          * @static 
          */ 
         public static function setInstance($container = null)
@@ -1745,13 +1745,13 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Invalid other sessions for the current user.
+         * Invalidate other sessions for the current user.
          * 
          * The application must be using the AuthenticateSession middleware.
          *
          * @param string $password
          * @param string $attribute
-         * @return $this 
+         * @return null|bool 
          * @static 
          */ 
         public static function logoutOtherDevices($password, $attribute = 'password')
@@ -1929,6 +1929,17 @@ namespace Illuminate\Support\Facades {
         public static function authenticate()
         {
             return \Illuminate\Auth\SessionGuard::authenticate();
+        }
+        
+        /**
+         * Determine if the guard has a user instance.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasUser()
+        {
+            return \Illuminate\Auth\SessionGuard::hasUser();
         }
         
         /**
@@ -3338,7 +3349,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param mixed $payload
          * @param bool $unserialize
-         * @return string 
+         * @return mixed 
          * @throws \Illuminate\Contracts\Encryption\DecryptException
          * @static 
          */ 
@@ -4267,6 +4278,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param int|null $toLevel
          * @return void 
+         * @throws \Exception
          * @static 
          */ 
         public static function rollBack($toLevel = null)
@@ -4904,6 +4916,18 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Remove all of the directories within a given directory.
+         *
+         * @param string $directory
+         * @return bool 
+         * @static 
+         */ 
+        public static function deleteDirectories($directory)
+        {
+            return \Illuminate\Filesystem\Filesystem::deleteDirectories($directory);
+        }
+        
+        /**
          * Empty the specified directory of all files and folders.
          *
          * @param string $directory
@@ -5252,6 +5276,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $driver
          * @return mixed 
+         * @throws \InvalidArgumentException
          * @static 
          */ 
         public static function driver($driver = null)
@@ -6185,6 +6210,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $driver
          * @return mixed 
+         * @throws \InvalidArgumentException
          * @static 
          */ 
         public static function driver($driver = null)
@@ -6715,7 +6741,7 @@ namespace Illuminate\Support\Facades {
          * Create a new redirect response to a named route.
          *
          * @param string $route
-         * @param array $parameters
+         * @param mixed $parameters
          * @param int $status
          * @param array $headers
          * @return \Illuminate\Http\RedirectResponse 
@@ -6730,7 +6756,7 @@ namespace Illuminate\Support\Facades {
          * Create a new redirect response to a controller action.
          *
          * @param string $action
-         * @param array $parameters
+         * @param mixed $parameters
          * @param int $status
          * @param array $headers
          * @return \Illuminate\Http\RedirectResponse 
@@ -7054,6 +7080,21 @@ namespace Illuminate\Support\Facades {
         public static function replace($input)
         {
             return \Illuminate\Http\Request::replace($input);
+        }
+        
+        /**
+         * This method belongs to Symfony HttpFoundation and is not usually needed when using Laravel.
+         * 
+         * Instead, you may use the "input" method.
+         *
+         * @param string $key
+         * @param mixed $default
+         * @return mixed 
+         * @static 
+         */ 
+        public static function get($key, $default = null)
+        {
+            return \Illuminate\Http\Request::get($key, $default);
         }
         
         /**
@@ -7498,26 +7539,6 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Gets a "parameter" value from any bag.
-         * 
-         * This method is mainly useful for libraries that want to provide some flexibility. If you don't need the
-         * flexibility in controllers, it is better to explicitly get request parameters from the appropriate
-         * public property instead (attributes, query, request).
-         * 
-         * Order of precedence: PATH (routing placeholders or custom attributes), GET, BODY
-         *
-         * @param string $key The key
-         * @param mixed $default The default value if the parameter key does not exist
-         * @return mixed 
-         * @static 
-         */ 
-        public static function get($key, $default = null)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request            
-            return \Illuminate\Http\Request::get($key, $default);
-        }
-        
-        /**
          * Whether the request contains a Session which was started in one of the
          * previous requests.
          *
@@ -7556,6 +7577,18 @@ namespace Illuminate\Support\Facades {
         {
             //Method inherited from \Symfony\Component\HttpFoundation\Request            
             return \Illuminate\Http\Request::setSession($session);
+        }
+        
+        /**
+         * 
+         *
+         * @internal 
+         * @static 
+         */ 
+        public static function setSessionFactory($factory)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request            
+            return \Illuminate\Http\Request::setSessionFactory($factory);
         }
         
         /**
@@ -7923,7 +7956,7 @@ namespace Illuminate\Support\Facades {
          * Gets the mime type associated with the format.
          *
          * @param string $format The format
-         * @return string The associated mime type (null if not found)
+         * @return string|null The associated mime type (null if not found)
          * @static 
          */ 
         public static function getMimeType($format)
@@ -8512,7 +8545,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if the request contains any of the given inputs.
          *
-         * @param string|array $key
+         * @param string|array $keys
          * @return bool 
          * @static 
          */ 
@@ -9222,6 +9255,20 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Add a route to the underlying route collection.
+         *
+         * @param array|string $methods
+         * @param string $uri
+         * @param \Closure|array|string|null $action
+         * @return \Illuminate\Routing\Route 
+         * @static 
+         */ 
+        public static function addRoute($methods, $uri, $action)
+        {
+            return \Illuminate\Routing\Router::addRoute($methods, $uri, $action);
+        }
+        
+        /**
          * Return the response returned by the given route.
          *
          * @param string $name
@@ -9809,6 +9856,17 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Drop all views from the database.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function dropAllViews()
+        {
+            \Illuminate\Database\Schema\MySqlBuilder::dropAllViews();
+        }
+        
+        /**
          * Set the default string length for migrations.
          *
          * @param int $length
@@ -10036,6 +10094,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $driver
          * @return mixed 
+         * @throws \InvalidArgumentException
          * @static 
          */ 
         public static function driver($driver = null)
@@ -10661,12 +10720,12 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $name
          * @param mixed $disk
-         * @return void 
+         * @return $this 
          * @static 
          */ 
         public static function set($name, $disk)
         {
-            \Illuminate\Filesystem\FilesystemManager::set($name, $disk);
+            return \Illuminate\Filesystem\FilesystemManager::set($name, $disk);
         }
         
         /**
@@ -10689,6 +10748,18 @@ namespace Illuminate\Support\Facades {
         public static function getDefaultCloudDriver()
         {
             return \Illuminate\Filesystem\FilesystemManager::getDefaultCloudDriver();
+        }
+        
+        /**
+         * Unset the given disk instances.
+         *
+         * @param array|string $disk
+         * @return $this 
+         * @static 
+         */ 
+        public static function forgetDisk($disk)
+        {
+            return \Illuminate\Filesystem\FilesystemManager::forgetDisk($disk);
         }
         
         /**
@@ -11718,6 +11789,7 @@ namespace Illuminate\Support\Facades {
          * @param array $data
          * @param array $mergeData
          * @return \Illuminate\Contracts\View\View 
+         * @throws \InvalidArgumentException
          * @static 
          */ 
         public static function first($views, $data = array(), $mergeData = array())
@@ -12440,6 +12512,225 @@ namespace Illuminate\Support\Facades {
  
 }
 
+namespace Overtrue\LaravelWeChat { 
+
+    class Facade {
+        
+        /**
+         * 
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getId()
+        {
+            //Method inherited from \EasyWeChat\Kernel\ServiceContainer            
+            return \EasyWeChat\OfficialAccount\Application::getId();
+        }
+        
+        /**
+         * 
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getConfig()
+        {
+            //Method inherited from \EasyWeChat\Kernel\ServiceContainer            
+            return \EasyWeChat\OfficialAccount\Application::getConfig();
+        }
+        
+        /**
+         * Return all providers.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getProviders()
+        {
+            //Method inherited from \EasyWeChat\Kernel\ServiceContainer            
+            return \EasyWeChat\OfficialAccount\Application::getProviders();
+        }
+        
+        /**
+         * 
+         *
+         * @param string $id
+         * @param mixed $value
+         * @static 
+         */ 
+        public static function rebind($id, $value)
+        {
+            //Method inherited from \EasyWeChat\Kernel\ServiceContainer            
+            return \EasyWeChat\OfficialAccount\Application::rebind($id, $value);
+        }
+        
+        /**
+         * 
+         *
+         * @param array $providers
+         * @static 
+         */ 
+        public static function registerProviders($providers)
+        {
+            //Method inherited from \EasyWeChat\Kernel\ServiceContainer            
+            return \EasyWeChat\OfficialAccount\Application::registerProviders($providers);
+        }
+        
+        /**
+         * Sets a parameter or an object.
+         * 
+         * Objects must be defined as Closures.
+         * 
+         * Allowing any PHP callable leads to difficult to debug problems
+         * as function names (strings) are callable (creating a function with
+         * the same name as an existing parameter would break your container).
+         *
+         * @param string $id The unique identifier for the parameter or object
+         * @param mixed $value The value of the parameter or a closure to define an object
+         * @throws FrozenServiceException Prevent override of a frozen service
+         * @static 
+         */ 
+        public static function offsetSet($id, $value)
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::offsetSet($id, $value);
+        }
+        
+        /**
+         * Gets a parameter or an object.
+         *
+         * @param string $id The unique identifier for the parameter or object
+         * @return mixed The value of the parameter or an object
+         * @throws UnknownIdentifierException If the identifier is not defined
+         * @static 
+         */ 
+        public static function offsetGet($id)
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::offsetGet($id);
+        }
+        
+        /**
+         * Checks if a parameter or an object is set.
+         *
+         * @param string $id The unique identifier for the parameter or object
+         * @return bool 
+         * @static 
+         */ 
+        public static function offsetExists($id)
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::offsetExists($id);
+        }
+        
+        /**
+         * Unsets a parameter or an object.
+         *
+         * @param string $id The unique identifier for the parameter or object
+         * @static 
+         */ 
+        public static function offsetUnset($id)
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::offsetUnset($id);
+        }
+        
+        /**
+         * Marks a callable as being a factory service.
+         *
+         * @param callable $callable A service definition to be used as a factory
+         * @return callable The passed callable
+         * @throws ExpectedInvokableException Service definition has to be a closure or an invokable object
+         * @static 
+         */ 
+        public static function factory($callable)
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::factory($callable);
+        }
+        
+        /**
+         * Protects a callable from being interpreted as a service.
+         * 
+         * This is useful when you want to store a callable as a parameter.
+         *
+         * @param callable $callable A callable to protect from being evaluated
+         * @return callable The passed callable
+         * @throws ExpectedInvokableException Service definition has to be a closure or an invokable object
+         * @static 
+         */ 
+        public static function protect($callable)
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::protect($callable);
+        }
+        
+        /**
+         * Gets a parameter or the closure defining an object.
+         *
+         * @param string $id The unique identifier for the parameter or object
+         * @return mixed The value of the parameter or the closure defining an object
+         * @throws UnknownIdentifierException If the identifier is not defined
+         * @static 
+         */ 
+        public static function raw($id)
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::raw($id);
+        }
+        
+        /**
+         * Extends an object definition.
+         * 
+         * Useful when you want to extend an existing object definition,
+         * without necessarily loading that object.
+         *
+         * @param string $id The unique identifier for the object
+         * @param callable $callable A service definition to extend the original
+         * @return callable The wrapped callable
+         * @throws UnknownIdentifierException        If the identifier is not defined
+         * @throws FrozenServiceException            If the service is frozen
+         * @throws InvalidServiceIdentifierException If the identifier belongs to a parameter
+         * @throws ExpectedInvokableException        If the extension callable is not a closure or an invokable object
+         * @static 
+         */ 
+        public static function extend($id, $callable)
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::extend($id, $callable);
+        }
+        
+        /**
+         * Returns all defined value names.
+         *
+         * @return array An array of value names
+         * @static 
+         */ 
+        public static function keys()
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::keys();
+        }
+        
+        /**
+         * Registers a service provider.
+         *
+         * @param \Pimple\ServiceProviderInterface $provider A ServiceProviderInterface instance
+         * @param array $values An array of values that customizes the provider
+         * @return static 
+         * @static 
+         */ 
+        public static function register($provider, $values = array())
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::register($provider, $values);
+        }
+         
+    }
+ 
+}
+
 
 namespace  { 
 
@@ -12554,7 +12845,7 @@ namespace  {
              * Add a basic where clause to the query.
              *
              * @param string|array|\Closure $column
-             * @param string $operator
+             * @param mixed $operator
              * @param mixed $value
              * @param string $boolean
              * @return $this 
@@ -12569,7 +12860,7 @@ namespace  {
              * Add an "or where" clause to the query.
              *
              * @param \Closure|array|string $column
-             * @param string $operator
+             * @param mixed $operator
              * @param mixed $value
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
@@ -12635,7 +12926,7 @@ namespace  {
              *
              * @param mixed $id
              * @param array $columns
-             * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection 
+             * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static|static[] 
              * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
              * @static 
              */ 
@@ -12786,7 +13077,7 @@ namespace  {
              *
              * @param int $count
              * @param callable $callback
-             * @param string $column
+             * @param string|null $column
              * @param string|null $alias
              * @return bool 
              * @static 
@@ -13059,7 +13350,7 @@ namespace  {
              * @param mixed $value
              * @param callable $callback
              * @param callable $default
-             * @return mixed 
+             * @return mixed|$this 
              * @static 
              */ 
             public static function when($value, $callback, $default = null)
@@ -13085,7 +13376,7 @@ namespace  {
              * @param mixed $value
              * @param callable $callback
              * @param callable $default
-             * @return mixed 
+             * @return mixed|$this 
              * @static 
              */ 
             public static function unless($value, $callback, $default = null)
@@ -14012,6 +14303,61 @@ namespace  {
             }
          
             /**
+             * Add a "where JSON contains" clause to the query.
+             *
+             * @param string $column
+             * @param mixed $value
+             * @param string $boolean
+             * @param bool $not
+             * @return $this 
+             * @static 
+             */ 
+            public static function whereJsonContains($column, $value, $boolean = 'and', $not = false)
+            {    
+                return \Illuminate\Database\Query\Builder::whereJsonContains($column, $value, $boolean, $not);
+            }
+         
+            /**
+             * Add a "or where JSON contains" clause to the query.
+             *
+             * @param string $column
+             * @param mixed $value
+             * @return $this 
+             * @static 
+             */ 
+            public static function orWhereJsonContains($column, $value)
+            {    
+                return \Illuminate\Database\Query\Builder::orWhereJsonContains($column, $value);
+            }
+         
+            /**
+             * Add a "where JSON not contains" clause to the query.
+             *
+             * @param string $column
+             * @param mixed $value
+             * @param string $boolean
+             * @return $this 
+             * @static 
+             */ 
+            public static function whereJsonDoesntContain($column, $value, $boolean = 'and')
+            {    
+                return \Illuminate\Database\Query\Builder::whereJsonDoesntContain($column, $value, $boolean);
+            }
+         
+            /**
+             * Add a "or where JSON not contains" clause to the query.
+             *
+             * @param string $column
+             * @param mixed $value
+             * @return $this 
+             * @static 
+             */ 
+            public static function orWhereJsonDoesntContain($column, $value)
+            {    
+                return \Illuminate\Database\Query\Builder::orWhereJsonDoesntContain($column, $value);
+            }
+         
+            /**
              * Handles dynamic "where" clauses to the query.
              *
              * @param string $method
@@ -14231,7 +14577,7 @@ namespace  {
              * Constrain the query to the next "page" of results after a given ID.
              *
              * @param int $perPage
-             * @param int $lastId
+             * @param int|null $lastId
              * @param string $column
              * @return \Illuminate\Database\Query\Builder|static 
              * @static 
@@ -14728,6 +15074,8 @@ namespace  {
     class Validator extends \Illuminate\Support\Facades\Validator {}
 
     class View extends \Illuminate\Support\Facades\View {}
+
+    class EasyWeChat extends \Overtrue\LaravelWeChat\Facade {}
  
 }
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="b02bdcb8-19b2-41b1-90db-45a8208608d1" name="百度云CPU服务器" url="http://www.lyquant.com">
+        <fileTransfer host="180.76.97.240" port="22" rootFolder="/root/lyquant" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

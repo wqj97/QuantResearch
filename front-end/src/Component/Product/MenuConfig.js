@@ -38,15 +38,15 @@ export class LinkNode {
    * @param {String} name 节点名
    * @param {Boolean} doable 是否可开仓
    * @param {Boolean} stop 是否需要止损
-   * @param {Array<Object>} roles 权限
+   * @param {Array<Object>} group 权限
    */
-  constructor (parent, child, name, doable = false, stop = false, roles = []) {
+  constructor (parent, child, name, doable = false, stop = false, group = []) {
     this.parent = parent
     this.child = child
     this.name = name
     this.doable = doable
     this.stop = stop
-    this.roles = roles
+    this.group = group
   }
 
   appendChild = child => {

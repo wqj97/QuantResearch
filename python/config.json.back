@@ -1,0 +1,93 @@
+{
+  "MONGO_HOST": "localhost",
+  "MONGO_PORT": 27017,
+  "DATA_SERVER": "tcp://data.tushare.org:8910",
+  "USERNAME": "13347320707",
+  "TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVfdGltZSI6IjE1MjU5NTQ2MjU0MzQiLCJpc3MiOiJhdXRoMCIsImlkIjoiMTMzNDczMjA3MDcifQ.o_5YCXbExNHxnf711FGu99XHl21KBz1mFKiYNjQvWtM",
+  "SYMBOLS": [
+    {
+      "type": [
+        "a",
+        "b",
+        "m",
+        "c",
+        "y",
+        "p",
+        "l",
+        "v",
+        "jd",
+        "fb",
+        "bb",
+        "pp",
+        "cs",
+        "j",
+        "i",
+        "jm",
+        "l"
+      ],
+      "exchange": "DCE"
+    },
+    {
+      "type": [
+        "PM",
+        "FG",
+        "WH",
+        "CF",
+        "SR",
+        "OI",
+        "TA",
+        "RI",
+        "LR",
+        "MA",
+        "RS",
+        "RM",
+        "TC",
+        "ZC",
+        "JR",
+        "SF",
+        "SM"
+      ],
+      "exchange": "CZC"
+    },
+    {
+      "type": [
+        "rb",
+        "hc"
+      ],
+      "key_month": [
+        1,
+        5,
+        10
+      ],
+      "exchange": "SHF"
+    },
+    {
+      "type": [
+        "cu",
+        "al",
+        "zn",
+        "ru",
+        "cu",
+        "fu",
+        "au",
+        "ag",
+        "wr",
+        "pb",
+        "bu",
+        "SN",
+        "NI"
+      ],
+      "exchange": "SHF"
+    },
+    {
+      "type": [
+        "IF",
+        "IH",
+        "IC",
+        "TF",
+        "T"
+      ],
+      "exchange": "CFE"
+    }
+  ]
+}

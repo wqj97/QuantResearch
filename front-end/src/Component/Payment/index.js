@@ -1,9 +1,11 @@
 import { List, InputNumber, Button, Modal, Table } from 'antd';
 import { observer } from 'mobx-react'
+import { createPayOrder } from '../../utils/API'
 import { store } from './PaymentStore'
 import { observable } from 'mobx'
 import moment from 'moment'
 import React from 'react'
+import qrcode from 'qrcode'
 import './Payment.scss'
 
 const MealInfo = props => {
@@ -82,11 +84,26 @@ const ConfirmOrder = props => {
   )
 }
 
-
 @observer
 class Payment extends React.Component {
   @observable
   confirmVisible = false
+
+  @observable
+  orderInfo = null
+
+  @observable
+  url = null
+
+  handleOk = () => {
+    createPayOrder(store.mealAdded.map(meal => meal.id)).then(data => {
+      this.orderInfo = data
+      const payUrl = `weixin://wxpay/bizpayurl?sign=${data.sign}&appid=${data.appid}&mch_id=${data.mch_id}&product_id=${data.product_id}&$time_stamp=${data.time_stamp}&nonce_str=${data.nonce_str}`
+      qrcode.toDataURL(payUrl).then(resp => {
+        this.url = resp;
+      })
+    })
+  }
 
   render () {
     return (
@@ -95,6 +112,7 @@ class Payment extends React.Component {
           store.list.map(group => {
             return (
               <List
+                rowKey={group.id}
                 header={<div>{group.name}</div>}
                 className={'meal-list'}
                 bordered
@@ -110,11 +128,10 @@ class Payment extends React.Component {
           okText={'确认下单'}
           cancelText={'再想一想'}
           width={'50vw'}
-          onOk={() => {
-          }}
+          onOk={this.handleOk}
           onCancel={() => this.confirmVisible = false}
         >
-          <ConfirmOrder store={store} />
+          {this.url ? <img src={this.url} alt="qrcode" /> : <ConfirmOrder store={store} />}
         </Modal>
         <div className="checkout">
           <div className="price-count">
