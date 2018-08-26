@@ -33,7 +33,7 @@ return [
          */
         'log' => [
             'level' => env('WECHAT_LOG_LEVEL', 'debug'),
-            'file' => env('WECHAT_LOG_FILE', storage_path('logs/wechat.log')),
+            'file' => env('WECHAT_LOG_FILE', storage_path('logs/laravel.log')),
         ],
     ],
 
@@ -109,10 +109,10 @@ return [
             'sandbox' => env('WECHAT_PAYMENT_SANDBOX', false),
             'app_id' => env('WECHAT_PAYMENT_APPID', 'wxf332382c5916bb27'),
             'mch_id' => env('WECHAT_PAYMENT_MCH_ID', '1507892251'),
-            'key' => env('WECHAT_PAYMENT_KEY', 'key-for-signature'),
+            'key' => env('WECHAT_PAYMENT_KEY', 'fboVMvNmInuJ0HvYFfPooGAMEAHILn57'),
             'cert_path' => resource_path('/cert/apiclient_cert.pem'),    // XXX: 绝对路径！！！！
             'key_path' => resource_path('/cert/apiclient_key.pem'),      // XXX: 绝对路径！！！！
-            'notify_url' => env('APP_URL') . '/pay/notify',                           // 默认支付结果通知地址
+            'notify_url' => env('APP_URL') . 'api/pay/paymentNotify',                           // 默认支付结果通知地址
         ],
         // ...
     ],

@@ -92,10 +92,11 @@ namespace App{
  * @property int $total_fee
  * @property string $out_trade_no
  * @property string $body
- * @property string $prepay_id
+ * @property string|null $prepay_id
  * @property string $status
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property-read \App\User $user_info
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PayOrder whereBody($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PayOrder whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PayOrder whereId($value)

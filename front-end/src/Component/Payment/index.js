@@ -98,7 +98,7 @@ class Payment extends React.Component {
   handleOk = () => {
     createPayOrder(store.mealAdded.map(meal => meal.id)).then(data => {
       this.orderInfo = data
-      const payUrl = `weixin://wxpay/bizpayurl?sign=${data.sign}&appid=${data.appid}&mch_id=${data.mch_id}&product_id=${data.product_id}&$time_stamp=${data.time_stamp}&nonce_str=${data.nonce_str}`
+      const payUrl = `weixin://wxpay/bizpayurl?appid=${data.appid}&mch_id=${data.mch_id}&nonce_str=${data.nonce_str}&product_id=${data.product_id}&time_stamp=${data.time_stamp}&sign=${data.sign}`
       qrcode.toDataURL(payUrl).then(resp => {
         this.url = resp;
       })
