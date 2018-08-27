@@ -27,8 +27,8 @@ class PayStore {
       this.mealAdded[modifyKey].mealAdded = value
     } else {
       const tempMeal = meal;
-      meal.mealCount = value
       meal.groupName = group.name
+      meal.mealAdded = value
       this.mealAdded.push(tempMeal)
     }
   }

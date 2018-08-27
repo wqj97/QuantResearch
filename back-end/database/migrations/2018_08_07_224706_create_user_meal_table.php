@@ -19,6 +19,7 @@ class CreateUserMealTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedInteger('meal_group_id');
             $table->foreign('meal_group_id')->references('id')->on('meal_groups');
+            $table->timestamp('finished_at');
             $table->timestamps();
         });
     }

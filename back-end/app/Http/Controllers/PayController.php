@@ -101,10 +101,10 @@ class PayController extends Controller
             if (array_get($message, 'result_code') === 'SUCCESS') {
                 $order->status = 'success';
                 $order_user = $order->user_info;
-                ;
                 $order_user->group()->sync(explode(',', $order->body));
                 $order->save();
             }
+            return true;
         });
 
         return $response;
