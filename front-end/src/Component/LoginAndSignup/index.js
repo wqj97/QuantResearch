@@ -1,5 +1,6 @@
 import { Button, Form, Icon, Input, notification } from "antd"
 import React from 'react'
+import { userStore } from '../../model/User'
 import { login, signup } from '../../utils/API'
 import PropTypes from 'prop-types'
 import { Link, withRouter } from 'react-router-dom'
@@ -21,7 +22,7 @@ class Index extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         login(values).then(data => {
-          this.props.userStore.login(data)
+          userStore.login(data)
           notification.success({
             description: '正在为您跳转到登录界面',
             message: '登录成功'
@@ -42,7 +43,7 @@ class Index extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         signup(values).then(data => {
-          this.props.userStore.login(data)
+          userStore.login(data)
           notification.success({
             description: '注册成功'
           })

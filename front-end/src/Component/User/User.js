@@ -1,17 +1,13 @@
 import { Col, message, Row, Tag } from 'antd'
-import PropTypes from "prop-types";
+import { observable } from 'mobx'
+import { observer } from 'mobx-react'
 import React from 'react'
+import { userStore } from '../../model/User'
 import { getSelfSelectedList, syncUserProductConfig } from '../../utils/API'
 import './User.scss'
-import { observer } from 'mobx-react'
-import { observable } from 'mobx'
 
 @observer
 class User extends React.Component {
-  static propTypes = {
-    userStore: PropTypes.any.isRequired
-  }
-
   @observable
   tagList = []
 
@@ -27,7 +23,7 @@ class User extends React.Component {
   }
 
   render () {
-    const { user } = this.props.userStore
+    const { user } = userStore;
     return (
       <div className="User">
         <Row type={'flex'}>

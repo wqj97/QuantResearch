@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React from 'react'
 import Loadable from 'react-loadable'
 import { Route, Switch } from 'react-router-dom'
@@ -95,7 +94,7 @@ const Routes = props => {
             <Route path={'/payment'} exact
               render={() => <Payment {...props} />} />
             <Route path={'/clause'} exact
-              render={() => <Clause {...props}/>} />
+              render={() => <Clause {...props} />} />
             <Route component={Building} />
           </Switch>
         </CSSTransition>
@@ -105,10 +104,6 @@ const Routes = props => {
 }
 
 class Main extends React.Component {
-  static propTypes = {
-    userStore: PropTypes.any.isRequired
-  }
-
   constructor (props) {
     super(props)
     this.state = {

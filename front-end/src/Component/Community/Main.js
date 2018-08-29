@@ -1,7 +1,7 @@
-import { Col, Icon, Row, Tabs, Input, Button, Modal } from "antd";
-import React from 'react'
-import { observer } from 'mobx-react';
+import { Button, Col, Icon, Input, Row, Tabs } from "antd";
 import { observable } from 'mobx';
+import { observer } from 'mobx-react';
+import React from 'react'
 import NewTopicModal from "./newTopicModal";
 
 @observer

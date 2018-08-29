@@ -21,3 +21,5 @@ export default class User {
     this.user = null
   }
 }
+
+export const userStore = new User();

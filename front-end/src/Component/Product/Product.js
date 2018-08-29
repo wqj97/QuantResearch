@@ -1,6 +1,7 @@
 import { Badge, Menu, message } from 'antd'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
+import { userStore } from '../../model/User'
 import { getSelfSelectedList } from '../../utils/API'
 import { getConfig } from './Chart/ChartsConfig'
 import ChartsMain from './ChartsMain'
@@ -71,7 +72,7 @@ class Product extends React.Component {
     const productName = productKey.split('/').splice(-2).join('/')
     const productGroup = linkSearch(productName, this.state.menuList.child[1]).group
     try {
-      const userGroup = this.props.userStore.user.group.map(item => item.id)
+      const userGroup = userStore.user.group.map(item => item.id)
       let hasAuth = false
       userGroup.forEach(role => {
         if (productGroup.indexOf(role) !== -1) {

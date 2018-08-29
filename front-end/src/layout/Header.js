@@ -4,10 +4,10 @@ import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import './Header.scss'
 import { observer } from 'mobx-react'
+import { userStore } from '../model/User'
 
 class UserDropDown extends React.Component {
   static propTypes = {
-    userStore: PropTypes.any.isRequired,
     history: PropTypes.object.isRequired,
     changeKey: PropTypes.func.isRequired
   }
@@ -15,7 +15,7 @@ class UserDropDown extends React.Component {
   handleClick = e => {
     e.domEvent.stopPropagation()
     if (e.key === 'logout') {
-      this.props.userStore.logout()
+      userStore.logout()
       this.props.history.push('/login')
     } else if (e.key === 'user') {
       this.props.changeKey({ current: 'skip' })
@@ -24,7 +24,7 @@ class UserDropDown extends React.Component {
   }
 
   render () {
-    const { user } = this.props.userStore
+    const user = userStore.user;
     if (user && user.name) {
       const menu = (
         <Menu style={{ width: 250 }} onClick={this.handleClick}>
@@ -66,10 +66,6 @@ class UserDropDown extends React.Component {
 
 @observer
 class Header extends React.Component {
-  static propTypes = {
-    userStore: PropTypes.any.isRequired
-  }
-
   constructor (props) {
     super(props)
     this.state = {
@@ -85,13 +81,8 @@ class Header extends React.Component {
     this.props.history.push(e.key)
   }
 
-  handleLogout = () => {
-    this.props.userStore.logout()
-  }
-
   getRole = () => {
     let result = null
-    const userStore = this.props.userStore
     if (userStore.user && userStore.user.roles.length) {
       result = userStore.user.roles.map(role => {
         return role.name
@@ -101,7 +92,6 @@ class Header extends React.Component {
   }
 
   render () {
-    const userStore = this.props.userStore
     const user = userStore.user
     const role = this.getRole()
     return (
@@ -142,7 +132,7 @@ class Header extends React.Component {
             <i className="iconfont icon-zhaopin" />加入我们
           </Menu.Item>
           <Menu.Item key={user ? '/user' : '/login'} style={{ float: 'right', width: 120, textAlign: 'center' }}>
-            <UserDropDown history={this.props.history} changeKey={this.setState.bind(this)} userStore={userStore} />
+            <UserDropDown history={this.props.history} changeKey={this.setState.bind(this)} />
           </Menu.Item>
           {role && role[0] === '管理员' ? (
             <Menu.Item key="/setting" style={{ float: 'right' }}>

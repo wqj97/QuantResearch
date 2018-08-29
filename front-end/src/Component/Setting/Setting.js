@@ -15,10 +15,6 @@ class Setting extends React.Component {
   @observable
   group = []
 
-  constructor (props) {
-    super(props)
-  }
-
   componentDidMount () {
     getMealGroup().then(data => {
       this.group = data
