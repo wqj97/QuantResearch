@@ -26,6 +26,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->exec('cd /root/lyquant&&conda activate vnpy&&python downloadData.py --thread=4 --star=20180825')
+            ->dailyAt('17:00');
     }
 
     /**
