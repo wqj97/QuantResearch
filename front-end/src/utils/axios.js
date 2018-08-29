@@ -2,6 +2,7 @@ import axios from 'axios'
 import Store from 'store'
 import NProgress from 'nprogress'
 import { message } from 'antd'
+import { userStore } from '../model/User'
 
 axios.default.timeout = 3000
 
@@ -44,6 +45,15 @@ axios.interceptors.response.use(data => {
     message.error(`网络请求出现错误: ${error.response.status} ${errors[error.response.status]})`, 6)
   } else {
     message.error(`网络请求出现错误 (${error.response.status} ${error.response.statusText}), 请稍后再试`, 6)
+  }
+
+  switch (error.response.status) {
+    default:
+      break;
+    case 421:
+      window.location.assign('#/login')
+      userStore.logout()
+      break;
   }
 
   return Promise.reject(error)

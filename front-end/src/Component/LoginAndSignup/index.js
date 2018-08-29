@@ -8,10 +8,6 @@ import { Link, withRouter } from 'react-router-dom'
 import './Login.scss'
 
 class Index extends React.Component {
-  static propTypes = {
-    userStore: PropTypes.any.isRequired
-  }
-
   constructor (props) {
     super(props)
     this.state = {}
