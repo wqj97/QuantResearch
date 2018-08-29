@@ -27,12 +27,12 @@ class UserController extends Controller
     public function login (Request $request)
     {
         $this->validate($request, [
-            'email' => 'required',
+            'phone' => 'required',
             'password' => 'required'
         ]);
 
         if (\Auth::attempt([
-            'email' => $request->email,
+            'phone' => $request->phone,
             'password' => $request->password
         ])) {
             $user = \Auth::user();
@@ -58,7 +58,7 @@ class UserController extends Controller
             'password' => 'required',
             'name' => 'required'
         ]);
-        if (User::where('phone', $request->email)->exists()) {
+        if (User::where('phone', $request->phone)->exists()) {
             return response()->json('手机号已经存在', 409);
         }
         $user = User::create([

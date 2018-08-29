@@ -81,15 +81,14 @@ class Index extends React.Component {
                 </p>
               </div>
               <Form.Item
-                label="邮箱"
+                label="手机号"
               >
-                {getFieldDecorator('email', {
+                {getFieldDecorator('phone', {
                   rules: [{
                     required: true,
-                    type: 'email',
-                    message: '必须正确的邮箱账号'
+                    message: '必须正确的手机号'
                   }]
-                })(<Input placeholder="请输入邮箱账号" />)}
+                })(<Input placeholder="请输入手机号" />)}
               </Form.Item>
               <Form.Item
                 label="密码"
@@ -117,15 +116,14 @@ class Index extends React.Component {
                 </p>
               </div>
               <Form.Item
-                label="邮箱"
+                label="手机号"
               >
-                {getFieldDecorator('email', {
+                {getFieldDecorator('phone', {
                   rules: [{
                     required: true,
-                    type: 'email',
-                    message: '必须正确的邮箱账号'
+                    message: '必须正确的手机号'
                   }]
-                })(<Input placeholder="请输入邮箱账号" />)}
+                })(<Input placeholder="请输入手机号" />)}
               </Form.Item>
               <Form.Item
                 label="昵称"
