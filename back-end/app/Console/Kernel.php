@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -19,14 +20,15 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule (Schedule $schedule)
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->exec('cd /root/lyquant&&conda activate vnpy&&python downloadData.py --thread=4 --star='.date('Ymd'))
+        $schedule->exec('cd /root/lyquant&&conda activate vnpy&&python downloadData.py --thread=4 --star=' .
+            Carbon::yesterday()->format('Ymd'))
             ->dailyAt('17:00');
     }
 
@@ -35,9 +37,9 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
-    protected function commands()
+    protected function commands ()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
