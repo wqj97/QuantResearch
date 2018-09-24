@@ -572,6 +572,8 @@ services:
     certbot:
       build:
         context: ./certbot
+      volumes_from:
+        - applications
       volumes:
         - ./data/certbot/certs/:/var/certs
         - ./certbot/letsencrypt/:${APP_CODE_PATH_CONTAINER}/letsencrypt
