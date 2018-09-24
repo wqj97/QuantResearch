@@ -2,6 +2,9 @@ FROM golang:alpine
 
 LABEL maintainer="Huadong Zuo <admin@zuohuadong.cn>"
 
+RUN echo http://mirrors.ustc.edu.cn/alpine/v3.6/main > /etc/apk/repositories; \
+echo http://mirrors.ustc.edu.cn/alpine/v3.6/community >> /etc/apk/repositories
+
 RUN apk add --no-cache \
     openssh \
     git \
