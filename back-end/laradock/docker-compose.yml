@@ -576,8 +576,8 @@ services:
         - ./data/certbot/certs/:/var/certs
         - ./certbot/letsencrypt/:/var/www/letsencrypt
       environment:
-        - CN="www.lyquant.com"
-        - EMAIL="wqj97@126.com"
+        - CN=www.lyquant.com
+        - EMAIL=wqj97@126.com
       networks:
         - frontend
 
