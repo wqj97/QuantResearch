@@ -5,8 +5,6 @@ LABEL maintainer="Huadong Zuo <admin@zuohuadong.cn>"
 RUN echo http://mirrors.ustc.edu.cn/alpine/v3.6/main > /etc/apk/repositories; \
 echo http://mirrors.ustc.edu.cn/alpine/v3.6/community >> /etc/apk/repositories
 
-ENV http_proxy http://172.17.42.1:8118
-ENV https_proxy https://172.17.42.1:8118
 
 RUN apk add --no-cache \
     openssh \
