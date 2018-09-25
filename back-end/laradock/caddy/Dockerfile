@@ -5,6 +5,10 @@ LABEL maintainer="Huadong Zuo <admin@zuohuadong.cn>"
 RUN echo http://mirrors.ustc.edu.cn/alpine/v3.6/main > /etc/apk/repositories; \
 echo http://mirrors.ustc.edu.cn/alpine/v3.6/community >> /etc/apk/repositories
 
+RUN /sbin/ip route|awk '/default/ { print  $3,"\tdockerhost" }' >> /etc/hosts
+
+ENV http_proxy http://docerhost:8118
+ENV https_proxy https://docerhost:8118
 
 RUN apk add --no-cache \
     openssh \
