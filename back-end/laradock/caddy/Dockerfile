@@ -7,8 +7,8 @@ echo http://mirrors.ustc.edu.cn/alpine/v3.6/community >> /etc/apk/repositories
 
 RUN /sbin/ip route|awk '/default/ { print  $3,"\tdockerhost" }' >> /etc/hosts
 
-ENV http_proxy http://docerhost:8118
-ENV https_proxy https://docerhost:8118
+ENV http_proxy http://dockerhost:8118
+ENV https_proxy https://dockerhost:8118
 
 RUN apk add --no-cache \
     openssh \
